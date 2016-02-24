@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Base64;
 import android.util.Log;
 
 import org.altbeacon.beacon.Beacon;
@@ -31,7 +30,6 @@ import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
-import imie.angers.fr.beaconstoreproject.utils.DownloadImage;
 
 /**
  * ServicePrincipal permet de gérer la détection des beacons, la récupération des promotions correspondants aux beacons détectés, l'enregistrement des promotions dans la base de données, l'enregistrement des données relatives à la connexion entre l'utilisateur et le beacon

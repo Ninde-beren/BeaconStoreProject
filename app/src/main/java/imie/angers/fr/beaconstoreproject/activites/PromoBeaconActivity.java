@@ -33,22 +33,22 @@ public class PromoBeaconActivity extends Activity {
 
        setContentView(R.layout.activity_liste_promo_beacon);
 
-        titre = (TextView) findViewById(R.id.titreView);
+        titre = (TextView) findViewById(R.id.titrePromo);
         //lbpromo = (TextView) findViewById(R.id.);
         //dateDebutPromo = (TextView) findViewById(R.id.);
         //dateFinPromo = (TextView) findViewById(R.id.);
-        imageArt = (ImageView) findViewById(R.id.imageViewPromo);
-        txtPromo = (TextView) findViewById(R.id.textView2);
+        imageArt = (ImageView) findViewById(R.id.imagePromo);
+        txtPromo = (TextView) findViewById(R.id.textPromo);
 
-        toPanier = (Button) findViewById(R.id.);
+        toPanier = (Button) findViewById(R.id.btnAddPanier);
 
         Intent i = getIntent();
         promoBeacon = i.getParcelableExtra("promoBeacon");
 
         titre.setText(promoBeacon.getTitrePromo());
-        lbpromo.setText(promoBeacon.getIdpromo());
-        dateDebutPromo.setText(promoBeacon.getDtdebval());
-        dateFinPromo.setText(promoBeacon.getDtfinval());
+        //lbpromo.setText(promoBeacon.getIdpromo());
+        //dateDebutPromo.setText(promoBeacon.getDtdebval());
+        //dateFinPromo.setText(promoBeacon.getDtfinval());
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBeacon.getImageart()));
         txtPromo.setText(promoBeacon.getTxtPromo());
 

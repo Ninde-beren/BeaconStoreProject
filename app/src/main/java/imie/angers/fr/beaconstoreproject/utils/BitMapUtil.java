@@ -18,7 +18,6 @@ import java.util.Random;
  */
 public class BitMapUtil {
 
-
     public static byte[] getBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 0, stream);

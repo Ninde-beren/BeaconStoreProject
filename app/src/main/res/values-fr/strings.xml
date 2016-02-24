@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+      <!-- Strings related to login -->
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Mot de passe (optional)</string>
+    <string name="action_sign_in">Connexion ou inscription</string>
+    <string name="action_sign_in_short">Connexion</string>
+    <string name="error_invalid_email">L\'adresse e-mail est invalide</string>
+    <string name="error_invalid_password">Le mot de passe est trop court</string>
+    <string name="error_incorrect_password">Le mot de passe est incorrecte</string>
+    <string name="error_field_required">Ce champs est requis</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <!-- Strings related to inscription -->
+    <string name="demarrage_rapide">Demarrage rapide</string>
+    <string name="more_infos">+ d\'infos</string>
+    <string name="action_submit">Valider</string>
+    <string name="Previous">Retour</string>
+
+    <!-- Strings related to sexe type -->
+    <string-array name="sexetype_array">
+        <item>Homme</item>
+        <item>Femmes</item>
+    </string-array>
+    <!-- Strings related to social statut -->
+    <string-array name="socialstatut_array">
+        <item>Chômeur</item>
+        <item>Etudiant</item>
+        <item>Ouvrier</item>
+        <item>Artisant</item>
+        <item>Ingénieur</item>
+        <item>Fonctionnaire</item>
+        <item>Cadre</item>
+        <item>Freelance</item>
+        <item>Commercant</item>
+        <item>Ca ne vous regarde pas</item>
+    </string-array>
+
+    <string name="article">Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam
+        vehicula elementum sed sit amet dui. Curabitur non nulla sit amet nisl tempus convallis
+        quis ac lectus. Sed porttitor lectus nibh. Quisque velit nisi, pretium ut lacinia in,
+        elementum id enim. Donec rutrum congue leo eget malesuada. Quisque velit nisi, pretium ut
+        lacinia in, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="description">une notification</string>
+</resources>

@@ -15,6 +15,8 @@ public class PromoBanniereAdapter {
 
    // PromoBanniereDAO promoBanniere = new PromoBanniereDAO(this);
 
+    //HELLO
+
 
     public PromoBanniereAdapter(){
 

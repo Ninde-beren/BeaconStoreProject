@@ -31,14 +31,14 @@ public class PromoBeaconActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       setContentView(R.layout.PromoBeacon);
+       setContentView(R.layout.activity_liste_promo_beacon);
 
-        titre = (TextView) findViewById(R.id.);
-        lbpromo = (TextView) findViewById(R.id.);
-        dateDebutPromo = (TextView) findViewById(R.id.);
-        dateFinPromo = (TextView) findViewById(R.id.);
-        imageArt = (ImageView) findViewById(R.id.);
-        txtPromo = (TextView) findViewById(R.id.);
+        titre = (TextView) findViewById(R.id.titreView);
+        //lbpromo = (TextView) findViewById(R.id.);
+        //dateDebutPromo = (TextView) findViewById(R.id.);
+        //dateFinPromo = (TextView) findViewById(R.id.);
+        imageArt = (ImageView) findViewById(R.id.imageViewPromo);
+        txtPromo = (TextView) findViewById(R.id.textView2);
 
         toPanier = (Button) findViewById(R.id.);
 

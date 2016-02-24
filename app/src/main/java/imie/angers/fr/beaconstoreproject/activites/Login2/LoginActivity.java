@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.MainActivity2;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;

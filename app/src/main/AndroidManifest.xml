@@ -40,14 +40,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activites.LoginActivity" />
+        <activity android:name=".activites.Login2.LoginActivity" />
         <activity android:name=".activites.FormulaireMoreInfos" />
         <activity android:name=".activites.Profil" />
         <activity android:name=".activites.Avis" />
         <activity android:name=".activites.ListePromoBanniere" />
-        <activity android:name=".activites.ListePromoBeacon" />
         <activity android:name=".activites.Panier" />
         <activity android:name=".activites.PromoBanniere" />
+        <activity android:name=".activites.ListPromoBeaconActivity"/>
+        <activity android:name=".activites.PromoBeaconActivity"/>
+        <activity android:name=".activites.Login2.SignupActivity"/>
         <activity
             android:name=".activites.Notification"
             android:parentActivityName=".activites.MainActivity">

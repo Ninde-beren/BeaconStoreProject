@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     useLibrary 'org.apache.http.legacy'
 
@@ -31,5 +31,5 @@ dependencies {
     compile 'org.altbeacon:android-beacon-library:2+'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'commons-lang:commons-lang:20030203.000129'
-    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    compile 'com.jakewharton:butterknife:7.0.1'
 }

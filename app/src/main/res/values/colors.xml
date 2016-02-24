@@ -11,4 +11,5 @@
     <color name="orange">#FF6600</color>
     <color name="cyan">#0FF</color>
     <color name="purple">#F0F</color>
+    <color name="accent_material_dark_1">#4070ff</color>
 </resources>

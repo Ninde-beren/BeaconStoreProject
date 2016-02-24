@@ -31,6 +31,10 @@
             android:name=".services.ServicePrincipal"
             android:label="@string/app_name"
             android:launchMode="singleInstance"></service>
+        <service
+            android:name=".services.ServicePromoBanniere"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"></service>
         <activity
             android:name=".activites.MainActivity"
             android:label="@string/app_name">

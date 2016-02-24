@@ -14,7 +14,9 @@ public class PromoBanniere extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
+        //TODO récupérer l'ID avec une intent
+        //TODO BanniereMetier promoBanniere = PromoBAnniereDAO.getPromoBanniere(id)
+        //TODO extraire et faire correspondre avec les élémentde la vue
 
-        //Tex
     }
 }

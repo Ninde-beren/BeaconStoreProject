@@ -86,6 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
         //db.execSQL(TABLE_NOTIFICATION_CREATE);
         db.execSQL(TABLE_PROMOBEACON_CREATE);
+        db.execSQL(TABLE_PROMOBANNIERE_CREATE);
         db.execSQL(TABLE_CONSO_CREATE);
 
         Log.i("SQLite DB : Constructeur ", "Constructeur");
@@ -95,6 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROMOBEACON);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROMOBANNIERE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONSO);
     }
 }

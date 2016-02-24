@@ -15,6 +15,8 @@ import imie.angers.fr.beaconstoreproject.R;
 
 public class Avis extends Activity {
 
+    //dfbcvnbnvbnfnfnchgnnfnfgngfnfcgn
+
     private static Button btn_submit;
     private static RatingBar Avis_mag;
     private static RatingBar Avis_promo;

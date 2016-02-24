@@ -9,16 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
+import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
  * Created by Anne on 23/02/2016.
  */
 public class PromoBeaconActivity extends Activity {
 
-    /*private TextView titre;
+    private TextView titre;
     private TextView lbpromo;
-    //private TextView dateDebutPromo;
-    //private TextView dateFinPromo;
+    private TextView dateDebutPromo;
+    private TextView dateFinPromo;
     private ImageView imageArt;
     private TextView txtPromo;
 
@@ -30,12 +31,12 @@ public class PromoBeaconActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       /* setContentView(R.layout.PromoBeacon);
+       setContentView(R.layout.PromoBeacon);
 
         titre = (TextView) findViewById(R.id.);
         lbpromo = (TextView) findViewById(R.id.);
-        //dateDebutPromo = (TextView) findViewById(R.id.);
-        //dateFinPromo = (TextView) findViewById(R.id.);
+        dateDebutPromo = (TextView) findViewById(R.id.);
+        dateFinPromo = (TextView) findViewById(R.id.);
         imageArt = (ImageView) findViewById(R.id.);
         txtPromo = (TextView) findViewById(R.id.);
 
@@ -46,9 +47,9 @@ public class PromoBeaconActivity extends Activity {
 
         titre.setText(promoBeacon.getTitrePromo());
         lbpromo.setText(promoBeacon.getIdpromo());
-        //dateDebutPromo.setText(promoBeacon.getDtdebval());
-        //dateFinPromo.setText(promoBeacon.getDtfinval());
-        imageArt.setImageBitmap(promoBeacon.getImageart());
+        dateDebutPromo.setText(promoBeacon.getDtdebval());
+        dateFinPromo.setText(promoBeacon.getDtfinval());
+        imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBeacon.getImageart()));
         txtPromo.setText(promoBeacon.getTxtPromo());
 
         toPanier.setOnClickListener(new View.OnClickListener() {
@@ -59,5 +60,5 @@ public class PromoBeaconActivity extends Activity {
                 i.putExtra("promo", promoBeacon);
             }
         });
-    }*/
+    }
 }

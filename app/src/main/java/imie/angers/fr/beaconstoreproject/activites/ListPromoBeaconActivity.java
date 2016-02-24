@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 import imie.angers.fr.beaconstoreproject.R;
-import imie.angers.fr.beaconstoreproject.activites.adapteurs.PromoBeaconAdapter;
+import imie.angers.fr.beaconstoreproject.activites.Adapters.PromoBeaconAdapter;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 

@@ -18,6 +18,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "beacondatabase.db";
     private static final int DATABASE_VERSION = 1;
 
+    //table promotion bannières
+    public static final String TABLE_PROMOBANNIERE       = "banniere";
+    public static final String COLUMN_IDB           = "id_b";
+    public static final String COLUMN_IDBANNIERE    = "idbanniere";
+    public static final String COLUMN_LBBANNIERE    = "lbbanniere";
+    public static final String COLUMN_TITREBAN      = "titreban";
+    public static final String COLUMN_TXTBAN        = "txtban";
+    public static final String COLUMN_B_DTDEBVAL    = "dtdebval";
+    public static final String COLUMN_B_DTFINVAL    = "dtfinval";
+    public static final String COLUMN_TYPBAN        = "typeban";
+    public static final String COLUMN_B_IMAGEOFF    = "imageoff";
+    public static final String COLUMN_B_IMAGEART    = "imageart";
+
     //table promotion beacon
     public static final String TABLE_PROMOBEACON = "promoBeacon";
     public static final String COLUMN_IDP = "id_p";
@@ -50,6 +63,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TOKEN = "token";
     public static final String COLUMN_DATEC = "dateAjoutConso";
 
+
+
+    //constante représentant la création de la table promobanniere
+    public static final String TABLE_PROMOBANNIERE_CREATE = "CREATE TABLE " + TABLE_PROMOBANNIERE + " (" + COLUMN_IDB + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDBANNIERE + " VARCHAR(255),"+ COLUMN_LBBANNIERE + " VARCHAR(255)," + COLUMN_TITREBAN + " VARCHAR(255)," + COLUMN_TXTBAN + " VARCHAR(255)," + COLUMN_B_DTDEBVAL + " VARCHAR(255)," + COLUMN_B_DTFINVAL + " VARCHAR(255)," + COLUMN_TYPBAN + " VARCHAR(255)," + COLUMN_B_IMAGEOFF + " VARCHAR(255)," + COLUMN_B_IMAGEART + " VARCHAR(255)," + ");";
 
     //constante représentant la création de la table promobeacon
     public static final String TABLE_PROMOBEACON_CREATE = "CREATE TABLE " + TABLE_PROMOBEACON + " (" + COLUMN_IDP + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDPROMO + " VARCHAR(255),"+ COLUMN_LBPROMO + " VARCHAR(255)," + COLUMN_TITREPRO + " VARCHAR(255)," + COLUMN_TXTPROMO + " VARCHAR(255)," + COLUMN_DTDEBVAL + " VARCHAR(255)," + COLUMN_DTFINVAL + " VARCHAR(255)," + COLUMN_TYPPROMO + " VARCHAR(255)," + COLUMN_IMAGEOFF + " VARCHAR(255)," + COLUMN_IMAGEART + " VARCHAR(255)," + COLUMN_BEACON + " VARCHAR(255)," + COLUMN_DATEP + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ");";

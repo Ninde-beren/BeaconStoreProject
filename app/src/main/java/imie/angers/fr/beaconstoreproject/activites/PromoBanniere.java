@@ -8,9 +8,13 @@ import imie.angers.fr.beaconstoreproject.R;
 
 public class PromoBanniere extends Activity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
+
+        //Tex
     }
 }

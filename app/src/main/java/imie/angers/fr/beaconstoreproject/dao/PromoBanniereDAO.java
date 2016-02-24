@@ -29,8 +29,8 @@ public class PromoBanniereDAO extends DAOBase{
         ContentValues values = new ContentValues();
 
         values.put(DatabaseHelper.COLUMN_IDBANNIERE, banniere.getId_Banniere());
-        values.put(DatabaseHelper.COLUMN_TITREBAN, banniere.getTitreBanniere());
-        values.put(DatabaseHelper.COLUMN_LBBANNIERE, banniere.getLbBanniere());
+        values.put(DatabaseHelper.COLUMN_TITREBAN, banniere.getTitrePromo());
+        values.put(DatabaseHelper.COLUMN_LBBANNIERE, banniere.getLbPromo());
         values.put(DatabaseHelper.COLUMN_TXTBAN, banniere.getTxtBanniere());
         values.put(DatabaseHelper.COLUMN_DTDEBVAL, banniere.getDtdebval());
         values.put(DatabaseHelper.COLUMN_DTFINVAL, banniere.getDtfinval());
@@ -39,7 +39,7 @@ public class PromoBanniereDAO extends DAOBase{
         values.put(DatabaseHelper.COLUMN_IMAGEART, banniere.getImageart());
 
         //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_BANNIERE, null, values);
+        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBANNIERE, null, values);
 
         Log.i("dao", "insertion en bdd:" + insertId);
 
@@ -52,7 +52,7 @@ public class PromoBanniereDAO extends DAOBase{
                 + DatabaseHelper.COLUMN_TITREBAN + ", "
                 + DatabaseHelper.COLUMN_LBBANNIERE + ", "
                 + DatabaseHelper.COLUMN_IMAGEOFF + ", "
-                + " FROM " + DatabaseHelper.TABLE_BANNIERE +
+                + " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE +
                 " WHERE " + DatabaseHelper.COLUMN_IDB + " = ?";
 
         Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
@@ -75,7 +75,7 @@ public class PromoBanniereDAO extends DAOBase{
 
     public void deleteTableBanniereBeacon() {
 
-        mDb.execSQL("DELETE FROM " + DatabaseHelper.TABLE_BANNIERE);
-        mDb.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name='"+DatabaseHelper.TABLE_BANNIERE+"'");
+        mDb.execSQL("DELETE FROM " + DatabaseHelper.TABLE_PROMOBANNIERE);
+        mDb.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name='"+DatabaseHelper.TABLE_PROMOBANNIERE+"'");
     }
 }

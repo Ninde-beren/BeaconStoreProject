@@ -5,6 +5,78 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
     tools:context=".Profil"
-    android:background="@color/red">
+    android:background="@drawable/wallpaper">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre email : antoine.obligis@gmail.com"
+        android:id="@+id/emailprofil"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre date de naissance : 31/07/1989"
+        android:id="@+id/datedenassanceprofil"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/emailprofil"
+        android:layout_alignLeft="@+id/emailprofil"
+        android:layout_alignStart="@+id/emailprofil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Vous êtes un Homme"
+        android:id="@+id/sexetypeprofil"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/datedenassanceprofil"
+        android:layout_alignLeft="@+id/datedenassanceprofil"
+        android:layout_alignStart="@+id/datedenassanceprofil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre numéro de tél : 06.65.10.41.88"
+        android:id="@+id/phonenumberprofil"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/sexetypeprofil"
+        android:layout_alignLeft="@+id/sexetypeprofil"
+        android:layout_alignStart="@+id/sexetypeprofil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre situation social : Etudiant"
+        android:id="@+id/socialstatutprofil"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/phonenumberprofil"
+        android:layout_alignLeft="@+id/phonenumberprofil"
+        android:layout_alignStart="@+id/phonenumberprofil" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Previous"
+        android:id="@+id/buttonPreviousprofil"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_submit"
+        android:id="@+id/buttonValiderprofil"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp" />
 
 </RelativeLayout>

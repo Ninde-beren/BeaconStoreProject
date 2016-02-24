@@ -10,9 +10,9 @@ import android.os.Parcelable;
  * Implémente l'interface Parcelable permettant de passer des instances d'objets entre activités
  * Created by Ninde on 22/02/2016.
  */
-public class PromoBanniereMetier extends NotificationPromoBanniereMetier {
+public class PromoBanniereMetier extends NotificationMetier {
 
-    //Attributs de notre objet BannieretionMetier
+    //Attributs de notre objet NotificationMetier
 
     private int id_Banniere;
     private String idBanniere;

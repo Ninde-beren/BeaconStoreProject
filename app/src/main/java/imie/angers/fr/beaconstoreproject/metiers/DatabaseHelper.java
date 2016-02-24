@@ -18,19 +18,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "beacondatabase.db";
     private static final int DATABASE_VERSION = 1;
 
-    //table promotion bannières
-    public static final String TABLE_BANNIERE = "banniere";
-    public static final String COLUMN_IDB = "id_b";
-    public static final String COLUMN_IDBANNIERE = "idbanniere";
-    public static final String COLUMN_LBBANNIERE = "lbbanniere";
-    public static final String COLUMN_TITREBAN = "titreban";
-    public static final String COLUMN_TXTBAN = "txtban";
-    public static final String COLUMN_B_DTDEBVAL = "dtdebval";
-    public static final String COLUMN_B_DTFINVAL = "dtfinval";
-    public static final String COLUMN_TYPBAN = "typeban";
-    public static final String COLUMN_B_IMAGEOFF = "imageoff";
-    public static final String COLUMN_B_IMAGEART = "imageart";
-
     //table promotion beacon
     public static final String TABLE_PROMOBEACON = "promoBeacon";
     public static final String COLUMN_IDP = "id_p";
@@ -64,10 +51,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATEC = "dateAjoutConso";
 
 
-    //TODO écrire la requête pour créer la table banniere
-
     //constante représentant la création de la table promobeacon
-    public static final String TABLE_PROMOBEACON_CREATE = "CREATE TABLE " + TABLE_PROMOBEACON + " (" + COLUMN_IDP + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDPROMO + " VARCHAR(255),"+ COLUMN_LBPROMO + " VARCHAR(255)," + COLUMN_TITREPRO + " VARCHAR(255)," + COLUMN_TXTPROMO + " VARCHAR(255)," + COLUMN_DTDEBVAL + " VARCHAR(255)," + COLUMN_DTFINVAL  + " VARCHAR(255),"  + COLUMN_TYPPROMO + " VARCHAR(255)," + COLUMN_IMAGEOFF + " VARCHAR(255)," + COLUMN_IMAGEART + " VARCHAR(255)," + COLUMN_BEACON + " VARCHAR(255)," + COLUMN_DATEP + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ");";
+    public static final String TABLE_PROMOBEACON_CREATE = "CREATE TABLE " + TABLE_PROMOBEACON + " (" + COLUMN_IDP + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDPROMO + " VARCHAR(255),"+ COLUMN_LBPROMO + " VARCHAR(255)," + COLUMN_TITREPRO + " VARCHAR(255)," + COLUMN_TXTPROMO + " VARCHAR(255)," + COLUMN_DTDEBVAL + " VARCHAR(255)," + COLUMN_DTFINVAL + " VARCHAR(255)," + COLUMN_TYPPROMO + " VARCHAR(255)," + COLUMN_IMAGEOFF + " VARCHAR(255)," + COLUMN_IMAGEART + " VARCHAR(255)," + COLUMN_BEACON + " VARCHAR(255)," + COLUMN_DATEP + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ");";
 
     //constante représentant la création de la table consommateur
     public static final String TABLE_CONSO_CREATE = "CREATE TABLE " + TABLE_CONSO + " (" + COLUMN_IDC + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDCONSO + " INTEGER, " + COLUMN_NOM + " VARCHAR(255),"+ COLUMN_PRENOM + " VARCHAR(255)," + COLUMN_GENRE + " VARCHAR(255)," + COLUMN_TEL + " VARCHAR(255)," + COLUMN_DTNAISS + " VARCHAR(255)," + COLUMN_CP + " VARCHAR(255)," + COLUMN_CSP  + " VARCHAR(255),"  + COLUMN_EMAIL + " VARCHAR(255)," + COLUMN_MDP + " VARCHAR(255)," + COLUMN_TOKEN + " VARCHAR(255)," + COLUMN_DATEC + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ");";
@@ -83,7 +68,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
 	public void onCreate(SQLiteDatabase db) {
         //db.execSQL(TABLE_NOTIFICATION_CREATE);
-        //TODO a complété
         db.execSQL(TABLE_PROMOBEACON_CREATE);
         db.execSQL(TABLE_CONSO_CREATE);
 
@@ -93,7 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
-        //TODO a complété
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROMOBEACON);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONSO);
     }

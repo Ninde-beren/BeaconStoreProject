@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Base64;
 import android.util.Log;
 
 import org.altbeacon.beacon.Beacon;
@@ -27,8 +28,10 @@ import java.util.Map;
 import imie.angers.fr.beaconstoreproject.activites.Notification;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
-import imie.angers.fr.beaconstoreproject.metiers.PromotionMetier;
+import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
+import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
+import imie.angers.fr.beaconstoreproject.utils.DownloadImage;
 
 /**
  * ServicePrincipal permet de gérer la détection des beacons, la récupération des promotions correspondants aux beacons détectés, l'enregistrement des promotions dans la base de données, l'enregistrement des données relatives à la connexion entre l'utilisateur et le beacon
@@ -40,9 +43,13 @@ import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 public class ServicePrincipal extends Service implements BeaconConsumer {
 
     protected static final String TAG = "MonitoringActivity";
+    protected static final String ART = "art";
+    protected static final String OFF = "off";
+
+
     private BeaconManager beaconManager;
     //private NotificationDAO notificationDAO = new NotificationDAO(this);
-    private PromoBeaconDAO promoBeaconDAO = new PromoBeaconDAO(this);
+    private PromoBeaconDAO promoBeaconDAO;
 
     private AndrestClient rest = new AndrestClient();
     private String url = "http://beaconstore.ninde.fr/serverRest.php/notifications?";
@@ -70,6 +77,9 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         //beaconManager.setForegroundScanPeriod(1000);
         //beaconManager.setBackgroundBetweenScanPeriod(60000l);
 
+        promoBeaconDAO = new PromoBeaconDAO(this);
+        promoBeaconDAO.open();
+
         listBeacons = new ArrayList<>();
 
         Log.i("Beac", "Hello");
@@ -94,7 +104,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         super.onDestroy();
         Log.i("service", "service disconnect");
         beaconManager.unbind(this);
-        promoBeaconDAO.open();
         promoBeaconDAO.deleteTablePromoBeacon();
 
         //stopSelf();
@@ -172,7 +181,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
 
 
-                        } else if(beaconNonVu == true && beaconDejaVu.getIdPromo() != 0) {
+                        } else if(beaconNonVu && beaconDejaVu.getIdPromo() != 0) {
 
                             Log.i("idBeaconDejavu", String.valueOf(beaconDejaVu.getIdPromo()));
 
@@ -262,10 +271,17 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                 //Parcours de notre objet JSON (plusieurs promotions peuvent correspondre à un beacon)
                 for (int i = 0; i < jsonSize; i++) {
 
-                    JSONObject jobj = result.getJSONObject(""+ i +"");
+                    JSONObject jobj = result.getJSONObject("" + i + "");
+
+                    String imgoffPath = BitMapUtil.downloadImage(jobj.getString("imageoff"), jobj.getString("idpromo"), ART);
+                    String imgartPath = BitMapUtil.downloadImage(jobj.getString("imageart"), jobj.getString("idpromo"), OFF);
+
+
+                    //byte[] bImgoff = Base64.decode(jobj.getString("imageoff"), Base64.DEFAULT);
+                    //byte[] bImageart = Base64.decode(jobj.getString("imageart"), Base64.DEFAULT);
 
                     //Enregistrement de la promotion dans la base de données SQLite
-                    PromotionMetier promo = new PromotionMetier();
+                    PromoBeaconMetier promo = new PromoBeaconMetier();
 
                     promo.setIdpromo(jobj.getString("idpromo"));
                     promo.setLbPromo(jobj.getString("lbpromo"));
@@ -274,12 +290,10 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     promo.setDtdebval(jobj.getString("dtdebval"));
                     promo.setDtfinval(jobj.getString("dtfinval"));
                     promo.setTyppromo(jobj.getString("typpromo"));
-                    promo.setImageart(jobj.getString("imageart"));
-                    promo.setImageoff(jobj.getString("imageoff"));
+                    promo.setImageart(imgoffPath);
+                    promo.setImageoff(imgartPath);
                     promo.setIdBeacon(jobj.getString("idbeacon"));
                     //promo.setIdmagasin(jobj.getString("idmag"));
-
-                    promoBeaconDAO.open();
 
                     insertId = promoBeaconDAO.addPromotion(promo);
 

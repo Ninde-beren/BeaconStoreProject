@@ -1,9 +1,13 @@
 package imie.angers.fr.beaconstoreproject.metiers;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
 import java.lang.String;
+
+import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
  * Permet de créer un objet NotificationMétier et d'accéder à ses attributs
@@ -55,6 +59,14 @@ public class NotificationMetier implements Parcelable {
 
     public void setImageoff(String imageoff) {
         this.imageoff = imageoff;
+    }
+
+    public int getId_notif() {
+        return id_notif;
+    }
+
+    public void setId_notif(int id_notif) {
+        this.id_notif = id_notif;
     }
 
     public String getIdBeacon() {

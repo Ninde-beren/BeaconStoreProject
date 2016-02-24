@@ -12,6 +12,7 @@ import android.util.Log;
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
+import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
  * Permet la création d'une notification
@@ -29,7 +30,6 @@ public class Notification extends Activity {
     public static final int NOTIFICATION_ID = 1;
     private PromoBeaconDAO promoBeaconDAO = new PromoBeaconDAO(this);
     private NotificationMetier notification = new NotificationMetier();
-    private long lastIdInsert;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class Notification extends Activity {
         if(i.hasExtra("lastIdInsert")) {
 
             //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
-            lastIdInsert = i.getLongExtra("lastIdInsert", 0);
+            long lastIdInsert = i.getLongExtra("lastIdInsert", 0);
 
             promoBeaconDAO.open();
             notification = promoBeaconDAO.getLastPromotionInserted(lastIdInsert); //retourne une instance de l'objet NotificationMetier
@@ -53,7 +53,6 @@ public class Notification extends Activity {
 
             //Envoi de la notification avertissant de la possibilité de noter le magasin
             sendNotification();
-
         }
     }
 
@@ -68,7 +67,7 @@ public class Notification extends Activity {
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity2.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         /**
@@ -102,7 +101,8 @@ public class Notification extends Activity {
          * reasonable default if you don't have anything more compelling to use as an icon.
          */
 
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+        //builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+        builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.notification.getImageoff()));
 
         /**
          * Set the text of the notification. This sample sets the three most commononly used
@@ -115,8 +115,8 @@ public class Notification extends Activity {
          */
 
         builder.setContentTitle(this.notification.getTitrePromo());
-        builder.setContentText(this.notification.getImageoff());
-        builder.setSubText(this.notification.getLbPromo());
+        builder.setContentText(this.notification.getLbPromo());
+        builder.setSubText("En savoir plus...");
 
         /**
          * Send the notification. This will immediately display the notification icon in the

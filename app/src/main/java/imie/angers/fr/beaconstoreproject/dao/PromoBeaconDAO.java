@@ -10,10 +10,11 @@ import java.util.List;
 
 import imie.angers.fr.beaconstoreproject.metiers.DatabaseHelper;
 import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
-import imie.angers.fr.beaconstoreproject.metiers.PromotionMetier;
+import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
+import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
- * Permet d'effectuer les opérations CRUD pour l'objet PromotionMetier
+ * Permet d'effectuer les opérations CRUD pour l'objet PromoBeaconMetier
  * Hérite de la classe DAOBase
  * Created by Anne on 17/02/2016.
  */
@@ -29,7 +30,7 @@ public class PromoBeaconDAO extends DAOBase {
      * @param promotion
      */
 
-    public long addPromotion(PromotionMetier promotion) {
+    public long addPromotion(PromoBeaconMetier promotion) {
 
         ContentValues values = new ContentValues();
 
@@ -40,8 +41,8 @@ public class PromoBeaconDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_DTDEBVAL, promotion.getDtdebval());
         values.put(DatabaseHelper.COLUMN_DTFINVAL, promotion.getDtfinval());
         values.put(DatabaseHelper.COLUMN_TYPPROMO, promotion.getTyppromo());
-        values.put(DatabaseHelper.COLUMN_IMAGEOFF, promotion.getImageoff());
         values.put(DatabaseHelper.COLUMN_IMAGEART, promotion.getImageart());
+        values.put(DatabaseHelper.COLUMN_IMAGEOFF, promotion.getImageoff());
         values.put(DatabaseHelper.COLUMN_BEACON, promotion.getIdBeacon());
         //values.put(DatabaseHelper.COLUMN_MAGASIN, promotion.getIdmagasin());
 
@@ -88,5 +89,40 @@ public class PromoBeaconDAO extends DAOBase {
 
         mDb.execSQL("DELETE FROM " + DatabaseHelper.TABLE_PROMOBEACON);
         mDb.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name='"+DatabaseHelper.TABLE_PROMOBEACON+"'");
+    }
+
+    public List<PromoBeaconMetier> getPromoBeacon() {
+
+        String query = "SELECT " + DatabaseHelper.COLUMN_IDP + ", "
+                + DatabaseHelper.COLUMN_TITREPRO + ", "
+                + DatabaseHelper.COLUMN_LBPROMO + ", "
+                + DatabaseHelper.COLUMN_IMAGEOFF + ", "
+                + DatabaseHelper.COLUMN_BEACON +
+                " FROM " + DatabaseHelper.TABLE_PROMOBEACON;
+
+        Cursor cursor = mDb.rawQuery(query, null);
+
+        cursor.moveToFirst();
+
+        List<PromoBeaconMetier> listPromoBeacon = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+
+            //création d'une nouvelle notification
+            PromoBeaconMetier notif = new PromoBeaconMetier();
+
+            notif.setId(cursor.getInt(0));
+            notif.setTitrePromo(cursor.getString(1));
+            notif.setLbPromo(cursor.getString(2));
+            notif.setImageoff(cursor.getString(3));
+            notif.setIdBeacon(cursor.getString(4));
+
+            listPromoBeacon.add(notif);
+        }
+
+        // fermeture du cursor
+        cursor.close();
+
+        return listPromoBeacon;
     }
 }

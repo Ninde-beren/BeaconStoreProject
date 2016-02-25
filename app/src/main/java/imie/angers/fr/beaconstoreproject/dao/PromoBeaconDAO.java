@@ -38,8 +38,6 @@ public class PromoBeaconDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_LBPROMO, promotion.getLbPromo());
         values.put(DatabaseHelper.COLUMN_TITREPRO, promotion.getTitrePromo());
         values.put(DatabaseHelper.COLUMN_TXTPROMO, promotion.getTxtPromo());
-        values.put(DatabaseHelper.COLUMN_DTDEBVAL, promotion.getDtdebval());
-        values.put(DatabaseHelper.COLUMN_DTFINVAL, promotion.getDtfinval());
         values.put(DatabaseHelper.COLUMN_TYPPROMO, promotion.getTyppromo());
         values.put(DatabaseHelper.COLUMN_IMAGEART, promotion.getImageart());
         values.put(DatabaseHelper.COLUMN_IMAGEOFF, promotion.getImageoff());
@@ -122,6 +120,8 @@ public class PromoBeaconDAO extends DAOBase {
 
         // fermeture du cursor
         cursor.close();
+
+        Log.i("dbPromo", listPromoBeacon.toString());
 
         return listPromoBeacon;
     }

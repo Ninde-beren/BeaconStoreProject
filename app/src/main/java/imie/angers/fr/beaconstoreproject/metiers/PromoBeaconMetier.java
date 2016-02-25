@@ -19,8 +19,6 @@ public class PromoBeaconMetier extends NotificationMetier {
     private int id_promo;
     private String idpromo;
     private String txtPromo;
-    private String dtdebval;
-    private String dtfinval;
     private String typpromo;
     private String imageart;
     private String idmagasin;
@@ -73,28 +71,12 @@ public class PromoBeaconMetier extends NotificationMetier {
         this.imageart = imageart;
     }
 
-    public String getDtfinval() {
-        return dtfinval;
-    }
-
-    public void setDtfinval(String dtfinval) {
-        this.dtfinval = dtfinval;
-    }
-
     public String getIdpromo() {
         return idpromo;
     }
 
     public void setIdpromo(String idpromo) {
         this.idpromo = idpromo;
-    }
-
-    public String getDtdebval() {
-        return dtdebval;
-    }
-
-    public void setDtdebval(String dtdebval) {
-        this.dtdebval = dtdebval;
     }
 
     public int getId_promo() {
@@ -116,8 +98,6 @@ public class PromoBeaconMetier extends NotificationMetier {
         dest.writeInt(this.id_promo);
         dest.writeString(this.idpromo);
         dest.writeString(this.txtPromo);
-        dest.writeString(this.dtdebval);
-        dest.writeString(this.dtfinval);
         dest.writeString(this.imageart);
         dest.writeString(this.typpromo);
         dest.writeString(this.idmagasin);
@@ -128,8 +108,6 @@ public class PromoBeaconMetier extends NotificationMetier {
         this.id_promo = in.readInt();
         this.idpromo = in.readString();
         this.txtPromo = in.readString();
-        this.dtdebval = in.readString();
-        this.dtfinval = in.readString();
         this.imageart = in.readString();
         this.typpromo = in.readString();
         this.idmagasin = in.readString();

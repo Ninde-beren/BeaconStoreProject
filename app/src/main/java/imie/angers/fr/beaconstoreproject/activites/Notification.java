@@ -27,34 +27,29 @@ public class Notification extends Activity {
      * unique system-wide.
      */
 
-    public static final int NOTIFICATION_ID = 1;
-    private PromoBeaconDAO promoBeaconDAO = new PromoBeaconDAO(this);
+    public static int notification_id = 1;
+    private PromoBeaconDAO promoBeaconDAO;
     private NotificationMetier notification = new NotificationMetier();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.notification);
 
+        promoBeaconDAO = new PromoBeaconDAO(this);
+        promoBeaconDAO.open();
+
         Intent i = getIntent();
 
-        if(i.hasExtra("lastIdInsert")) {
+        //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
+        long lastIdInsert = i.getLongExtra("lastIdInsert", 0);
+        notification = promoBeaconDAO.getLastPromotionInserted(lastIdInsert); //retourne une instance de l'objet NotificationMetier
 
-            //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
-            long lastIdInsert = i.getLongExtra("lastIdInsert", 0);
+        Log.i("hello", "hello");
 
-            promoBeaconDAO.open();
-            notification = promoBeaconDAO.getLastPromotionInserted(lastIdInsert); //retourne une instance de l'objet NotificationMetier
-
-            Log.i("hello", "hello");
-
-            sendNotification();
-
-        } else {
-
-            //Envoi de la notification avertissant de la possibilité de noter le magasin
-            sendNotification();
-        }
+        sendNotification();
     }
+
+
 
     /**
      * Send a sample notification using the NotificationCompat API.
@@ -67,7 +62,7 @@ public class Notification extends Activity {
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(this, MainActivity2.class);
+        Intent intent = new Intent(this, ListPromoBeaconActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         /**
@@ -101,8 +96,8 @@ public class Notification extends Activity {
          * reasonable default if you don't have anything more compelling to use as an icon.
          */
 
-        //builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
-        builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.notification.getImageoff()));
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+        //builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.notification.getImageoff()));
 
         /**
          * Set the text of the notification. This sample sets the three most commononly used
@@ -123,6 +118,7 @@ public class Notification extends Activity {
          * notification bar.
          */
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(notification_id, builder.build());
+        notification_id++;
     }
 }

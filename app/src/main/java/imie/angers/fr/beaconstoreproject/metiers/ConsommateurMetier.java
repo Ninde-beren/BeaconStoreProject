@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.metiers;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -23,7 +24,7 @@ public class ConsommateurMetier implements Parcelable{
     private String nom;
     private String prenom;
     private String genre;
-    private Date dtnaiss;
+    private String dtnaiss;
     private String cdpostal;
     private String catsocpf;
 
@@ -95,11 +96,11 @@ public class ConsommateurMetier implements Parcelable{
         this.cdpostal = cdpostal;
     }
 
-    public Date getDtnaiss() {
+    public String getDtnaiss() {
         return dtnaiss;
     }
 
-    public void setDtnaiss(Date dtnaiss) {
+    public void setDtnaiss(String dtnaiss) {
         this.dtnaiss = dtnaiss;
     }
 
@@ -138,6 +139,8 @@ public class ConsommateurMetier implements Parcelable{
     //Méthodes de l'interface Parcelable
 
     protected ConsommateurMetier(Parcel in) {
+        id_c = in.readInt();
+        idConso = in.readInt();
         email = in.readString();
         password = in.readString();
         adrmac = in.readString();
@@ -146,6 +149,7 @@ public class ConsommateurMetier implements Parcelable{
         nom = in.readString();
         prenom = in.readString();
         genre = in.readString();
+        dtnaiss = in.readString();
         cdpostal = in.readString();
         catsocpf = in.readString();
     }
@@ -169,6 +173,8 @@ public class ConsommateurMetier implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id_c);
+        dest.writeInt(idConso);
         dest.writeString(email);
         dest.writeString(password);
         dest.writeString(adrmac);
@@ -177,6 +183,7 @@ public class ConsommateurMetier implements Parcelable{
         dest.writeString(nom);
         dest.writeString(prenom);
         dest.writeString(genre);
+        dest.writeString(dtnaiss);
         dest.writeString(cdpostal);
         dest.writeString(catsocpf);
     }

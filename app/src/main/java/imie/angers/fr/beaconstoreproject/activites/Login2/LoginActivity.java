@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +17,17 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import imie.angers.fr.beaconstoreproject.R;
+import imie.angers.fr.beaconstoreproject.activites.ListPromoBeaconActivity;
+import imie.angers.fr.beaconstoreproject.activites.ListePromoBanniere;
 import imie.angers.fr.beaconstoreproject.activites.MainActivity2;
+import imie.angers.fr.beaconstoreproject.activites.PromoBeaconActivity;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
@@ -41,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private Boolean requete;
 
     private ConsommateurDAO consommateurDAO;
+    private ConsommateurMetier conso;
 
     private String url = "http://beaconstore.ninde.fr/serverRest.php/consommateur?";
 
@@ -73,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 // Activiation de l'activity Signup
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP); //demarre l'activité avec un resultat 0 si activité bien démarrée
@@ -88,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "Login");
 
         if (!validate()) { //si email et/ou mdp sont invalides
+
             onLoginFailed();
             return;
         }
@@ -103,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
-        hasher(password, "MD5"); // hashe le mot de passe en md5
+        password = md5(password);
+
+        //password = hasher(password, "MD5"); // hashe le mot de passe en md5
 
         Map<String, Object> toPost = new HashMap<String, Object>();
         toPost.put("email", email);
@@ -133,14 +143,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     Log.i("JSON", String.valueOf(result));
 
-                    requete = result.getString("success").equals("1"); //on verifie que la requete s'est bien passée
+                    if (result.getString("success").equals("1")) {
 
-                    if (requete) {
+                        requete = true;
 
                         //enregistrement du consommateur dans la base de données SQLite
-                        ConsommateurMetier conso = new ConsommateurMetier();
+                        conso = new ConsommateurMetier();
 
-                        DateFormat df = new SimpleDateFormat();
+                        //SimpleDateFormat df = new SimpleDateFormat(result.getString("dtnaiss"), Locale.FRANCE);
 
                         conso.setIdConso(result.getInt("idconso"));
                         conso.setEmail(result.getString("email"));
@@ -152,9 +162,15 @@ public class LoginActivity extends AppCompatActivity {
                         conso.setCatsocpf(result.getString("catsocpf"));
                         conso.setCdpostal(result.getString("cdpostal"));
                         conso.setGenre(result.getString("sexe"));
-                        conso.setDtnaiss(df.parse(result.getString("dtnaiss")));
+                        conso.setDtnaiss(result.getString("dtnaiss"));
 
                         consommateurDAO.addConsommateur(conso);
+
+                    } else {
+
+                        requete = false;
+
+                        Log.i("requete", String.valueOf(requete));
                     }
 
                 } catch (Exception e) {
@@ -168,14 +184,11 @@ public class LoginActivity extends AppCompatActivity {
             protected void onPostExecute(Boolean data) {
                 super.onPostExecute(data);
 
-                // On complete call either onLoginSuccess or onLoginFailed
-                onLoginSuccess();
-                // onLoginFailed();
                 progressDialog.dismiss();
 
                 if (e != null) {
 
-                    //new ResponseDialog(context, "We found an error!", e.getMessage()).showDialog();
+                    Log.i("We found an error!", e.getMessage());
                     requete = false;
 
                 } else {
@@ -184,17 +197,19 @@ public class LoginActivity extends AppCompatActivity {
 
                         Log.i("salut", "salut");
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        //intent.putExtra("lastIdInsert", insertId); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
+                        onLoginSuccess();
+                        Intent intent = new Intent(LoginActivity.this, ListePromoBanniere.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("lastIdInsert", conso); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
 
                         startActivity(intent); //Activiation de l'activité
 
                     } else {
 
+                        onLoginFailed();
                         //Affichage d'un toast indiquant une erreur de connexion
-                        Toast.makeText(context, "Email ou mot de passe invalide", Toast.LENGTH_SHORT).show();
-                        clearAll();
+                        //Toast.makeText(context, "Email ou mot de passe invalide", Toast.LENGTH_SHORT).show();
+                        //clearAll();
                     }
                 }
             }
@@ -208,6 +223,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
+
+
                 this.finish();
             }
         }
@@ -236,6 +253,7 @@ public class LoginActivity extends AppCompatActivity {
      */
 
     public boolean validate() {
+
         boolean valid = true;
 
         String email = emailText.getText().toString();
@@ -259,21 +277,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Permet de hasher le mot de passe
-     * @param toHash
-     * @param algorythm
+     * Permet de hasher le mot de passe suivant l'algorithme md5
+     * @param s
      * @return
      */
-    public byte[] hasher(String toHash, String algorythm) {
-        byte[] hash = null;
 
+    public String md5(String s) {
         try {
-        hash = MessageDigest.getInstance(algorythm).digest(toHash.getBytes());
-        } catch (NoSuchAlgorithmException ex) {
-        Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
 
-        return hash;
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
@@ -282,6 +307,13 @@ public class LoginActivity extends AppCompatActivity {
     public void clearAll(){
         emailText.setText("");
         passwordText.setText("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        consommateurDAO.deleteTableConso();
     }
 }
 

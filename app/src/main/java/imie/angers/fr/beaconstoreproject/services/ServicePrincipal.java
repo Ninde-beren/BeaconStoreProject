@@ -271,8 +271,9 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     JSONObject jobj = result.getJSONObject("" + i + "");
 
-                    String imgoffPath = BitMapUtil.downloadImage(jobj.getString("imageoff"), jobj.getString("idpromo"), ART);
-                    String imgartPath = BitMapUtil.downloadImage(jobj.getString("imageart"), jobj.getString("idpromo"), OFF);
+                    //String imgoffPath = BitMapUtil.downloadImage(jobj.getString("imageoff"), jobj.getString("idpromo"), ART);
+                    //String imgartPath = BitMapUtil.downloadImage(jobj.getString("imageart"), jobj.getString("idpromo"), OFF);
+
 
 
                     //byte[] bImgoff = Base64.decode(jobj.getString("imageoff"), Base64.DEFAULT);
@@ -285,11 +286,9 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     promo.setLbPromo(jobj.getString("lbpromo"));
                     promo.setTitrePromo(jobj.getString("titrepro"));
                     promo.setTxtPromo(jobj.getString("txtpromo"));
-                    promo.setDtdebval(jobj.getString("dtdebval"));
-                    promo.setDtfinval(jobj.getString("dtfinval"));
                     promo.setTyppromo(jobj.getString("typpromo"));
-                    promo.setImageart(imgoffPath);
-                    promo.setImageoff(imgartPath);
+                    promo.setImageart(jobj.getString("imageoff"));
+                    promo.setImageoff(jobj.getString("imageart"));
                     promo.setIdBeacon(jobj.getString("idbeacon"));
                     //promo.setIdmagasin(jobj.getString("idmag"));
 

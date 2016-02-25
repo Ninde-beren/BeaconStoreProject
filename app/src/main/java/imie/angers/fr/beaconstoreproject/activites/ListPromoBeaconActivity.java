@@ -1,12 +1,13 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import imie.angers.fr.beaconstoreproject.R;
@@ -18,57 +19,75 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 /**
  * Created by Anne on 22/02/2016.
  */
+
 public class ListPromoBeaconActivity extends Activity {
 
     private PromoBeaconDAO promoBeaconDAO;
-    private List<PromoBeaconMetier> listPromoBeacon;
+    //protected List<PromoBeaconMetier> listPromoBeacon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_liste_promo_beacon2);
+
+        Log.i("listBeacon", "bienvenue");
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
 
         new getPromoBeacon().execute();
 
-        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
-
-        ListView list = (ListView) findViewById(R.id.list);
-        list.setAdapter(promoBeaconAdapter);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // Sending image id to ImageSeule
-                PromoBeaconMetier BeaconPromo = (PromoBeaconMetier) parent.getItemAtPosition(position);
-
-                Intent i = new Intent(getApplicationContext(), PromoBeaconActivity.class);
-                // passing array index
-                i.putExtra("promoBeacon", BeaconPromo);
-                startActivity(i);
-            }
-        });
+        //Log.i("proBeacon", String.valueOf(listPromoBeacon.size()));
     }
 
-    private class getPromoBeacon extends AsyncTask<Void, Void, Integer> {
+   /* @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        promoBeaconDAO.open();
+        promoBeaconDAO.deleteTablePromoBeacon();
+
+    }*/
+
+    private class getPromoBeacon extends AsyncTask<Void, List<PromoBeaconMetier>, List<PromoBeaconMetier>> {
+
+        private List<PromoBeaconMetier> listPromoB;
+
+        public getPromoBeacon() {
+
+            this.listPromoB = new ArrayList<>();
+        }
+
 
         @Override
-        protected Integer doInBackground(Void... params) {
+        protected List<PromoBeaconMetier> doInBackground(Void... params) {
 
-            listPromoBeacon = promoBeaconDAO.getPromoBeacon();
+            listPromoB = promoBeaconDAO.getPromoBeacon();
 
-            if(listPromoBeacon != null) {
+            Log.i("listBeacon2", String.valueOf(listPromoB.size()));
 
-                return 1;
+            return listPromoB;
+        }
 
-            } else {
+        @Override
+        protected void onPostExecute(List<PromoBeaconMetier> promoBeaconMetiers) {
+            super.onPostExecute(promoBeaconMetiers);
 
-                return 0;
-            }
+            //listPromoBeacon = promoBeaconMetiers;
+
+            Log.i("listBeacon3", String.valueOf(promoBeaconMetiers.size()));
+
+            Toast.makeText(getBaseContext(), "Get list beacon", Toast.LENGTH_SHORT).show();
+
+            RecyclerView recList = (RecyclerView) findViewById(R.id.beaconPromoList);
+            recList.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(ListPromoBeaconActivity.this);
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            recList.setLayoutManager(llm);
+
+            Log.i("Hello there", "ICI");
+
+            PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(promoBeaconMetiers);
+            recList.setAdapter(promoBeaconAdapter);
         }
     }
 }

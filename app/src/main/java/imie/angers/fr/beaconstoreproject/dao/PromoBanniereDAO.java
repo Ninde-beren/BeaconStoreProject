@@ -40,8 +40,6 @@ public class PromoBanniereDAO extends DAOBase{
         values.put(DatabaseHelper.COLUMN_TITREBAN,  banniere.getTitrePromo());
         values.put(DatabaseHelper.COLUMN_LBBANNIERE,banniere.getLbPromo());
         values.put(DatabaseHelper.COLUMN_TXTBAN,    banniere.getTxtBanniere());
-        values.put(DatabaseHelper.COLUMN_DTDEBVAL,  banniere.getDtdebval());
-        values.put(DatabaseHelper.COLUMN_DTFINVAL,  banniere.getDtfinval());
         values.put(DatabaseHelper.COLUMN_TYPBAN,    banniere.getTypBanniere());
         values.put(DatabaseHelper.COLUMN_IMAGEOFF,  banniere.getImageoff());
         values.put(DatabaseHelper.COLUMN_IMAGEART,  banniere.getImageart());

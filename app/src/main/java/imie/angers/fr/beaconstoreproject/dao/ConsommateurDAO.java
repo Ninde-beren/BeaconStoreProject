@@ -34,10 +34,16 @@ public class ConsommateurDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_DATEC, "");
 
         //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBEACON, null, values);
+        long insertId = mDb.insert(DatabaseHelper.TABLE_CONSO, null, values);
 
         Log.i("dao", "insertion en bdd:" + insertId);
 
         return insertId;
+    }
+
+    public void deleteTableConso() {
+
+        mDb.execSQL("DELETE FROM " + DatabaseHelper.TABLE_CONSO);
+        mDb.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name='"+DatabaseHelper.TABLE_CONSO+"'");
     }
 }

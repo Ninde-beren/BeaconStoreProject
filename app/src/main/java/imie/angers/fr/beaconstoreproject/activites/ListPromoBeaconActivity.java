@@ -1,11 +1,15 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ public class ListPromoBeaconActivity extends Activity {
 
     private PromoBeaconDAO promoBeaconDAO;
     //protected List<PromoBeaconMetier> listPromoBeacon;
+    private RecyclerView recList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +40,38 @@ public class ListPromoBeaconActivity extends Activity {
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
 
-        new getPromoBeacon().execute();
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        //Log.i("proBeacon", String.valueOf(listPromoBeacon.size()));
+            promoBeaconDAO = new PromoBeaconDAO(this);
+            promoBeaconDAO.open();
+
+            new getPromoBeacon().execute();
+
+            PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
+
+            ListView list = (ListView) findViewById(R.id.list);
+            list.setAdapter(promoBeaconAdapter);
+
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    // Sending image id to ImageSeule
+                    PromoBeaconMetier BeaconPromo = (PromoBeaconMetier) parent.getItemAtPosition(position);
+
+                    Intent i = new Intent(getApplicationContext(), PromoBeaconActivity.class);
+                    // passing array index
+                    i.putExtra("promoBeacon", BeaconPromo);
+                    startActivity(i);
+                }
+            });
+        }
     }
+
 
    /* @Override
     protected void onDestroy() {
@@ -78,15 +111,10 @@ public class ListPromoBeaconActivity extends Activity {
 
             Toast.makeText(getBaseContext(), "Get list beacon", Toast.LENGTH_SHORT).show();
 
-            RecyclerView recList = (RecyclerView) findViewById(R.id.beaconPromoList);
-            recList.setHasFixedSize(true);
-            LinearLayoutManager llm = new LinearLayoutManager(ListPromoBeaconActivity.this);
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            recList.setLayoutManager(llm);
-
             Log.i("Hello there", "ICI");
 
             PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(promoBeaconMetiers);
+
             recList.setAdapter(promoBeaconAdapter);
         }
     }

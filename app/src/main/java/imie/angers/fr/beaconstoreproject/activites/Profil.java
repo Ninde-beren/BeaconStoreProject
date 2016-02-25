@@ -39,7 +39,9 @@ public class Profil extends Activity {
 
         consommateur = consommateurDAO.getConsommateur(1);
 
-        nom       = (TextView) findViewById(R.id.nomprofil);
+        //-------------------------------------------------------------------------------------
+
+        nom       = (TextView) findViewById(R.id.nomProfil);
         prenom    = (TextView) findViewById(R.id.prenomProfil);
         genre     = (TextView) findViewById(R.id.genreProfil);
         tel       = (TextView) findViewById(R.id.telProfil);
@@ -48,18 +50,18 @@ public class Profil extends Activity {
         cp        = (TextView) findViewById(R.id.cpProfil);
         dtNaiss   = (TextView) findViewById(R.id.dtNaissProfil);
 
-        nom.setText(consommateur.getNom());
-        prenom.setText(consommateur.getPrenom());
-        genre.setText(consommateur.getGenre());
-        tel.setText(consommateur.getTel());
-        email.setText(consommateur.getEmail());
-        csp.setText(consommateur.getCatsocpf());
-        cp.setText(consommateur.getCdpostal());
+        nom.setText(    consommateur.getNom());
+        prenom.setText( consommateur.getPrenom());
+        genre.setText(  consommateur.getGenre());
+        tel.setText(    consommateur.getTel());
+        email.setText(  consommateur.getEmail());
+        csp.setText(    consommateur.getCatsocpf());
+        cp.setText(     consommateur.getCdpostal());
         dtNaiss.setText(consommateur.getDtnaiss());
 
-        //----------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------
 
-        retour = (Button) findViewById(R.id.buttonPreviousprofil);
+        retour = (Button) findViewById(R.id.buttonPreviousProfil);
         retour.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), Inscription.class);
@@ -68,7 +70,7 @@ public class Profil extends Activity {
             }
        });
 
-        valider = (Button) findViewById(R.id.buttonValiderprofil);
+        valider = (Button) findViewById(R.id.buttonValiderProfil);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);

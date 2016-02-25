@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Votre nom : obligis"
-        android:id="@+id/NomProfil"
+        android:id="@+id/nomProfil"
         android:layout_alignLeft="@+id/emailProfil"
         android:layout_alignStart="@+id/emailProfil"/>
 
@@ -23,7 +23,7 @@
         android:text="Votre prenom : antoine"
         android:id="@+id/prenomProfil"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/NomProfil"
+        android:layout_below="@+id/nomProfil"
         />
 
     <TextView
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Previous"
-        android:id="@+id/buttonPreviousprofil"
+        android:id="@+id/buttonPreviousProfil"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_submit"
-        android:id="@+id/buttonValiderprofil"
+        android:id="@+id/buttonValiderProfil"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

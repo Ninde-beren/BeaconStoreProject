@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,20 +13,13 @@ import android.widget.Toast;
 import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import imie.angers.fr.beaconstoreproject.R;
-import imie.angers.fr.beaconstoreproject.activites.ListPromoBeaconActivity;
-import imie.angers.fr.beaconstoreproject.activites.ListePromoBanniere;
-import imie.angers.fr.beaconstoreproject.activites.MainActivity2;
-import imie.angers.fr.beaconstoreproject.activites.PromoBeaconActivity;
+import imie.angers.fr.beaconstoreproject.activites.ListPromoBanniere;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
@@ -198,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.i("salut", "salut");
 
                         onLoginSuccess();
-                        Intent intent = new Intent(LoginActivity.this, ListePromoBanniere.class);
+                        Intent intent = new Intent(LoginActivity.this, ListPromoBanniere.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("lastIdInsert", conso); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
 

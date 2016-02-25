@@ -31,7 +31,7 @@ public class MainActivity extends TabActivity {
         //ajouter les onglets au menuOnglet
 
         //parametre de l'onglet 1
-        intent = new Intent().setClass(this, ListePromoBanniere.class);
+        intent = new Intent().setClass(this, ListPromoBanniere.class);
         TabHost.TabSpec spec = menuOnglet.newTabSpec("Onglet_1").setIndicator("Liste banniere");
         //spécification du layout à afficher
         spec.setContent(intent);

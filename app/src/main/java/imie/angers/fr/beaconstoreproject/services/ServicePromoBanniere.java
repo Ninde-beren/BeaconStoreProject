@@ -21,8 +21,6 @@ import java.util.Map;
 
 import imie.angers.fr.beaconstoreproject.activites.Notification;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
-import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
-import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
@@ -39,7 +37,7 @@ public class ServicePromoBanniere extends Service {
     private PromoBanniereDAO promoBanniereDAO;
 
     private AndrestClient rest = new AndrestClient();
-    private String url = "http://beaconstore.ninde.fr/serverRest.php/notifications?";
+    private String url = "http://beaconstore.ninde.fr/serverRest.php/promobaniere?";
 
     //booleen permettant de savoir si les requête envoyée par l'API ont bien fonctionnées
     private Boolean requete = false;
@@ -84,6 +82,8 @@ public class ServicePromoBanniere extends Service {
             this.method = method;
             this.url = url;
         }
+
+         //-------------------------------------------------------------------------------------
 
         @Override
         protected Boolean doInBackground(Void... arg0) {
@@ -137,6 +137,8 @@ public class ServicePromoBanniere extends Service {
 
             return requete;
         }
+
+         //-------------------------------------------------------------------------------------
 
         @Override
         protected void onPostExecute(Boolean data) {

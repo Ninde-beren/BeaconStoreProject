@@ -34,7 +34,7 @@
             android:launchMode="singleInstance"></service>
 
         <activity
-            android:name=".activites.Profil"
+            android:name=".activites.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,11 +42,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activites.Inscription" />
+
         <activity android:name=".activites.Login2.LoginActivity" />
+        <activity android:name=".activites.Inscription" />
         <activity android:name=".activites.Profil" />
         <activity android:name=".activites.Avis" />
-        <activity android:name=".activites.ListePromoBanniere" />
+        <activity android:name=".activites.ListPromoBanniere" />
         <activity android:name=".activites.Panier" />
         <activity android:name=".activites.PromoBanniere" />
         <activity android:name=".activites.PromoBeaconActivity"/>

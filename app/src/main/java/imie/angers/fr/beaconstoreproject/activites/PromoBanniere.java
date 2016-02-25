@@ -29,10 +29,12 @@ public class PromoBanniere extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
 
-        //TODO récupérer l'ID avec une intent
+        // récupérer l'ID avec une intent
 
+        Intent i = getIntent();
+        promoBanniere = i.getParcelableExtra("promoBanniere");
 
-        //TODO extraire et faire correspondre avec les élémentde la vue
+        //correspondance avec les vue
         titre = (TextView) findViewById(R.id.titrePromoBanniereView);
         //lbpromo = (TextView) findViewById(R.id.);
         dateDebutPromo = (TextView) findViewById(R.id.dtDebVal);
@@ -40,15 +42,12 @@ public class PromoBanniere extends Activity {
         imageArt = (ImageView) findViewById(R.id.imgPromoBanniereView);
         txtPromo = (TextView) findViewById(R.id.textPromoBanniereView);
 
-        Intent i = getIntent();
-        promoBanniere = i.getParcelableExtra("promoBanniere");
-
+        //extraction des données
         titre.setText(promoBanniere.getTitrePromo());
         //lbpromo.setText(promoBanniere.getIdpromo());
         dateDebutPromo.setText(promoBanniere.getDtdebval());
         dateFinPromo.setText(promoBanniere.getDtfinval());
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageart()));
         txtPromo.setText(promoBanniere.getTxtBanniere());
-
     }
 }

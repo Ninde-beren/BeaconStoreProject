@@ -36,13 +36,15 @@ public class PromoBanniereDAO extends DAOBase{
 
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseHelper.COLUMN_IDBANNIERE,banniere.getId_Banniere());
-        values.put(DatabaseHelper.COLUMN_TITREBAN,  banniere.getTitrePromo());
-        values.put(DatabaseHelper.COLUMN_LBBANNIERE,banniere.getLbPromo());
-        values.put(DatabaseHelper.COLUMN_TXTBAN,    banniere.getTxtBanniere());
-        values.put(DatabaseHelper.COLUMN_TYPBAN,    banniere.getTypBanniere());
-        values.put(DatabaseHelper.COLUMN_IMAGEOFF,  banniere.getImageoff());
-        values.put(DatabaseHelper.COLUMN_IMAGEART,  banniere.getImageart());
+        values.put(DatabaseHelper.COLUMN_IDBANNIERE,  banniere.getId_Banniere());
+        values.put(DatabaseHelper.COLUMN_TITREBAN,    banniere.getTitrePromo());
+        values.put(DatabaseHelper.COLUMN_LBBANNIERE,  banniere.getLbPromo());
+        values.put(DatabaseHelper.COLUMN_TXTBAN,      banniere.getTxtBanniere());
+        values.put(DatabaseHelper.COLUMN_B_DTDEBVAL,  banniere.getDtdebval());
+        values.put(DatabaseHelper.COLUMN_B_DTFINVAL,  banniere.getDtfinval());
+        values.put(DatabaseHelper.COLUMN_TYPBAN,      banniere.getTypBanniere());
+        values.put(DatabaseHelper.COLUMN_B_IMAGEOFF,  banniere.getImageoff());
+        values.put(DatabaseHelper.COLUMN_B_IMAGEART,  banniere.getImageart());
 
         //insertion en base + recuperation du dernier id inséré
         long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBANNIERE, null, values);

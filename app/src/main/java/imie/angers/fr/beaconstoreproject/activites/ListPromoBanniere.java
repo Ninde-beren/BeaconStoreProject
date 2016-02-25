@@ -26,7 +26,7 @@ import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 
 
-public class ListePromoBanniere extends ListActivity {
+public class ListPromoBanniere extends ListActivity {
 
     private PromoBanniereDAO promoBanniereDAO;
     private List<PromoBanniereMetier> listPromoBanniere;
@@ -40,15 +40,14 @@ public class ListePromoBanniere extends ListActivity {
         promoBanniereDAO.open();
 
         new getListPromoBanniere().execute();
+
         //Insérer l'adapter dans la listView de la listActivity
 
         PromoBanniereAdapter adapter = new PromoBanniereAdapter(this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
         ListView list = (ListView) findViewById(R.id.list);
         this.setListAdapter(adapter);
 
-
         //Envoyer l'ID avec une intent vers la page PromoBanniere
-
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

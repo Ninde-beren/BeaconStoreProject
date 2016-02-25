@@ -21,51 +21,35 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
  * Created by plougastel.dl03 on 22/02/2016.
  * Adapter pour générer la liste des PromotionsBeacon
  */
-public class PromoBeaconAdapter extends RecyclerView.Adapter<PromoBeaconAdapter.ViewHolder> {
+public class PromoBeaconAdapter extends ArrayAdapter<PromoBeaconMetier> {
 
     private List<PromoBeaconMetier> listPromoBeacon;
 
-    public PromoBeaconAdapter(List<PromoBeaconMetier> listPromoBeacon) {
-        this.listPromoBeacon = listPromoBeacon;
+    public PromoBeaconAdapter(Context context, ArrayList<PromoBeaconMetier> promo) {
+        super(context, 0, promo);
     }
 
     @Override
-    public PromoBeaconAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_promobeacon, parent, false);
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        return new ViewHolder(itemView);
-    }
+        PromoBeaconMetier promo = getItem(position); //retourne l'objet T à la position "position"
 
-    @Override
-    public void onBindViewHolder(PromoBeaconAdapter.ViewHolder holder, int position) {
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
 
-        PromoBeaconMetier promo = listPromoBeacon.get(position);
-
-        holder.titrePbeacon.setText(promo.getTitrePromo());
-        holder.txtPbeacon.setText(promo.getTxtPromo());
-        holder.imgPbeacon.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
-    }
-
-    @Override
-    public int getItemCount() {
-
-//        Log.i("listPromoBeacon", String.valueOf(listPromoBeacon.size()));
-        return 0;
-        //return listPromoBeacon.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView titrePbeacon;
-        public TextView txtPbeacon;
-        public ImageView imgPbeacon;
-
-        public ViewHolder(View v) {
-            super(v);
-            titrePbeacon = (TextView) v.findViewById(R.id.titrePromoBeacon);
-            txtPbeacon = (TextView) v.findViewById(R.id.txtPromoBeacon);
-            imgPbeacon = (ImageView) v.findViewById(R.id.imgPromoBeacon);
-            //mTextView = v;
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_promobeacon, parent, false);
         }
+        // Lookup view for data population
+        TextView titleView = (TextView) convertView.findViewById(R.id.titrePromoBeacon);
+        TextView descView = (TextView) convertView.findViewById(R.id.txtPromoBeacon);
+        ImageView imgView = (ImageView) convertView.findViewById(R.id.imgPromoBeacon);
+
+        // Populate the data into the template view using the data object
+        titleView.setText(promo.getTitrePromo());
+        descView.setText(promo.getLbPromo());
+        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
+
+        // Return the completed view to render on screen
+        return convertView;
     }
 }

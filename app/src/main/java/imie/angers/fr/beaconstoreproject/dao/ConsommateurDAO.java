@@ -2,6 +2,7 @@ package imie.angers.fr.beaconstoreproject.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
@@ -34,11 +35,51 @@ public class ConsommateurDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_DATEC, "");
 
         //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_CONSO, null, values);
+        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBEACON, null, values);
 
         Log.i("dao", "insertion en bdd:" + insertId);
 
         return insertId;
+    }
+
+    public ConsommateurMetier getConsommateur(long id) {
+
+        //TODO selectionner la banniere pour l'activity consommateur
+
+        String query = "SELECT " + DatabaseHelper.COLUMN_IDCONSO + ", "
+                                 + DatabaseHelper.COLUMN_NOM     + ", "
+                                 + DatabaseHelper.COLUMN_PRENOM  + ", "
+                                 + DatabaseHelper.COLUMN_GENRE   + ", "
+                                 + DatabaseHelper.COLUMN_TEL     + ", "
+                                 + DatabaseHelper.COLUMN_EMAIL   + ", "
+                                 + DatabaseHelper.COLUMN_CSP   + ", "
+                                 + DatabaseHelper.COLUMN_CP   + ", "
+                                 + DatabaseHelper.COLUMN_DTNAISS   + ", "
+                      + " FROM " + DatabaseHelper.TABLE_CONSO    +
+                       " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = ?";
+
+        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
+
+        cursor.moveToFirst();
+
+        //création d'un nouveau consommateur
+        ConsommateurMetier consommateur = new ConsommateurMetier();
+
+        consommateur.setIdConso(cursor.getInt(0));
+        consommateur.setNom(cursor.getString(1));
+        consommateur.setPrenom(cursor.getString(2));
+        consommateur.setGenre(cursor.getString(3));
+        consommateur.setTel(cursor.getString(4));
+        consommateur.setEmail(cursor.getString(5));
+        consommateur.setCatsocpf(cursor.getString(6));
+        consommateur.setCdpostal(cursor.getString(7));
+        consommateur.setDtnaiss(cursor.getString(8));
+
+
+        //fermeture du cursor
+        cursor.close();
+
+        return consommateur;
     }
 
     public void deleteTableConso() {

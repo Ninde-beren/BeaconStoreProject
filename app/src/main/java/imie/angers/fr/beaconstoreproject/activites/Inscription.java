@@ -9,17 +9,30 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import imie.angers.fr.beaconstoreproject.R;
+import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
+import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 
-public class FormulaireMoreInfos extends Activity {
+public class Inscription extends Activity {
 
+    private EditView nom;
+    private EditView prenom;
+    private EditView genre;
+    private EditView tel;
+    private EditView email;
+    private EditView csp;
+    private EditView cp;
+    private EditView dtNaiss;
 
-    Button retour;
-    Button valider;
+    private ConsommateurMetier consommateur;
+    private ConsommateurDAO consommateurDAO;
+
+    private Button retour;
+    private Button valider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_formulaire_more_infos);
+        setContentView(R.layout.activity_inscription);
 
         Spinner spinnerSexeType = (Spinner) findViewById(R.id.sexetype);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -56,5 +69,9 @@ public class FormulaireMoreInfos extends Activity {
 
             }
         });
+
+        //-------------------------------------------------------------------------------------
+
+        //TODO lier les infos du formulaire a des variable les inserer dans une methode requete add
     }
 }

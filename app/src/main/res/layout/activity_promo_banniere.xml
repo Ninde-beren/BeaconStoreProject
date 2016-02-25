@@ -34,7 +34,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:id="@+id/imageViewPromo"
+        android:id="@+id/imgPromoBanniereView"
         android:layout_below="@+id/dtDebVal"
         android:background="@drawable/codepromo"
         android:layout_centerHorizontal="true" />
@@ -44,9 +44,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/titreView"
+        android:id="@+id/titrePromoBanniereView"
         android:layout_centerVertical="true"
-        android:layout_below="@+id/imageViewPromo"
+        android:layout_below="@+id/imgPromoBanniereView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -54,8 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/article"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/titreView"
+        android:id="@+id/textPromoBanniereView"
+        android:layout_below="@+id/titrePromoBanniereView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

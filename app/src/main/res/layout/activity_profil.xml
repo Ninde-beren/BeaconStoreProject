@@ -11,53 +11,85 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre nom : obligis"
+        android:id="@+id/NomProfil"
+        android:layout_alignLeft="@+id/emailProfil"
+        android:layout_alignStart="@+id/emailProfil"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre prenom : antoine"
+        android:id="@+id/prenomProfil"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/NomProfil"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Votre email : antoine.obligis@gmail.com"
-        android:id="@+id/emailprofil"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/emailProfil"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/prenomProfil" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Votre date de naissance : 31/07/1989"
-        android:id="@+id/datedenassanceprofil"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/emailprofil"
-        android:layout_alignLeft="@+id/emailprofil"
-        android:layout_alignStart="@+id/emailprofil" />
+        android:id="@+id/dtNaissProfil"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/emailProfil"
+        android:layout_alignLeft="@+id/emailProfil"
+        android:layout_alignStart="@+id/emailProfil" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Vous êtes un Homme"
-        android:id="@+id/sexetypeprofil"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/datedenassanceprofil"
-        android:layout_alignLeft="@+id/datedenassanceprofil"
-        android:layout_alignStart="@+id/datedenassanceprofil" />
+        android:id="@+id/genreProfil"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/dtNaissProfil"
+        android:layout_alignLeft="@+id/dtNaissProfil"
+        android:layout_alignStart="@+id/dtNaissProfil" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Votre numéro de tél : 06.65.10.41.88"
-        android:id="@+id/phonenumberprofil"
-        android:layout_marginTop="22dp"
-        android:layout_below="@+id/sexetypeprofil"
-        android:layout_alignLeft="@+id/sexetypeprofil"
-        android:layout_alignStart="@+id/sexetypeprofil" />
+        android:id="@+id/telProfil"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/genreProfil"
+        android:layout_alignLeft="@+id/genreProfil"
+        android:layout_alignStart="@+id/genreProfil" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Votre situation social : Etudiant"
-        android:id="@+id/socialstatutprofil"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/phonenumberprofil"
-        android:layout_alignLeft="@+id/phonenumberprofil"
-        android:layout_alignStart="@+id/phonenumberprofil" />
+        android:id="@+id/cspProfil"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/telProfil"
+        android:layout_alignLeft="@+id/telProfil"
+        android:layout_alignStart="@+id/telProfil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Votre code postal : 37270"
+        android:id="@+id/cpProfil"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/cspProfil"
+        android:layout_alignLeft="@+id/cspProfil"
+        android:layout_alignStart="@+id/cspProfil" />
 
     <Button
         android:layout_width="wrap_content"

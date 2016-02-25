@@ -11,7 +11,7 @@
     tools:context=".PromoBanniereListAdapter">
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/imgBanniereView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:padding="5dp" />
@@ -21,7 +21,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/titrepromo"
+            android:id="@+id/titreBanniereView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
@@ -32,7 +32,7 @@
             android:textColor="#33CC33" />
 
         <TextView
-            android:id="@+id/slogan"
+            android:id="@+id/lbBanniereView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"

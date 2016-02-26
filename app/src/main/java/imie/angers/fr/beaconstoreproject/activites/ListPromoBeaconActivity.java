@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,7 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
  * Created by Anne on 22/02/2016.
  */
 
-public class ListPromoBeaconActivity extends Activity {
+public class ListPromoBeaconActivity extends AppCompatActivity {
 
     private PromoBeaconDAO promoBeaconDAO;
     protected List<PromoBeaconMetier> listPromoBeacon;
@@ -97,8 +98,8 @@ public class ListPromoBeaconActivity extends Activity {
                     // Sending image id to ImageSeule
                     PromoBeaconMetier beaconPromo = (PromoBeaconMetier) parent.getItemAtPosition(position);
 
-                    Log.i("PromoBeaconMetier", " "+  beaconPromo.getTxtPromo());
-                    Log.i("PromoBeaconMetier2", " "+  beaconPromo.getTitrePromo());
+                    Log.i("PromoBeaconMetier", "text :" +  beaconPromo.getTxtPromo());
+                    Log.i("PromoBeaconMetier2", "titre " +  beaconPromo.getTitrePromo());
 
 
                     Intent i = new Intent(getApplicationContext(), PromoBeaconActivity.class);

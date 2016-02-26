@@ -92,24 +92,28 @@ public class PromoBeaconMetier extends NotificationMetier {
         return 0;
     }
 
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id_promo);
-        dest.writeString(this.idpromo);
-        dest.writeString(this.txtPromo);
-        dest.writeString(this.imageart);
-        dest.writeString(this.typpromo);
-        dest.writeString(this.idmagasin);
-        dest.writeString(this.dateAjoutPromo);
+        super.writeToParcel(dest, flags);
+
+        dest.writeInt(id_promo);
+        dest.writeString(idpromo);
+        dest.writeString(txtPromo);
+        dest.writeString(typpromo);
+        dest.writeString(imageart);
+        dest.writeString(idmagasin);
+        dest.writeString(dateAjoutPromo);
     }
 
     protected PromoBeaconMetier(Parcel in) {
-        this.id_promo = in.readInt();
-        this.idpromo = in.readString();
-        this.txtPromo = in.readString();
-        this.imageart = in.readString();
-        this.typpromo = in.readString();
-        this.idmagasin = in.readString();
-        this.dateAjoutPromo = in.readString();
+        super(in);
+        id_promo = in.readInt();
+        idpromo = in.readString();
+        txtPromo = in.readString();
+        typpromo = in.readString();
+        imageart = in.readString();
+        idmagasin = in.readString();
+        dateAjoutPromo = in.readString();
     }
 
     public static final Parcelable.Creator<PromoBeaconMetier> CREATOR = new Parcelable.Creator<PromoBeaconMetier>() {
@@ -123,5 +127,4 @@ public class PromoBeaconMetier extends NotificationMetier {
             return new PromoBeaconMetier[size];
         }
     };
-
 }

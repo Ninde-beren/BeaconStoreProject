@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 /**
  * Created by Anne on 23/02/2016.
  */
-public class PromoBeaconActivity extends Activity {
+public class PromoBeaconActivity extends AppCompatActivity {
 
     private TextView titrePromo;
     private ImageView imageArt;
@@ -39,9 +40,9 @@ public class PromoBeaconActivity extends Activity {
         toPanier = (FloatingActionButton) findViewById(R.id.btnAddPanier);
 
         Intent i = getIntent();
-        promoBeacon = i.getParcelableExtra("promoBeacon");
+        promoBeacon = i.getExtras().getParcelable("promoBeacon");
 
-        //Log.i("Beacon", promoBeacon.getTitrePromo());
+        Log.i("Beacon", promoBeacon.getTitrePromo());
 
         titrePromo.setText(promoBeacon.getTitrePromo());
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBeacon.getImageart()));
@@ -55,5 +56,12 @@ public class PromoBeaconActivity extends Activity {
                 i.putExtra("promo", promoBeacon);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        moveTaskToBack(true);
     }
 }

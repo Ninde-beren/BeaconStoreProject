@@ -35,14 +35,15 @@ public class ConsommateurDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_DATEC, "");
 
         //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBEACON, null, values);
+        long insertId = mDb.insert(DatabaseHelper.TABLE_CONSO, null, values);
+
 
         Log.i("dao", "insertion en bdd:" + insertId);
 
         return insertId;
     }
 
-    public ConsommateurMetier getConsommateur(long id) {
+    public ConsommateurMetier getConsommateur() {
 
         //TODO selectionner la banniere pour l'activity consommateur
 
@@ -58,7 +59,7 @@ public class ConsommateurDAO extends DAOBase {
                       + " FROM " + DatabaseHelper.TABLE_CONSO    +
                        " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = ?";
 
-        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = mDb.rawQuery(query, new String[]{"1"});
 
         cursor.moveToFirst();
 
@@ -74,7 +75,6 @@ public class ConsommateurDAO extends DAOBase {
         consommateur.setCatsocpf(cursor.getString(6));
         consommateur.setCdpostal(cursor.getString(7));
         consommateur.setDtnaiss(cursor.getString(8));
-
 
         //fermeture du cursor
         cursor.close();

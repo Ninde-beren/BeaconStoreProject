@@ -37,7 +37,9 @@ public class Profil extends Activity {
         consommateurDAO = new ConsommateurDAO(this);
         consommateur = new ConsommateurMetier();
 
-        consommateur = consommateurDAO.getConsommateur(1);
+        consommateur = consommateurDAO.getConsommateur();
+
+        //Log.i("consomateur :", consommateur.toString());
 
         //-------------------------------------------------------------------------------------
 

@@ -88,11 +88,9 @@ public class PromoBeaconMetier extends NotificationMetier {
     }
 
     //Méthodes de l'interface Parcelable
-
     public int describeContents() {
         return 0;
     }
-
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id_promo);

@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -95,6 +96,8 @@ public class PromoBeaconDAO extends DAOBase {
                 + DatabaseHelper.COLUMN_TITREPRO + ", "
                 + DatabaseHelper.COLUMN_LBPROMO + ", "
                 + DatabaseHelper.COLUMN_IMAGEOFF + ", "
+                + DatabaseHelper.COLUMN_TXTPROMO + ", "
+                + DatabaseHelper.COLUMN_IMAGEART + ", "
                 + DatabaseHelper.COLUMN_BEACON +
                 " FROM " + DatabaseHelper.TABLE_PROMOBEACON;
 
@@ -107,15 +110,17 @@ public class PromoBeaconDAO extends DAOBase {
         while (cursor.moveToNext()) {
 
             //création d'une nouvelle notification
-            PromoBeaconMetier notif = new PromoBeaconMetier();
+            PromoBeaconMetier promo = new PromoBeaconMetier();
 
-            notif.setId(cursor.getInt(0));
-            notif.setTitrePromo(cursor.getString(1));
-            notif.setLbPromo(cursor.getString(2));
-            notif.setImageoff(cursor.getString(3));
-            notif.setIdBeacon(cursor.getString(4));
+            promo.setId(cursor.getInt(0));
+            promo.setTitrePromo(cursor.getString(1));
+            promo.setLbPromo(cursor.getString(2));
+            promo.setImageoff(cursor.getString(3));
+            promo.setTxtPromo(cursor.getString(4));
+            promo.setImageart((cursor.getString(5)));
+            promo.setIdBeacon(cursor.getString(6));
 
-            listPromoBeacon.add(notif);
+            listPromoBeacon.add(promo);
         }
 
         // fermeture du cursor

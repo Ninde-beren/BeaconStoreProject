@@ -3,6 +3,8 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,39 +18,32 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
  */
 public class PromoBeaconActivity extends Activity {
 
-    private TextView titre;
-    private TextView lbpromo;
-    private TextView dateDebutPromo;
-    private TextView dateFinPromo;
+    private TextView titrePromo;
     private ImageView imageArt;
     private TextView txtPromo;
 
     private PromoBeaconMetier promoBeacon;
 
-    private Button toPanier;
+    private FloatingActionButton toPanier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       setContentView(R.layout.activity_liste_promo_beacon);
+       setContentView(R.layout.activity_promo_beacon);
 
-        titre = (TextView) findViewById(R.id.titrePromo);
-        //lbpromo = (TextView) findViewById(R.id.);
-        //dateDebutPromo = (TextView) findViewById(R.id.);
-        //dateFinPromo = (TextView) findViewById(R.id.);
+        titrePromo = (TextView) findViewById(R.id.titrePromo);
         imageArt = (ImageView) findViewById(R.id.imagePromo);
         txtPromo = (TextView) findViewById(R.id.textPromo);
 
-        toPanier = (Button) findViewById(R.id.btnAddPanier);
+        toPanier = (FloatingActionButton) findViewById(R.id.btnAddPanier);
 
         Intent i = getIntent();
         promoBeacon = i.getParcelableExtra("promoBeacon");
 
-        titre.setText(promoBeacon.getTitrePromo());
-        //lbpromo.setText(promoBeacon.getIdpromo());
-        //dateDebutPromo.setText(promoBeacon.getDtdebval());
-        //dateFinPromo.setText(promoBeacon.getDtfinval());
+        //Log.i("Beacon", promoBeacon.getTitrePromo());
+
+        titrePromo.setText(promoBeacon.getTitrePromo());
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBeacon.getImageart()));
         txtPromo.setText(promoBeacon.getTxtPromo());
 

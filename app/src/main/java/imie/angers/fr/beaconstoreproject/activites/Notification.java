@@ -3,15 +3,22 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+
+import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
+import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
@@ -27,26 +34,46 @@ public class Notification extends Activity {
      * unique system-wide.
      */
 
-    public static int notification_id = 1;
+    public static long notification_id;
     private PromoBeaconDAO promoBeaconDAO;
-    private NotificationMetier notification = new NotificationMetier();
+    private PromoBeaconMetier promoMetier;
+    private long lastIdInsert;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.notification);
+
+        promoMetier = new PromoBeaconMetier();
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
 
         Intent i = getIntent();
 
+        lastIdInsert = i.getLongExtra("lastIdInsert", 0);
+
         //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
-        long lastIdInsert = i.getLongExtra("lastIdInsert", 0);
-        notification = promoBeaconDAO.getLastPromotionInserted(lastIdInsert); //retourne une instance de l'objet NotificationMetier
+
+        try {
+
+            promoMetier = new getPromoForNotif().execute().get(); //retourne une instance de l'objet PromotionMetier
+
+        } catch (InterruptedException e) {
+
+                e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+
+        notification_id = lastIdInsert;
 
         Log.i("hello", "hello");
+        Log.i("PromoBeacon0", promoMetier.getTxtPromo());
 
-        sendNotification();
+        sendNotification(promoMetier);
     }
 
 
@@ -55,15 +82,16 @@ public class Notification extends Activity {
      * Send a sample notification using the NotificationCompat API.
      */
 
-    public void sendNotification() { //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
+    public void sendNotification(PromoBeaconMetier promoMetier) { //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link android.app.PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(this, ListPromoBeaconActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Intent intent = new Intent(this, PromoBeaconActivity.class);
+        intent.putExtra("promoBeacon", promoMetier);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /**
          * Use NotificationCompat.Builder to set up our notification.
@@ -97,7 +125,7 @@ public class Notification extends Activity {
          */
 
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
-        //builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.notification.getImageoff()));
+        //builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.promoMetier.getImageoff()));
 
         /**
          * Set the text of the notification. This sample sets the three most commononly used
@@ -109,8 +137,8 @@ public class Notification extends Activity {
          *    anything vital!
          */
 
-        builder.setContentTitle(this.notification.getTitrePromo());
-        builder.setContentText(this.notification.getLbPromo());
+        builder.setContentTitle(this.promoMetier.getTitrePromo());
+        builder.setContentText(this.promoMetier.getLbPromo());
         builder.setSubText("En savoir plus...");
 
         /**
@@ -118,7 +146,26 @@ public class Notification extends Activity {
          * notification bar.
          */
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(notification_id, builder.build());
-        notification_id++;
+        notificationManager.notify((int) notification_id, builder.build());
+    }
+
+    private class getPromoForNotif extends AsyncTask<Void, Void, PromoBeaconMetier>{
+
+        private PromoBeaconMetier promoB;
+
+        @Override
+        protected PromoBeaconMetier doInBackground(Void... params) {
+
+            promoB =  promoBeaconDAO.getLastPromotionInserted(lastIdInsert);
+
+            Log.i("listBeacon2", promoB.getTitrePromo());
+
+            return promoB;
+        }
+
+        @Override
+        protected void onPostExecute(PromoBeaconMetier promoBeaconMetier) {
+            super.onPostExecute(promoBeaconMetier);
+        }
     }
 }

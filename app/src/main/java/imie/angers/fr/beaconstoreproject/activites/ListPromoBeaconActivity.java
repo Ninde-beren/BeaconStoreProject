@@ -1,6 +1,5 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.Adapters.PromoBeaconAdapter;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
@@ -27,9 +27,6 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
 
     private PromoBeaconDAO promoBeaconDAO;
     protected List<PromoBeaconMetier> listPromoBeacon;
-    private RecyclerView recList;
-    //private PromoBeaconAdapter promoBeaconAdapter;
-    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,32 +38,83 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
 
-        new getPromoBeacon(listPromoBeacon).execute();
+
+        try {
+
+            listPromoBeacon = new getPromoBeacon().execute().get();
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
+
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(promoBeaconAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // Sending image id to ImageSeule
+                PromoBeaconMetier beaconPromo = (PromoBeaconMetier) parent.getItemAtPosition(position);
+
+                Log.i("PromoBeaconMetier", "text :" + beaconPromo.getTxtPromo());
+                Log.i("PromoBeaconMetier2", "titre " + beaconPromo.getTitrePromo());
+
+
+                Intent i = new Intent(getApplicationContext(), PromoBeaconActivity.class);
+                // passing array index
+                i.putExtra("promoBeacon", beaconPromo);
+                startActivity(i);
+            }
+        });
     }
 
 
-   /* @Override
+   @Override
     protected void onDestroy() {
         super.onDestroy();
         promoBeaconDAO.open();
         promoBeaconDAO.deleteTablePromoBeacon();
+    }
 
-    }*/
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-    private class getPromoBeacon extends AsyncTask<Void, List<PromoBeaconMetier>, List<PromoBeaconMetier>> {
+        try {
 
-        private List<PromoBeaconMetier> listPromoB;
+            listPromoBeacon = new getPromoBeacon().execute().get();
 
-        public getPromoBeacon(List<PromoBeaconMetier> listPromoBeacon) {
+        } catch (InterruptedException e) {
 
-            this.listPromoB = new ArrayList<>();
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
         }
 
+        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
+
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(promoBeaconAdapter);
+
+    }
+
+    private class getPromoBeacon extends AsyncTask<Void, List<PromoBeaconMetier>, List<PromoBeaconMetier>> {
 
         @Override
         protected List<PromoBeaconMetier> doInBackground(Void... params) {
 
-            listPromoB = promoBeaconDAO.getPromoBeacon();
+            List<PromoBeaconMetier> listPromoB = promoBeaconDAO.getPromoBeacon();
 
             Log.i("listBeacon2", String.valueOf(listPromoB.size()));
 
@@ -77,37 +125,14 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
         protected void onPostExecute(List<PromoBeaconMetier> promoBeaconMetiers) {
             super.onPostExecute(promoBeaconMetiers);
 
-            //listPromoBeacon = promoBeaconMetiers;
+           if(promoBeaconMetiers.size() == 0 ) {
 
-            Log.i("listBeacon3", String.valueOf(promoBeaconMetiers.size()));
+               Log.i("listBeacon3", String.valueOf(promoBeaconMetiers.size()));
 
-            Toast.makeText(getBaseContext(), "Get list beacon", Toast.LENGTH_SHORT).show();
+               Toast.makeText(getBaseContext(), "Aucune promotion pour le moment", Toast.LENGTH_LONG).show();
 
-            Log.i("Hello there", "ICI");
-
-            PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) promoBeaconMetiers);
-
-            ListView list = (ListView) findViewById(R.id.list);
-            list.setAdapter(promoBeaconAdapter);
-
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    // Sending image id to ImageSeule
-                    PromoBeaconMetier beaconPromo = (PromoBeaconMetier) parent.getItemAtPosition(position);
-
-                    Log.i("PromoBeaconMetier", "text :" +  beaconPromo.getTxtPromo());
-                    Log.i("PromoBeaconMetier2", "titre " +  beaconPromo.getTitrePromo());
-
-
-                    Intent i = new Intent(getApplicationContext(), PromoBeaconActivity.class);
-                    // passing array index
-                    i.putExtra("promoBeacon", beaconPromo);
-                    startActivity(i);
-                }
-            });
-        }
+               Log.i("Hello there", "ICI");
+           }
+       }
     }
 }

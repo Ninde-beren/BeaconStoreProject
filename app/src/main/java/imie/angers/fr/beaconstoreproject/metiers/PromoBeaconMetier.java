@@ -107,6 +107,7 @@ public class PromoBeaconMetier extends NotificationMetier {
 
     protected PromoBeaconMetier(Parcel in) {
         super(in);
+
         id_promo = in.readInt();
         idpromo = in.readString();
         txtPromo = in.readString();

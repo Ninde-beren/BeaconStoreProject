@@ -55,33 +55,37 @@ public class PromoBeaconDAO extends DAOBase {
         return insertId;
     }
 
-    public NotificationMetier getLastPromotionInserted(long id) {
+    public PromoBeaconMetier getLastPromotionInserted(long id) {
 
-    String query = "SELECT " + DatabaseHelper.COLUMN_IDP + ", "
-            + DatabaseHelper.COLUMN_TITREPRO + ", "
-            + DatabaseHelper.COLUMN_LBPROMO + ", "
-            + DatabaseHelper.COLUMN_IMAGEOFF + ", "
-            + DatabaseHelper.COLUMN_BEACON +
-            " FROM " + DatabaseHelper.TABLE_PROMOBEACON +
-            " WHERE " + DatabaseHelper.COLUMN_IDP + " = ?";
+        String query = "SELECT " + DatabaseHelper.COLUMN_IDP + ", "
+                + DatabaseHelper.COLUMN_TITREPRO + ", "
+                + DatabaseHelper.COLUMN_LBPROMO + ", "
+                + DatabaseHelper.COLUMN_IMAGEOFF + ", "
+                + DatabaseHelper.COLUMN_TXTPROMO + ", "
+                + DatabaseHelper.COLUMN_IMAGEART + ", "
+                + DatabaseHelper.COLUMN_BEACON +
+                " FROM " + DatabaseHelper.TABLE_PROMOBEACON +
+                " WHERE " + DatabaseHelper.COLUMN_IDP + " = ?";
 
         Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
 
         cursor.moveToFirst();
 
         //Instanciation d'une nouvelle notification
-        NotificationMetier notif = new NotificationMetier();
+        PromoBeaconMetier promo = new PromoBeaconMetier();
 
-        notif.setId(cursor.getInt(0));
-        notif.setTitrePromo(cursor.getString(1));
-        notif.setLbPromo(cursor.getString(2));
-        notif.setImageoff(cursor.getString(3));
-        notif.setIdBeacon(cursor.getString(4));
+        promo.setId(cursor.getInt(0));
+        promo.setTitrePromo(cursor.getString(1));
+        promo.setLbPromo(cursor.getString(2));
+        promo.setImageoff(cursor.getString(3));
+        promo.setTxtPromo(cursor.getString(4));
+        promo.setImageart((cursor.getString(5)));
+        promo.setIdBeacon(cursor.getString(6));
 
         //fermeture du cusor
         cursor.close();
 
-        return notif;
+        return promo;
     }
 
     public void deleteTablePromoBeacon() {

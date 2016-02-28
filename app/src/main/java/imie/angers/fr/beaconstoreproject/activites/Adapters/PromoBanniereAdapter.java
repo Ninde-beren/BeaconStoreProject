@@ -17,9 +17,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import imie.angers.fr.beaconstoreproject.R;
-import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
-import imie.angers.fr.beaconstoreproject.metiers.DatabaseHelper;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
+import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
 
@@ -45,7 +44,7 @@ public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
         // Populate the data into the template view using the data object
         titleView.setText(promo.getTitrePromo());
         descView.setText(promo.getLbPromo());
-        //imgView.setImageBitmap(promo.getImageoff());
+        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
 
         // Return the completed view to render on screen
         return convertView;

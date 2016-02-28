@@ -5,13 +5,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import java.util.concurrent.ExecutionException;
+
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
+import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
+import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
+import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 
 /**
  * Permet la création d'une notification
@@ -26,43 +32,63 @@ public class NotificationBanniere extends Activity {
      * unique system-wide.
      */
 
-    public static int notification_id = 1;
+    public static long notification_id;
     private PromoBanniereDAO promoBanniereDAO;
-    private NotificationMetier notification = new NotificationMetier();
+    private PromoBanniereMetier promoBanniere;
+    private long lastIdInsert;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.notification);
+
+        promoBanniere = new PromoBanniereMetier();
 
         promoBanniereDAO = new PromoBanniereDAO(this);
         promoBanniereDAO.open();
 
         Intent i = getIntent();
 
+        lastIdInsert = i.getLongExtra("lastIdInsert", 0);
+
         //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
-        long lastIdInsert = i.getLongExtra("lastIdInsert", 0);
-        notification = promoBanniereDAO.getLastPromoBanniereInserted(lastIdInsert); //retourne une instance de l'objet NotificationMetier
+
+        try {
+
+            promoBanniere = new getPromoForNotif().execute().get(); //retourne une instance de l'objet PromotionMetier
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+
+        notification_id = lastIdInsert;
 
         Log.i("hello", "hello");
+        Log.i("PromoBanniere0", promoBanniere.getTxtBanniere());
 
-        sendNotification();
+        sendNotification(promoBanniere);
     }
-
 
 
     /**
      * Send a sample notification using the NotificationCompat API.
      */
 
-    public void sendNotification() { //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
+    public void sendNotification(PromoBanniereMetier promoMetier){ //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(this, ListPromoBanniere.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Intent intent = new Intent(this, PromoBeaconActivity.class);
+        intent.putExtra("promoBanniere", promoMetier);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /**
          * Use NotificationCompat.Builder to set up our notification.
@@ -108,8 +134,8 @@ public class NotificationBanniere extends Activity {
          *    anything vital!
          */
 
-        builder.setContentTitle(this.notification.getTitrePromo());
-        builder.setContentText(this.notification.getLbPromo());
+        builder.setContentTitle(this.promoBanniere.getTitrePromo());
+        builder.setContentText(this.promoBanniere.getLbPromo());
         builder.setSubText("En savoir plus...");
 
         /**
@@ -117,7 +143,26 @@ public class NotificationBanniere extends Activity {
          * notification bar.
          */
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(notification_id, builder.build());
-        notification_id++;
+        notificationManager.notify((int) notification_id, builder.build());
+    }
+
+    private class getPromoForNotif extends AsyncTask<Void, Void, PromoBanniereMetier> {
+
+        private PromoBanniereMetier promoB;
+
+        @Override
+        protected PromoBanniereMetier doInBackground(Void... params) {
+
+            promoB =  promoBanniereDAO.getLastPromoBanniereInserted(lastIdInsert);
+
+            Log.i("listBeacon2", promoB.getTitrePromo());
+
+            return promoB;
+        }
+
+        @Override
+        protected void onPostExecute(PromoBanniereMetier promoBanniereMetier) {
+            super.onPostExecute(promoBanniereMetier);
+        }
     }
 }

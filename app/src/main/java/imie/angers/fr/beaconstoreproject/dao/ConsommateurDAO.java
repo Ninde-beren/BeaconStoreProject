@@ -43,7 +43,7 @@ public class ConsommateurDAO extends DAOBase {
         return insertId;
     }
 
-    public ConsommateurMetier getConsommateur() {
+    public ConsommateurMetier getConsommateur( long id) {
 
         //TODO selectionner la banniere pour l'activity consommateur
 
@@ -53,33 +53,75 @@ public class ConsommateurDAO extends DAOBase {
                                  + DatabaseHelper.COLUMN_GENRE   + ", "
                                  + DatabaseHelper.COLUMN_TEL     + ", "
                                  + DatabaseHelper.COLUMN_EMAIL   + ", "
-                                 + DatabaseHelper.COLUMN_CSP   + ", "
-                                 + DatabaseHelper.COLUMN_CP   + ", "
-                                 + DatabaseHelper.COLUMN_DTNAISS   + ", "
-                      + " FROM " + DatabaseHelper.TABLE_CONSO    +
-                       " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = ?";
+                                 + DatabaseHelper.COLUMN_MDP     + ", "
+                                 + DatabaseHelper.COLUMN_CSP     + ", "
+                                 + DatabaseHelper.COLUMN_CP      + ", "
+                                 + DatabaseHelper.COLUMN_DTNAISS +
+                        " FROM " + DatabaseHelper.TABLE_CONSO    +
+                       " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = 1";
 
-        Cursor cursor = mDb.rawQuery(query, new String[]{"1"});
+        Log.i("requete getconsommateur", query);
+
+        Cursor cursor = mDb.rawQuery(query, null);
+
+        Log.i("nombre de valeur : ", String.valueOf(cursor.getCount()));
+        Log.i("nombre de column : ", String.valueOf(cursor.getColumnCount()));
 
         cursor.moveToFirst();
 
-        //création d'un nouveau consommateur
-        ConsommateurMetier consommateur = new ConsommateurMetier();
+        Log.i("nom des column : ", String.valueOf(cursor.getColumnNames()));
 
-        consommateur.setIdConso(cursor.getInt(0));
-        consommateur.setNom(cursor.getString(1));
-        consommateur.setPrenom(cursor.getString(2));
-        consommateur.setGenre(cursor.getString(3));
-        consommateur.setTel(cursor.getString(4));
-        consommateur.setEmail(cursor.getString(5));
-        consommateur.setCatsocpf(cursor.getString(6));
-        consommateur.setCdpostal(cursor.getString(7));
-        consommateur.setDtnaiss(cursor.getString(8));
+            //création d'un nouveau consommateur
+            ConsommateurMetier consommateur = new ConsommateurMetier();
 
-        //fermeture du cursor
+        if (cursor.getCount() != 0) {
+
+            consommateur.setIdConso(cursor.getInt(0));
+            //Log.i("id conso :", consommateur.setIdConso(cursor.getInt(0)));
+            consommateur.setNom(cursor.getString(1));
+            //Log.i("Nom :", consommateur.setNom(cursor.getString(1)));
+            consommateur.setPrenom(cursor.getString(2));
+            //Log.i("prenom :", consommateur.setPrenom(cursor.getString(2)));
+            consommateur.setGenre(cursor.getString(3));
+            //Log.i("genre :", consommateur.setGenre(cursor.getString(3)));
+            consommateur.setTel(cursor.getString(4));
+            //Log.i("tel :", consommateur.setTel(cursor.getString(4)));
+            consommateur.setEmail(cursor.getString(5));
+            //Log.i("email :", consommateur.setEmail(cursor.getString(5)));
+            consommateur.setPassword(cursor.getString(6));
+            //Log.i("password :", consommateur.setPassword(cursor.getString(6)));
+            consommateur.setCatsocpf(cursor.getString(7));
+            //Log.i("cat social :", consommateur.setCatsocpf(cursor.getString(7)));
+            consommateur.setCdpostal(cursor.getString(8));
+            //Log.i("code postal :", consommateur.setCdpostal(cursor.getString(8)));
+            consommateur.setDtnaiss(cursor.getString(9));
+            //Log.i("date de naissance :", consommateur.setDtnaiss(cursor.getString(9)));
+            Log.i("consommateur : ", String.valueOf(consommateur));
+
+            //fermeture du cursor
+            cursor.close();
+
+            return consommateur;
+        } else {
+            Log.i("requete nest pas passer", String.valueOf(cursor.getColumnCount()));
+
+            //fermeture du cursor
+            cursor.close();
+
+            return consommateur;
+        }
+
+
+
+    }
+
+    public void deleteConso(long id) {
+
+        String query ="DELETE FROM " + DatabaseHelper.TABLE_CONSO;
+        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
+
         cursor.close();
 
-        return consommateur;
     }
 
     public void deleteTableConso() {

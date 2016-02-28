@@ -26,6 +26,7 @@ import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
+ * * ServicePromoBanniere permet la récupération des promotions bannières avec un chek toute les 24h, l'enregistrement des promotions dans la base de données
  * Created by Ninde on 24/02/2016.
  */
 public class ServicePromoBanniere extends Service {
@@ -33,7 +34,6 @@ public class ServicePromoBanniere extends Service {
     protected static final String ART = "art";
     protected static final String OFF = "off";
 
-    //private NotificationDAO notificationDAO = new NotificationDAO(this);
     private PromoBanniereDAO promoBanniereDAO;
 
     private AndrestClient rest = new AndrestClient();
@@ -48,10 +48,11 @@ public class ServicePromoBanniere extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+
         return null;
     }
 
-     /**
+    /**
      * Handles a button press and calls the AndrestClient.rest() method with the
      * given parameters. Runs in the background (Async) and pops up a dialog on
      * completion.
@@ -97,17 +98,10 @@ public class ServicePromoBanniere extends Service {
 
                 int jsonSize = result.length();
 
-                //Parcours de notre objet JSON (plusieurs promotions peuvent correspondre à un beacon)
+                //Parcours de notre objet JSON (plusieurs promotions)
                 for (int i = 0; i < jsonSize; i++) {
 
                     JSONObject jobj = result.getJSONObject("" + i + "");
-
-                    String imgoffPath = BitMapUtil.downloadImage(jobj.getString("imageoff"), jobj.getString("idpromo"), ART);
-                    String imgartPath = BitMapUtil.downloadImage(jobj.getString("imageart"), jobj.getString("idpromo"), OFF);
-
-
-                    //byte[] bImgoff = Base64.decode(jobj.getString("imageoff"), Base64.DEFAULT);
-                    //byte[] bImageart = Base64.decode(jobj.getString("imageart"), Base64.DEFAULT);
 
                     //Enregistrement de la promotion dans la base de données SQLite
                     PromoBanniereMetier promo = new PromoBanniereMetier();
@@ -119,10 +113,8 @@ public class ServicePromoBanniere extends Service {
                     promo.setDtdebval(jobj.getString("dtdebval"));
                     promo.setDtfinval(jobj.getString("dtfinval"));
                     promo.setTypBanniere(jobj.getString("typpromo"));
-                    promo.setImageart(imgoffPath);
-                    promo.setImageoff(imgartPath);
-                    promo.setIdBeacon(jobj.getString("idbeacon"));
-                    //promo.setIdmagasin(jobj.getString("idmag"));
+                    promo.setImageart(jobj.getString("imgoff"));
+                    promo.setImageoff(jobj.getString("imgart"));
 
                     insertId = promoBanniereDAO.addPromoBanniere(promo);
 
@@ -167,6 +159,4 @@ public class ServicePromoBanniere extends Service {
             }
         }
     }
-
-    //TODO faire une méthode qui check toute les certaine heure ou 1 fois par jours, si il y a des nouvelles Promo bannieres, si la date est dépassée elle sont supprimées
 }

@@ -18,6 +18,9 @@
     <string name="more_infos">+ d\'infos</string>
     <string name="action_submit">Valider</string>
     <string name="Previous">Retour</string>
+    <string name="Next">Suivant</string>
+    <string name="Modified">Modifier</string>
+    <string name="Delete">Supprimer</string>
 
     <!-- Strings related to sexe type -->
     <string-array name="sexetype_array">

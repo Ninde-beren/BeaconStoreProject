@@ -48,6 +48,9 @@ public class MainActivity extends TabActivity {
         Intent intent5 = new Intent().setClass(this, Avis.class);
         menuOnglet.addTab(menuOnglet.newTabSpec("onglet_5").setIndicator("Onglet 5").setContent(intent5));
 
+        Intent intent6 = new Intent().setClass(this, ListPromoBeaconActivity.class);
+        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("List beacon").setContent(intent6));
+
         //parametrer un écouteur onTabChangedListener pour récupérer le changement d'onglet
         menuOnglet.setOnTabChangedListener(
                 new TabHost.OnTabChangeListener() {

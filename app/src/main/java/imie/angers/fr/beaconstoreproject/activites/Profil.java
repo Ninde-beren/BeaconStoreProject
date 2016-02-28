@@ -25,8 +25,8 @@ public class Profil extends Activity {
     private ConsommateurMetier consommateur;
     private ConsommateurDAO consommateurDAO;
 
-    private Button retour;
-    private Button valider;
+    private Button modifier;
+    private Button supprimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,16 @@ public class Profil extends Activity {
 
         // Récupération des infos dans la base et les lier avec les vues
         consommateurDAO = new ConsommateurDAO(this);
+        consommateurDAO.open();
         consommateur = new ConsommateurMetier();
 
-        consommateur = consommateurDAO.getConsommateur();
+        //int user =1;
+
+       // if(user==0){
+            long id =1;
+
+            consommateur = consommateurDAO.getConsommateur(id);
+       // }
 
         //Log.i("consomateur :", consommateur.toString());
 
@@ -63,18 +70,21 @@ public class Profil extends Activity {
 
         //-------------------------------------------------------------------------------------
 
-        retour = (Button) findViewById(R.id.buttonPreviousProfil);
-        retour.setOnClickListener(new View.OnClickListener() {
+        modifier = (Button) findViewById(R.id.buttonModifierProfil);
+        modifier.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), Inscription.class);
+                Intent nextScreen = new Intent(getApplicationContext(), ModifierProfil.class);
                 startActivity(nextScreen);
 
             }
        });
 
-        valider = (Button) findViewById(R.id.buttonValiderProfil);
-        valider.setOnClickListener(new View.OnClickListener() {
+        supprimer = (Button) findViewById(R.id.buttonSupprimerProfil);
+        supprimer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                consommateurDAO.deleteConso(1);
+
                 Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(nextScreen);
 

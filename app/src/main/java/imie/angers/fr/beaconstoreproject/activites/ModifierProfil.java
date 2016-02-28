@@ -24,8 +24,10 @@ import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
-public class Inscription extends Activity {
-
+/**
+ * Created by Ninde on 27/02/2016.
+ */
+public class ModifierProfil extends Activity{
     private EditText nom;
     private EditText prenom;
     private Spinner genre;
@@ -34,7 +36,7 @@ public class Inscription extends Activity {
     private Spinner csp;
     private EditText cp;
     private DatePicker dateNaiss;
-    private String dtNaiss;
+    private String dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -44,7 +46,7 @@ public class Inscription extends Activity {
 
     private String url = "http://beaconstore.ninde.fr/serverRest.php/consommateur?";
 
-    private Button retour;
+    private Button annuler;
     private Button valider;
 
     @Override
@@ -87,10 +89,10 @@ public class Inscription extends Activity {
         // Apply the adapter to the spinner
         spinnerSocialStatut.setAdapter(adapterSocialStatut);
 
-        retour = (Button) findViewById(R.id.buttonPreviousInscription);
-        retour.setOnClickListener(new View.OnClickListener() {
+        annuler = (Button) findViewById(R.id.buttonPreviousInscription);
+        annuler.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
+                Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
                 startActivity(nextScreen);
 
             }
@@ -102,9 +104,9 @@ public class Inscription extends Activity {
                 Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
                 startActivity(nextScreen);
                 //On ecoute les clique sur le bouton login
-                inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
+                modifierProfilSQLite(); // appelle de la méthode inscription dans la base SQlite
                 consommateurDAO.addConsommateur(consommateur);
-                inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
+                modifierProfilAPI(); // appelle de la méthode inscription dans la base SQlite
             }
         });
 
@@ -113,11 +115,9 @@ public class Inscription extends Activity {
         // lier les infos du formulaire à des variables et les insérer dans une méthode requête add
     }
 
-    private ConsommateurMetier inscriptionSQLite() {
+    private ConsommateurMetier modifierProfilSQLite() {
 
         consommateur = new ConsommateurMetier();
-
-        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
         // récupération des données du formulaire pour la base SQLite
         consommateur.setNom(nom.getText().toString());
@@ -132,9 +132,8 @@ public class Inscription extends Activity {
         return consommateur;
     }
 
-    private void inscriptionAPI() {
+    private void modifierProfilAPI() {
 
-        dtNaiss  = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
         // récupération des données du formulaire pour la base API
         String nomAPI = nom.getText().toString();
@@ -148,7 +147,7 @@ public class Inscription extends Activity {
 
         valider.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(Inscription.this, ProgressDialog.STYLE_SPINNER);
+        final ProgressDialog progressDialog = new ProgressDialog(ModifierProfil.this, ProgressDialog.STYLE_SPINNER);
 
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Inscription...");
@@ -166,7 +165,7 @@ public class Inscription extends Activity {
         Log.i("toPost", "param du conso : " + toPost);
 
         //execution de la requête POST (cf API) en arrière plan dans un autre thread
-        new DoRequest(Inscription.this, toPost, "POST", url) {
+        new DoRequest(ModifierProfil.this, toPost, "PUT", url) {
 
             JSONObject result;
 
@@ -230,26 +229,26 @@ public class Inscription extends Activity {
 
                         Log.i("salut", "salut");
 
-                        onInscriptionSuccess();
-                        Intent intent = new Intent(Inscription.this, ListPromoBanniere.class);
+                        onModifierProfilSuccess();
+                        Intent intent = new Intent(ModifierProfil.this, ListPromoBanniere.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent); //Activiation de l'activité
 
                     } else {
 
-                        onInscriptionFailed();
+                        onModifierProfilFailed();
                     }
                 }
             }
         }.execute();
     }
 
-    public void onInscriptionSuccess() {
+    public void onModifierProfilSuccess() {
         valider.setEnabled(true);
         finish();
     }
 
-    public void onInscriptionFailed() {
+    public void onModifierProfilFailed() {
         Toast.makeText(getBaseContext(), "inscription failed", Toast.LENGTH_LONG).show();
 
         valider.setEnabled(true);

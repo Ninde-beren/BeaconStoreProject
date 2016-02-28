@@ -49,20 +49,20 @@ public class PromoBanniereDAO extends DAOBase{
         //insertion en base + recuperation du dernier id inséré
         long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBANNIERE, null, values);
 
-        Log.i("dao", "insertion en bdd:" + insertId);
+        Log.i("dao", "insertion d'une banniere en bdd:" + insertId);
 
         return insertId;
     }
 
     public List<PromoBanniereMetier> getListPromoBanniere() {
 
-        //TODO selectionner la liste des banniere pour les inserer dans l'adapter
+        // selectionner la liste des banniere pour les inserer dans l'adapter
 
         String query = "SELECT " + DatabaseHelper.COLUMN_IDB            + ", "
                                  + DatabaseHelper.COLUMN_TITREBAN       + ", "
                                  + DatabaseHelper.COLUMN_LBBANNIERE     + ", "
-                                 + DatabaseHelper.COLUMN_B_IMAGEOFF     + ", "
-                      + " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE   + " = ?";
+                                 + DatabaseHelper.COLUMN_B_IMAGEOFF     +
+                        " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE ;
 
         Cursor cursor = mDb.rawQuery(query, null);
 
@@ -91,15 +91,15 @@ public class PromoBanniereDAO extends DAOBase{
 
     public Object getPromoBanniere(long id) {
 
-        //TODO selectionner la banniere pour l'activity PromoBanniere
+        // selectionner la banniere pour l'activity PromoBanniere
 
         String query = "SELECT " + DatabaseHelper.COLUMN_IDB            + ", "
                                  + DatabaseHelper.COLUMN_B_DTDEBVAL     + ", "
                                  + DatabaseHelper.COLUMN_B_DTFINVAL     + ", "
                                  + DatabaseHelper.COLUMN_TITREBAN       + ", "
                                  + DatabaseHelper.COLUMN_TXTBAN         + ", "
-                                 + DatabaseHelper.COLUMN_IMAGEART       + ", "
-                      + " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE   +
+                                 + DatabaseHelper.COLUMN_IMAGEART       +
+                        " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE   +
                        " WHERE " + DatabaseHelper.COLUMN_IDB            + " = ?";
 
         Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
@@ -122,31 +122,43 @@ public class PromoBanniereDAO extends DAOBase{
         return promoBanniere;
     }
 
-    public NotificationMetier getLastPromoBanniereInserted(long id) {
+    public PromoBanniereMetier getLastPromoBanniereInserted(long id) {
 
-        String query = "SELECT " + DatabaseHelper.COLUMN_IDB + ", "
-                + DatabaseHelper.COLUMN_TITREBAN + ", "
-                + DatabaseHelper.COLUMN_LBBANNIERE + ", "
-                + DatabaseHelper.COLUMN_IMAGEOFF + ", "
-                + " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE +
-                " WHERE " + DatabaseHelper.COLUMN_IDB + " = ?";
+        String query = "SELECT " + DatabaseHelper.COLUMN_IDB        + ", "
+                                 + DatabaseHelper.COLUMN_TITREBAN   + ", "
+                                 + DatabaseHelper.COLUMN_LBBANNIERE + ", "
+                                 + DatabaseHelper.COLUMN_IMAGEOFF   + ", "
+                                 + DatabaseHelper.COLUMN_TXTBAN     + ", "
+                                 + DatabaseHelper.COLUMN_IMAGEART   +
+                        " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE +
+                       " WHERE " + DatabaseHelper.COLUMN_IDB        + " = ?";
 
         Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
 
         cursor.moveToFirst();
 
         //Instanciation d'une nouvelle notification
-        NotificationMetier notif = new NotificationMetier();
+        PromoBanniereMetier promo = new PromoBanniereMetier();
 
-        notif.setId(cursor.getInt(0));
-        notif.setTitrePromo(cursor.getString(1));
-        notif.setLbPromo(cursor.getString(2));
-        notif.setImageoff(cursor.getString(3));
+        promo.setId(cursor.getInt(0));
+        promo.setTitrePromo(cursor.getString(1));
+        promo.setLbPromo(cursor.getString(2));
+        promo.setImageoff(cursor.getString(3));
+        promo.setTxtBanniere(cursor.getString(4));
+        promo.setImageart((cursor.getString(5)));
 
         //fermeture du cusor
         cursor.close();
 
-        return notif;
+        return promo;
+    }
+
+    public void deletePromoBanniere( long id) {
+
+        String query ="DELETE FROM " + DatabaseHelper.TABLE_PROMOBANNIERE + "WHERE " + DatabaseHelper.COLUMN_IDBANNIERE + "=?";
+        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
+
+        cursor.close();
     }
 
     public void deleteTablePromoBanniere() {

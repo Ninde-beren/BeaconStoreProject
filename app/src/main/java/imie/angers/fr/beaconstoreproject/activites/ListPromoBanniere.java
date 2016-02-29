@@ -91,7 +91,7 @@ public class ListPromoBanniere extends Activity {
 
         PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.listpromobanniere);
+        ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBanniereAdapter);
 
     }
@@ -121,5 +121,82 @@ public class ListPromoBanniere extends Activity {
                 Log.i("Hello there", "ICI");
             }
         }
+    }
+
+    private void verificationBluetoothDialog() {
+
+        BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (blueAdapter == null) {
+
+            // Le terminal ne possède pas le Bluetooth
+
+            //Toast
+            Toast.makeText(context, "Vous ne pouvez pas profiter de cette application", Toast.LENGTH_SHORT).show();
+        } else {
+            if (!blueAdapter.isEnabled()) {
+                //boite de dialog de demande d'activation du bluetooth
+                Intent enableBlueTooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBlueTooth, REQUEST_CODE_ENABLE_BLUETOOTH);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_CODE_ENABLE_BLUETOOTH)
+            return;
+        if (resultCode == RESULT_OK) {
+            // L'utilisation a activé le bluetooth
+
+        } else {
+            // L'utilisation n'a pas activé le bluetooth
+            Toast.makeText(getBaseContext(), "Vous ne pourrez pas profiter des offres en magasin", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private Dialog remplirInfoDialog() {
+
+        consommateurDAO = new ConsommateurDAO(this);
+        consommateurDAO.open();
+
+        ConsommateurMetier consommateur = new ConsommateurMetier();
+
+        int user= 1;
+
+        if(user==0){
+            long id =1;
+
+        consommateur = consommateurDAO.getConsommateur(id);
+
+        if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
+
+            AlertDialog.Builder infos;
+            final EditText input = new EditText(this);
+            infos = new AlertDialog.Builder(this);
+            infos.setView(input);
+            infos.setTitle("Information");
+            infos.setIcon(R.drawable.ic_launcher);
+            infos.setMessage("Vous n'avez pas remplis tous les champs lors de votre inscription.\n Les remplir maintenant ?");
+
+            infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }
+            );
+
+            infos.setNeutralButton("Ignorer", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+
+            infos.show();
+        }
+    }
+        return null;
     }
 }

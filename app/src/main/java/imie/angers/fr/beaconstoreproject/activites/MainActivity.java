@@ -7,11 +7,13 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import imie.angers.fr.beaconstoreproject.R;
+import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 
 public class MainActivity extends TabActivity {
 
     private PromoBeaconDAO promoBeaconDAO;
+    private PromoBanniereDAO promoBanniereDAO;
 
     private TabHost menuOnglet;
 
@@ -68,11 +70,21 @@ public class MainActivity extends TabActivity {
     }
 
     @Override
-    protected void onDestroy() {
+     protected void onDestroy() {
         super.onDestroy();
         promoBeaconDAO.open();
         promoBeaconDAO.deleteTablePromoBeacon();
+        promoBanniereDAO.open();
+        promoBanniereDAO.deleteTablePromoBanniere();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        promoBeaconDAO.open();
+        promoBeaconDAO.deleteTablePromoBeacon();
+        promoBanniereDAO.open();
+        promoBanniereDAO.deleteTablePromoBanniere();
     }
 
 }

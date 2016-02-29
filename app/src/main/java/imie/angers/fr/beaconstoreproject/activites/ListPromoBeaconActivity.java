@@ -1,5 +1,6 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -65,10 +66,6 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
                 // Sending image id to ImageSeule
                 PromoBeaconMetier beaconPromo = (PromoBeaconMetier) parent.getItemAtPosition(position);
 
-                Log.i("PromoBeaconMetier", "text :" + beaconPromo.getTxtPromo());
-                Log.i("PromoBeaconMetier2", "titre " + beaconPromo.getTitrePromo());
-
-
                 Intent i = new Intent(getApplicationContext(), PromoBeaconActivity.class);
                 // passing array index
                 i.putExtra("promoBeacon", beaconPromo);
@@ -77,15 +74,34 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onNavigateUpFromChild(Activity child) {
 
-   @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        promoBeaconDAO.open();
-        promoBeaconDAO.deleteTablePromoBeacon();
+        try {
+
+            listPromoBeacon = new getPromoBeacon().execute().get();
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+
+        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
+
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(promoBeaconAdapter);
+
+        return super.onNavigateUpFromChild(child);
+
     }
 
-    @Override
+
+    /* @Override
     protected void onResume() {
         super.onResume();
 
@@ -107,7 +123,7 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBeaconAdapter);
 
-    }
+    }*/
 
     private class getPromoBeacon extends AsyncTask<Void, List<PromoBeaconMetier>, List<PromoBeaconMetier>> {
 

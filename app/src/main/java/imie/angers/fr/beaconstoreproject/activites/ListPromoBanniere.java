@@ -56,7 +56,7 @@ public class ListPromoBanniere extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_promo_banniere);
+        setContentView(R.layout.activity_liste_promo_beacon);
 
         verificationBluetoothDialog();
         remplirInfoDialog();
@@ -66,10 +66,11 @@ public class ListPromoBanniere extends Activity {
         promoBanniereDAO = new PromoBanniereDAO(this);
         promoBanniereDAO.open();
 
-
         try {
 
             listPromoBanniere = new getPromoBanniere().execute().get();
+
+            Log.i("listbeanniere", String.valueOf(listPromoBanniere.size()));
 
         } catch (InterruptedException e) {
 
@@ -82,7 +83,7 @@ public class ListPromoBanniere extends Activity {
 
         PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.listpromobanniere);
+        ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBanniereAdapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,21 +97,12 @@ public class ListPromoBanniere extends Activity {
                 Log.i("PromoBanniereMetier", "text :" + BannierePromo.getTxtBanniere());
                 Log.i("PromoBanniereMetier2", "titre " + BannierePromo.getTitrePromo());
 
-
                 Intent i = new Intent(getApplicationContext(), PromoBanniere.class);
                 // passing array index
                 i.putExtra("promoBanniere", BannierePromo);
                 startActivity(i);
             }
         });
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        promoBanniereDAO.open();
-        promoBanniereDAO.deleteTablePromoBanniere();
     }
 
     @Override
@@ -132,7 +124,7 @@ public class ListPromoBanniere extends Activity {
 
         PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.listpromobanniere);
+        ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBanniereAdapter);
 
     }

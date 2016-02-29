@@ -29,7 +29,7 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
  * * ServicePromoBanniere permet la récupération des promotions bannières avec un chek toute les 24h, l'enregistrement des promotions dans la base de données
  * Created by Ninde on 24/02/2016.
  */
-public class ServicePromoBanniere extends Service {
+/*public class ServicePromoBanniere extends Service {
 
     protected static final String ART = "art";
     protected static final String OFF = "off";
@@ -61,7 +61,7 @@ public class ServicePromoBanniere extends Service {
      * @ersion 09/03/2014
      */
 
-    private class doRequest extends AsyncTask<Void, Void, Boolean> {
+   /*private class doRequest extends AsyncTask<Void, Void, Boolean> {
 
         // Store context for dialogs
         private Context context = null;
@@ -86,7 +86,7 @@ public class ServicePromoBanniere extends Service {
 
          //-------------------------------------------------------------------------------------
 
-        @Override
+        /*@Override
         protected Boolean doInBackground(Void... arg0) {
             try {
 
@@ -159,4 +159,4 @@ public class ServicePromoBanniere extends Service {
             }
         }
     }
-}
+}*/

@@ -33,6 +33,13 @@ public abstract class DoRequest extends AsyncTask<Void, Void, Boolean> {
         this.url = url;
     }
 
+    public DoRequest(Context context, String method, String url) {
+
+        this.context = context;
+        this.method = method;
+        this.url = url;
+    }
+
     public JSONObject getResult() {
         return result;
     }

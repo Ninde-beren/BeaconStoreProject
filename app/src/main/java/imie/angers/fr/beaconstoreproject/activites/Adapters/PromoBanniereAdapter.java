@@ -15,12 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
+import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
+
+    //private List<PromoBanniereMetier> listPromoBeacon;
 
     public PromoBanniereAdapter(Context context, ArrayList<PromoBanniereMetier> promo) {
         super(context, 0, promo);
@@ -34,7 +38,22 @@ public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
 
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_liste_promo_banniere, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_promobeacon, parent, false);
+        }
+        // Lookup view for data population
+        TextView titleView = (TextView) convertView.findViewById(R.id.titrePromoBeacon);
+        TextView descView = (TextView) convertView.findViewById(R.id.txtPromoBeacon);
+        ImageView imgView = (ImageView) convertView.findViewById(R.id.imgPromoBeacon);
+
+        // Populate the data into the template view using the data object
+        titleView.setText(promo.getTitrePromo());
+        descView.setText(promo.getLbPromo());
+        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
+
+        // Check if an existing view is being reused, otherwise inflate the view
+        /*if (convertView == null) {
+
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_promo_banniere_list_adapter, parent, false);
         }
         // Lookup view for data population
         TextView titleView = (TextView) convertView.findViewById(R.id.titreBanniereView);
@@ -44,7 +63,7 @@ public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
         // Populate the data into the template view using the data object
         titleView.setText(promo.getTitrePromo());
         descView.setText(promo.getLbPromo());
-        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
+        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));*/
 
         // Return the completed view to render on screen
         return convertView;

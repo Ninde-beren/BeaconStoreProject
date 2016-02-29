@@ -88,8 +88,10 @@ public class PromoBanniereMetier extends NotificationMetier {
         return 0;
     }
 
-
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+
         dest.writeInt(this.id_Banniere);
         dest.writeString(this.idBanniere);
         dest.writeString(this.txtBanniere);
@@ -98,8 +100,10 @@ public class PromoBanniereMetier extends NotificationMetier {
         dest.writeString(this.imageart);
         dest.writeString(this.typBanniere);
     }
-
+    
     protected PromoBanniereMetier(Parcel in) {
+        super(in);
+
         this.id_Banniere = in.readInt();
         this.idBanniere = in.readString();
         this.txtBanniere = in.readString();

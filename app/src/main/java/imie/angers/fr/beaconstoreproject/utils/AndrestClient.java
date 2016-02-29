@@ -60,7 +60,7 @@ public class AndrestClient {
 	 */
 	public JSONObject request(String url, String method, Map<String, Object> data) throws RESTException {
 		if (method.matches("GET")) {
-			return get(url, data);
+			return get(url);
 		} else if (method.matches("POST")) {
 			return post(url, data);
 		} else if (method.matches("PUT")) {
@@ -70,45 +70,23 @@ public class AndrestClient {
 		}
 		throw new RESTException("Error! Incorrect method provided: " + method);
 	}
-	
+
 	/**
 	 * Calls a GET request on a given url. Doesn't take a data object (yet), so pass all get parameters 
 	 * alongside the url.
-	 * 
+	 *
 	 * @param 	url		the url you wish to connect to
 	 * @return 	JSON	the JSON response from the call		
 	 */
-	/*public JSONObject get(String url,  Map<String, Object> data) throws RESTException {
+	public JSONObject get(String url) throws RESTException {
 		HttpGet request = new HttpGet(url);
-		List<NameValuePair> nameValuePairs = setParams(data);
 		try {
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse response = client.execute(request);
 			int statusCode = response.getStatusLine().getStatusCode();
 			if(statusCode != 200){
 				throw new Exception("Error executing GET request! Received error code: " + response.getStatusLine().getStatusCode());
 			}
 			return new JSONObject(readInput(response.getEntity().getContent()));
-		} catch (Exception e) {
-			throw new RESTException(e.getMessage());
-		}
-	}*/
-
-	public JSONObject get(String url, Map<String, Object> data) throws RESTException {
-		HttpPost request = new HttpPost(url);
-		List<NameValuePair> nameValuePairs = setParams(data);
-		try {
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = client.execute(request);
-
-			int statusCode = response.getStatusLine().getStatusCode();
-			if(statusCode != 200){
-				throw new Exception("Error executing GET request! Received error code: " + response.getStatusLine().getStatusCode());
-			}
-
-			jObj = new JSONObject(readInput(response.getEntity().getContent()));
-			return jObj;
-
 		} catch (Exception e) {
 			throw new RESTException(e.getMessage());
 		}

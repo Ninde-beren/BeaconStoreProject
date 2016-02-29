@@ -14,6 +14,7 @@ import imie.angers.fr.beaconstoreproject.metiers.DatabaseHelper;
 import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
+import imie.angers.fr.beaconstoreproject.utils.DbUtil;
 
 /**
  * Permet d'effectuer les opérations CRUD pour l'objet PromoBanniereMetier
@@ -32,26 +33,45 @@ public class PromoBanniereDAO extends DAOBase{
      * @param banniere
      */
 
-    public long addPromoBanniere(PromoBanniereMetier banniere) {
+    public void addPromoBanniere(PromoBanniereMetier banniere) {
 
-        ContentValues values = new ContentValues();
+        String query = "INSERT OR REPLACE INTO " +
+                DatabaseHelper.TABLE_PROMOBANNIERE + " (" +
+                DatabaseHelper.COLUMN_IDBANNIERE + ", " +
+                DatabaseHelper.COLUMN_LBBANNIERE + ", " +
+                DatabaseHelper.COLUMN_TITREBAN + ", " +
+                DatabaseHelper.COLUMN_TXTBAN + ", " +
+                DatabaseHelper.COLUMN_B_DTDEBVAL + ", " +
+                DatabaseHelper.COLUMN_B_DTFINVAL + ", " +
+                DatabaseHelper.COLUMN_TYPBAN + ", " +
+                DatabaseHelper.COLUMN_B_IMAGEOFF + ", " +
+                DatabaseHelper.COLUMN_B_IMAGEART + ") VALUES ("
+                + DbUtil.sant(banniere.getIdbanniere()) + ", "
+                + DbUtil.sant(banniere.getLbPromo()) + ", "
+                + DbUtil.sant(banniere.getTitrePromo()) + ", " +
+                DbUtil.sant(banniere.getTxtBanniere()) + ", " +
+                banniere.getDtdebval() + ", " +
+                banniere.getDtfinval() + ", " +
+                DbUtil.sant(banniere.getTypBanniere()) + ", " +
+                DbUtil.sant(banniere.getImageoff()) + ", " +
+                DbUtil.sant(banniere.getImageart()) + ")";
 
-        values.put(DatabaseHelper.COLUMN_IDBANNIERE,  banniere.getId_Banniere());
-        values.put(DatabaseHelper.COLUMN_TITREBAN,    banniere.getTitrePromo());
-        values.put(DatabaseHelper.COLUMN_LBBANNIERE,  banniere.getLbPromo());
-        values.put(DatabaseHelper.COLUMN_TXTBAN,      banniere.getTxtBanniere());
-        values.put(DatabaseHelper.COLUMN_B_DTDEBVAL,  banniere.getDtdebval());
-        values.put(DatabaseHelper.COLUMN_B_DTFINVAL,  banniere.getDtfinval());
-        values.put(DatabaseHelper.COLUMN_TYPBAN,      banniere.getTypBanniere());
-        values.put(DatabaseHelper.COLUMN_B_IMAGEOFF,  banniere.getImageoff());
-        values.put(DatabaseHelper.COLUMN_B_IMAGEART,  banniere.getImageart());
+        mDb.execSQL(query);
+
+        /*(banniere.getId_Banniere());
+       (DatabaseHelper.COLUMN_TITREBAN,    banniere.getTitrePromo());
+       (DatabaseHelper.COLUMN_LBBANNIERE,  banniere.getLbPromo());
+       (DatabaseHelper.COLUMN_TXTBAN,      banniere.getTxtBanniere());
+       (DatabaseHelper.COLUMN_B_DTDEBVAL,  banniere.getDtdebval());
+       (DatabaseHelper.COLUMN_B_DTFINVAL,  banniere.getDtfinval());
+       (DatabaseHelper.COLUMN_TYPBAN,      banniere.getTypBanniere());
+       (DatabaseHelper.COLUMN_B_IMAGEOFF,  banniere.getImageoff());
+       (DatabaseHelper.COLUMN_B_IMAGEART,  banniere.getImageart());
 
         //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBANNIERE, null, values);
+        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBANNIERE, null, values);*/
 
-        Log.i("dao", "insertion d'une banniere en bdd:" + insertId);
-
-        return insertId;
+        //Log.i("dao", "insertion d'une banniere en bdd:" + insertId);
     }
 
     public List<PromoBanniereMetier> getListPromoBanniere() {
@@ -61,6 +81,10 @@ public class PromoBanniereDAO extends DAOBase{
         String query = "SELECT " + DatabaseHelper.COLUMN_IDB            + ", "
                                  + DatabaseHelper.COLUMN_TITREBAN       + ", "
                                  + DatabaseHelper.COLUMN_LBBANNIERE     + ", "
+                                 + DatabaseHelper.COLUMN_TXTBAN       + ", "
+                                 + DatabaseHelper.COLUMN_B_DTDEBVAL     + ", "
+                                 + DatabaseHelper.COLUMN_B_DTFINVAL     + ", "
+                                 + DatabaseHelper.COLUMN_B_IMAGEART     + ", "
                                  + DatabaseHelper.COLUMN_B_IMAGEOFF     +
                         " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE ;
 
@@ -78,13 +102,21 @@ public class PromoBanniereDAO extends DAOBase{
             banniere.setId(cursor.getInt(0));
             banniere.setTitrePromo(cursor.getString(1));
             banniere.setLbPromo(cursor.getString(2));
-            banniere.setImageoff(cursor.getString(3));
+            banniere.setTxtBanniere(cursor.getString(3));
+            banniere.setDtdebval(cursor.getString(4));
+            banniere.setDtfinval(cursor.getString(5));
+            banniere.setImageart(cursor.getString(6));
+            banniere.setImageoff(cursor.getString(7));
 
             listPromoBanniere.add(banniere);
+
+            Log.i("banniereId", String.valueOf(cursor.getInt(0)));
         }
 
         // fermeture du cursor
         cursor.close();
+
+        Log.i("listbanDAO", String.valueOf(listPromoBanniere.size()));
 
         return listPromoBanniere;
     }
@@ -162,8 +194,6 @@ public class PromoBanniereDAO extends DAOBase{
     }
 
     public void deleteTablePromoBanniere() {
-
-        mDb.execSQL("DELETE FROM " + DatabaseHelper.TABLE_PROMOBANNIERE);
-        mDb.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name='"+DatabaseHelper.TABLE_PROMOBANNIERE+"'");
+        mDb.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE name='" + DatabaseHelper.TABLE_PROMOBANNIERE+"'");
     }
 }

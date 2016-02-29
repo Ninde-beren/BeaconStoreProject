@@ -1,5 +1,6 @@
 package imie.angers.fr.beaconstoreproject.activites.Login2;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import imie.angers.fr.beaconstoreproject.R;
 /**
  * Created by plougastel.dl03 on 23/02/2016.
  */
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends Activity {
 
     private static final String TAG = "SignupActivity";
 

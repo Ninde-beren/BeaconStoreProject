@@ -98,13 +98,24 @@
         android:hint="Date de naissance"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:calendarViewShown="false" />
+        android:calendarViewShown="false"
+        android:startYear="2016"
+        android:onClick="showDatePickerDialog"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/testdate"
+        android:layout_below="@+id/dtNaissInscription"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:layout_marginTop="10dp" />
 
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/genreInscription"
-        android:layout_below="@+id/dtNaissInscription"
+        android:layout_below="@+id/testdate"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="false"
         android:layout_marginTop="10dp" />
@@ -150,6 +161,7 @@
         android:layout_height="wrap_content"
         android:text="@string/Previous"
         android:id="@+id/buttonPreviousInscription"
+        android:layout_below="@+id/cspInscription"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"

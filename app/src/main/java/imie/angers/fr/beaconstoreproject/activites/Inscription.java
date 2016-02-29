@@ -1,16 +1,20 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -24,7 +28,7 @@ import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
-public class Inscription extends Activity {
+public class Inscription extends Activity implements AdapterView.OnItemSelectedListener{
 
     private EditText nom;
     private EditText prenom;
@@ -35,6 +39,8 @@ public class Inscription extends Activity {
     private EditText cp;
     private DatePicker dateNaiss;
     private String dtNaiss;
+
+
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -60,32 +66,33 @@ public class Inscription extends Activity {
 
         nom = (EditText) findViewById(R.id.nomInscription);
         prenom = (EditText) findViewById(R.id.prenomInscription);
-        genre = (Spinner) findViewById(R.id.genreInscription);
         tel = (EditText) findViewById(R.id.telInscription);
         email = (EditText) findViewById(R.id.emailInscription);
-        csp = (Spinner) findViewById(R.id.cspInscription);
         cp = (EditText) findViewById(R.id.cpInscription);
         dateNaiss = (DatePicker) findViewById(R.id.dtNaissInscription);
-
         //-----------------------------------------------------------------------------------------
 
-        Spinner spinnerSexeType = (Spinner) findViewById(R.id.genreInscription);
+        genre = (Spinner) findViewById(R.id.genreInscription);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterSexeType = ArrayAdapter.createFromResource(this,
                 R.array.sexetype_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapterSexeType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinnerSexeType.setAdapter(adapterSexeType);
+        genre.setAdapter(adapterSexeType);
 
-        Spinner spinnerSocialStatut = (Spinner) findViewById(R.id.cspInscription);
+        genre.setOnItemSelectedListener(this);
+
+        csp = (Spinner) findViewById(R.id.cspInscription);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterSocialStatut = ArrayAdapter.createFromResource(this,
                 R.array.socialstatut_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapterSocialStatut.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinnerSocialStatut.setAdapter(adapterSocialStatut);
+        csp.setAdapter(adapterSocialStatut);
+
+        csp.setOnItemSelectedListener(this);
 
         retour = (Button) findViewById(R.id.buttonPreviousInscription);
         retour.setOnClickListener(new View.OnClickListener() {
@@ -110,22 +117,47 @@ public class Inscription extends Activity {
 
         //-------------------------------------------------------------------------------------
 
+
+        //-------------------------------------------------------------------------------------
+
+        if(genre.equals("Genre..."))
+        { Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show(); }
+
+        if(genre.equals("Catégorie social..."))
+        { Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show(); }
+
         // lier les infos du formulaire à des variables et les insérer dans une méthode requête add
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        TextView mytext =(TextView) view;
+
+        Toast.makeText(Inscription.this, "ma selection" + mytext.getText(), Toast.LENGTH_SHORT).show();
+
+        if(genre.equals("Genre..."))
+        { Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show(); }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     private ConsommateurMetier inscriptionSQLite() {
 
         consommateur = new ConsommateurMetier();
 
-        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+       dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
         // récupération des données du formulaire pour la base SQLite
         consommateur.setNom(nom.getText().toString());
         consommateur.setPrenom(prenom.getText().toString());
-        consommateur.setGenre(String.valueOf(genre.getOnItemSelectedListener()));
+        consommateur.setGenre(genre.getSelectedItem().toString());
         consommateur.setTel(tel.getText().toString());
         consommateur.setEmail(email.getText().toString());
-        consommateur.setCatsocpf(String.valueOf(csp.getOnItemSelectedListener()));
+        consommateur.setCatsocpf(csp.getSelectedItem().toString());
         consommateur.setCdpostal(cp.getText().toString());
         consommateur.setDtnaiss(dtNaiss);
 
@@ -254,4 +286,5 @@ public class Inscription extends Activity {
 
         valider.setEnabled(true);
     }
+
 }

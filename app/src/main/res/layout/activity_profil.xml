@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin"
-    tools:context=".Profil"
-    android:background="@drawable/wallpaper">
+    android:background="@drawable/wallpaper2">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre nom : obligis"
-        android:id="@+id/nomProfil"
-        android:layout_alignLeft="@+id/emailProfil"
-        android:layout_alignStart="@+id/emailProfil"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/nomProfil"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre prenom : antoine"
         android:id="@+id/prenomProfil"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/nomProfil"
-        />
+        android:layout_alignLeft="@+id/nomProfil"
+        android:layout_alignStart="@+id/nomProfil" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre email : antoine.obligis@gmail.com"
         android:id="@+id/emailProfil"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/prenomProfil" />
+        android:layout_marginTop="15dp"
+       android:layout_below="@+id/prenomProfil"
+        android:layout_alignLeft="@+id/prenomProfil"
+        android:layout_alignStart="@+id/prenomProfil"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre date de naissance : 31/07/1989"
         android:id="@+id/dtNaissProfil"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/emailProfil"
         android:layout_alignLeft="@+id/emailProfil"
         android:layout_alignStart="@+id/emailProfil" />
@@ -51,9 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Vous êtes un Homme"
         android:id="@+id/genreProfil"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/dtNaissProfil"
         android:layout_alignLeft="@+id/dtNaissProfil"
         android:layout_alignStart="@+id/dtNaissProfil" />
@@ -62,9 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre numéro de tél : 06.65.10.41.88"
         android:id="@+id/telProfil"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/genreProfil"
         android:layout_alignLeft="@+id/genreProfil"
         android:layout_alignStart="@+id/genreProfil" />
@@ -73,9 +66,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre situation social : Etudiant"
         android:id="@+id/cspProfil"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/telProfil"
         android:layout_alignLeft="@+id/telProfil"
         android:layout_alignStart="@+id/telProfil" />
@@ -84,9 +76,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Votre code postal : 37270"
         android:id="@+id/cpProfil"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/cspProfil"
         android:layout_alignLeft="@+id/cspProfil"
         android:layout_alignStart="@+id/cspProfil" />
@@ -96,21 +87,22 @@
         android:layout_height="wrap_content"
         android:text="@string/Modified"
         android:id="@+id/buttonModifierProfil"
-        android:layout_above="@+id/buttonSupprimerProfil"
+        android:layout_below="@+id/cpProfil"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="35dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Delete"
         android:id="@+id/buttonSupprimerProfil"
+        android:layout_below="@+id/buttonModifierProfil"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

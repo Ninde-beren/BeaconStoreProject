@@ -45,7 +45,7 @@ public class ConsommateurDAO extends DAOBase {
 
     public ConsommateurMetier getConsommateur( long id) {
 
-        //TODO selectionner la banniere pour l'activity consommateur
+        //TODO selectionner le consomateur
 
         String query = "SELECT " + DatabaseHelper.COLUMN_IDCONSO + ", "
                                  + DatabaseHelper.COLUMN_NOM     + ", "

@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -43,12 +44,17 @@
         <activity android:name=".activites.Login2.LoginActivity" />
         <activity android:name=".activites.Inscription" />
         <activity android:name=".activites.Profil" />
+        <activity android:name=".activites.ModifierProfil" />
         <activity android:name=".activites.Avis" />
         <activity android:name=".activites.Panier" />
-        <activity android:name=".activites.PromoBanniere" />
-        <activity android:name=".activites.ListPromoBeaconActivity"/>
-        <activity android:name=".activites.ListPromoBanniere"/>
-
+        <activity android:name=".activites.ListPromoBanniere" />
+        <activity
+            android:name=".activites.PromoBanniere"
+            android:parentActivityName=".activites.ListPromoBanniere" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activites.ListPromoBeaconActivity"/>
+        </activity>
         <activity
             android:name=".activites.PromoBeaconActivity"
             android:parentActivityName=".activites.ListPromoBeaconActivity" >

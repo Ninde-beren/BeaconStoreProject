@@ -59,14 +59,14 @@ public class Profil extends Activity {
         cp        = (TextView) findViewById(R.id.cpProfil);
         dtNaiss   = (TextView) findViewById(R.id.dtNaissProfil);
 
-        nom.setText(    consommateur.getNom());
-        prenom.setText( consommateur.getPrenom());
-        genre.setText(  consommateur.getGenre());
-        tel.setText(    consommateur.getTel());
-        email.setText(  consommateur.getEmail());
-        csp.setText(    consommateur.getCatsocpf());
-        cp.setText(     consommateur.getCdpostal());
-        dtNaiss.setText(consommateur.getDtnaiss());
+        nom.setText(   "Nom :"                  + consommateur.getNom());
+        prenom.setText( "Prénom :"              + consommateur.getPrenom());
+        genre.setText(  "Genre :"               + consommateur.getGenre());
+        tel.setText(    "Tél :"                 + consommateur.getTel());
+        email.setText(  "E-mail :"              + consommateur.getEmail());
+        csp.setText(    "Catégorie social :\n"  + consommateur.getCatsocpf());
+        cp.setText(     "Code postal :"         + consommateur.getCdpostal());
+        dtNaiss.setText("Date de naissance :\n" + consommateur.getDtnaiss());
 
         //-------------------------------------------------------------------------------------
 

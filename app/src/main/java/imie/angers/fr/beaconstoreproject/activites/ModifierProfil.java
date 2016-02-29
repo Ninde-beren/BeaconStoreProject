@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import imie.angers.fr.beaconstoreproject.utils.DoRequest;
  * Created by Ninde on 27/02/2016.
  */
 public class ModifierProfil extends Activity{
+
     private EditText nom;
     private EditText prenom;
     private Spinner genre;
@@ -62,32 +64,30 @@ public class ModifierProfil extends Activity{
 
         nom = (EditText) findViewById(R.id.nomInscription);
         prenom = (EditText) findViewById(R.id.prenomInscription);
-        genre = (Spinner) findViewById(R.id.genreInscription);
         tel = (EditText) findViewById(R.id.telInscription);
         email = (EditText) findViewById(R.id.emailInscription);
-        csp = (Spinner) findViewById(R.id.cspInscription);
         cp = (EditText) findViewById(R.id.cpInscription);
         dateNaiss = (DatePicker) findViewById(R.id.dtNaissInscription);
 
         //-----------------------------------------------------------------------------------------
 
-        Spinner spinnerSexeType = (Spinner) findViewById(R.id.genreInscription);
+        genre = (Spinner) findViewById(R.id.genreInscription);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterSexeType = ArrayAdapter.createFromResource(this,
                 R.array.sexetype_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapterSexeType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinnerSexeType.setAdapter(adapterSexeType);
+        genre.setAdapter(adapterSexeType);
 
-        Spinner spinnerSocialStatut = (Spinner) findViewById(R.id.cspInscription);
+        csp = (Spinner) findViewById(R.id.cspInscription);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterSocialStatut = ArrayAdapter.createFromResource(this,
                 R.array.socialstatut_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapterSocialStatut.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinnerSocialStatut.setAdapter(adapterSocialStatut);
+        csp.setAdapter(adapterSocialStatut);
 
         annuler = (Button) findViewById(R.id.buttonPreviousInscription);
         annuler.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +109,17 @@ public class ModifierProfil extends Activity{
                 modifierProfilAPI(); // appelle de la méthode inscription dans la base SQlite
             }
         });
+
+        //-------------------------------------------------------------------------------------
+
+        nom.setText(   "Nom :"                  + consommateur.getNom());
+        prenom.setText("Prénom :" + consommateur.getPrenom());
+        genre.setPrompt("Genre :" + consommateur.getGenre());
+        tel.setText("Tél :" + consommateur.getTel());
+        email.setText("E-mail :" + consommateur.getEmail());
+        csp.setPrompt("Catégorie social :\n" + consommateur.getCatsocpf());
+        cp.setText("Code postal :" + consommateur.getCdpostal());
+        //dateNaiss.setText("Date de naissance :\n%s", consommateur.getDtnaiss());
 
         //-------------------------------------------------------------------------------------
 

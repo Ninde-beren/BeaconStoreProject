@@ -20,6 +20,7 @@ public class Preload extends Activity {
     private PromoBeaconDAO promoBeaconDAO;
 
     private Boolean requete;
+    private long lastInsertId;
 
     private AndrestClient rest = new AndrestClient();
     private String url = "http://beaconstore.ninde.fr/serverRest.php/promobanniere?";
@@ -59,6 +60,8 @@ public class Preload extends Activity {
 
                     //Parcours de notre objet JSON (plusieurs promotions)
 
+                    promoBanniereDAO.deleteTablePromoBanniere();
+
                     for (int i = 0; i < jsonSize; i++) {
 
                         JSONObject jobj = null;
@@ -83,11 +86,11 @@ public class Preload extends Activity {
 
                         //Enregistrement base SQLite
 
-                        promoBanniereDAO.addPromoBanniere(promo);
-
-                        requete =  true;
+                        lastInsertId = promoBanniereDAO.addPromoBanniere(promo);
 
                     }
+
+                    requete =  true;
 
                 } catch (RESTException e1) {
 

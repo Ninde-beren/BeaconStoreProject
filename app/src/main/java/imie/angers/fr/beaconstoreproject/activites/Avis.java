@@ -1,76 +1,115 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.ActionBar;
+
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import java.util.HashMap;
+import java.util.Map;
 import imie.angers.fr.beaconstoreproject.R;
+import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
+import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
+import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
+import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
 public class Avis extends Activity {
 
-    //dfbcvnbnvbnfnfnchgnnfnfgngfnfcgn
+    private AndrestClient rest;
+    private ConsommateurDAO consommateurDAO;
 
     private static Button btn_submit;
     private static RatingBar Avis_mag;
     private static RatingBar Avis_promo;
-    private static TextView texttestmag;
-    private static TextView texttestpromo;
+    private float noteMag;
+
+    private static String url = "http://beaconstore.ninde.fr/serverRest.php/note";
+
+    private int magId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avis);
 
+        consommateurDAO = new ConsommateurDAO(this);
+        consommateurDAO.open();
+
+        Avis_mag = (RatingBar) findViewById(R.id.ratingBarMag);
+        Avis_promo = (RatingBar) findViewById(R.id.ratingBarPromo);
+        btn_submit = (Button) findViewById(R.id.buttonValideavis);
+
+        rest = new AndrestClient();
+
+        Intent i = getIntent();
+        magId = i.getIntExtra("magId", 0);
+
         ListenerOnRatingBar();
         ListenerOnButton();
-
     }
 
     public void ListenerOnRatingBar(){
 
-    Avis_mag = (RatingBar) findViewById(R.id.ratingBarMag);
-    Avis_promo = (RatingBar) findViewById(R.id.ratingBarPromo);
-    btn_submit = (Button) findViewById(R.id.buttonValideavis);
-    texttestmag = (TextView)findViewById(R.id.resultmag);
-    texttestpromo =(TextView)findViewById(R.id.resultpromo);
-
         Avis_mag.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-                texttestmag.setText(String.valueOf(rating));
-            }
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {}
 
         });
 
         Avis_promo.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-                texttestpromo.setText(String.valueOf(rating));
+                noteMag = rating;
             }
-
         });
     }
 
     public void ListenerOnButton() {
 
-        Avis_mag = (RatingBar) findViewById(R.id.ratingBarMag);
-        Avis_promo = (RatingBar) findViewById(R.id.ratingBarPromo);
-
-        btn_submit = (Button) findViewById(R.id.buttonValideavis);
         btn_submit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-              Toast.makeText(Avis.this, String.valueOf(Avis_mag.getRating()), Toast.LENGTH_LONG).show();
+
+                final Map<String, Object> toPost = new HashMap<String, Object>();
+                toPost.put("noteMag", noteMag);
+                toPost.put("magId", magId);
+
+                //execution de la requête POST (cf API) en arrière plan dans un autre thread
+                new DoRequest(Avis.this, toPost, "POST", url) {
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+
+
+                        Log.i("url note", url);
+
+                        try {
+
+                            rest.post(url, toPost);
+
+                        } catch (RESTException e1) {
+
+                            e1.printStackTrace();
+                        }
+
+                        return true;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean data) {
+                        super.onPostExecute(data);
+
+                        if(data) {
+
+                            Toast.makeText(getBaseContext(), "Votre avis à bien été pris enregistré", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }.execute();
             }
         });
     }

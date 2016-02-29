@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
 
 import java.util.concurrent.ExecutionException;
 
@@ -26,7 +27,17 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
  * Utilisation du sample notification proposé par google
  * Created by plougastel.dl03 on 11/02/2016.
  */
-public class Notification extends Activity {
+public class Notification {
+
+    public static long notification_id;
+    private PromoBeaconDAO promoBeaconDAO;
+    private PromoBeaconMetier promoMetier;
+    private long lastIdInsert;
+
+    public Notification(long lastId){
+        this.lastIdInsert = lastId;
+        notification_id = lastId;
+    }
 
     /**
      * A numeric value that identifies the notification that we'll be sending.
@@ -34,14 +45,10 @@ public class Notification extends Activity {
      * unique system-wide.
      */
 
-    public static long notification_id;
-    private PromoBeaconDAO promoBeaconDAO;
-    private PromoBeaconMetier promoMetier;
-    private long lastIdInsert;
 
-    public void onCreate(Bundle savedInstanceState) {
+    /*public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.notification);
+        //setContentView(null);
 
         promoMetier = new PromoBeaconMetier();
 
@@ -73,8 +80,9 @@ public class Notification extends Activity {
         Log.i("hello", "hello");
         Log.i("PromoBeacon0", promoMetier.getTxtPromo());
 
-        sendNotification(promoMetier);
-    }
+       sendNotification();
+        finish();
+    }*/
 
 
 
@@ -82,22 +90,39 @@ public class Notification extends Activity {
      * Send a sample notification using the NotificationCompat API.
      */
 
-    public void sendNotification(PromoBeaconMetier promoMetier) { //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
+    public void sendNotification(Context context) { //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link android.app.PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(this, PromoBeaconActivity.class);
+        promoBeaconDAO = new PromoBeaconDAO(context);
+        promoBeaconDAO.open();
+
+        try {
+
+            promoMetier = new getPromoForNotif().execute().get(); //retourne une instance de l'objet PromotionMetier
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(context, PromoBeaconActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("promoBeacon", promoMetier);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /**
          * Use NotificationCompat.Builder to set up our notification.
          */
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         /** Set the icon that will appear in the notification bar. This icon also appears
          * in the lower right hand corner of the notification itself.
@@ -124,7 +149,7 @@ public class Notification extends Activity {
          * reasonable default if you don't have anything more compelling to use as an icon.
          */
 
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
         //builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.promoMetier.getImageoff()));
 
         /**
@@ -145,7 +170,7 @@ public class Notification extends Activity {
          * Send the notification. This will immediately display the notification icon in the
          * notification bar.
          */
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify((int) notification_id, builder.build());
     }
 

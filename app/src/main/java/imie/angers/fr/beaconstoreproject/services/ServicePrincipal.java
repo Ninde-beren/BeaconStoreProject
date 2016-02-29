@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import imie.angers.fr.beaconstoreproject.activites.Avis;
 import imie.angers.fr.beaconstoreproject.activites.Notification;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
@@ -49,7 +51,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
     //private NotificationDAO notificationDAO = new NotificationDAO(this);
     private PromoBeaconDAO promoBeaconDAO;
 
-    private AndrestClient rest = new AndrestClient();
+    private AndrestClient rest;
     private String url = "http://beaconstore.ninde.fr/serverRest.php/notifications?";
 
     //booleen permettant de savoir si les requête envoyée par l'API ont bien fonctionnées
@@ -63,9 +65,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
     private BeaconMetier beaconVu = new BeaconMetier();
 
-    //email de l'utilisateur
-    private String emailConso;
-
     @Override
     public void onCreate() {
 
@@ -77,6 +76,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
+
+        rest = new AndrestClient();
 
         listBeacons = new ArrayList<>();
 
@@ -181,13 +182,14 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         } else if(beaconNonVu && beaconDejaVu.getIdPromo() != 0) {
 
-                            Log.i("idBeaconDejavu", String.valueOf(beaconDejaVu.getIdPromo()));
+                            Notification notif = new Notification(beaconDejaVu.getIdPromo());
+                            notif.sendNotification(ServicePrincipal.this);
 
-                            Intent intent = new Intent(ServicePrincipal.this, Notification.class);
+                            /*Intent intent = new Intent(ServicePrincipal.this, Notification.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.putExtra("lastIdInsert", beaconDejaVu.getIdPromo()); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
 
-                            startActivity(intent); //Activiation de l'activité
+                            startActivity(intent); //Activiation de l'activité*/
                         }
                     }
                 }
@@ -207,8 +209,18 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
             @Override
             public void didExitRegion(Region region) {
+
                 Log.i(TAG, "I no longer see an beacon");
-                //stopSelf();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent i = new Intent(ServicePrincipal.this, Avis.class);
+                        i.putExtra("magId", listBeacons.get(0).getIdMagasin());
+                        startActivity(i);
+                    }
+                }, 900000);;
             }
 
             @Override
@@ -261,8 +273,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                 Log.i("url", url);
 
                 result = rest.request(url, method, data); // Do request - Envoi de la requête (API), réception des données (JSON)
-
-                Log.i("JSON", String.valueOf(result));
 
                 int jsonSize = result.length();
 
@@ -324,41 +334,19 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     if(data) {
 
-                    Log.i("salut", "salut");
+                        Notification notif = new Notification(insertId);
+                        notif.sendNotification(ServicePrincipal.this);
 
-                    Intent intent = new Intent(ServicePrincipal.this, Notification.class);
+                    /*Intent intent = new Intent(ServicePrincipal.this, Notification.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("lastIdInsert", insertId); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
 
-                    startActivity(intent); //Activiation de l'activité
+                    startActivity(intent); //Activiation de l'activité*/
                 }
 
                 //new ResponseDialog(context, "OK", e.getMessage()).showDialog();
                 Log.i("JSON2", data.toString());
             }
-        }
-    }
-
-    /**
-     * Permet de récupérer l'email de l'utilisateur en arrière plan
-     */
-    private class getEmailConso extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            //return notificationDAO.getEmailConso();
-
-            String result = "";
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            emailConso = result;
         }
     }
 }

@@ -74,7 +74,6 @@ public class PromoBeaconActivity extends AppCompatActivity {
             case android.R.id.home:
 
                 Intent i = new Intent(this, ListPromoBeaconActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                 startActivity(i);
         }

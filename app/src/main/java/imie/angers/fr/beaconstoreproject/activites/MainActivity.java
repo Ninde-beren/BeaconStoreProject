@@ -66,6 +66,7 @@ public class MainActivity extends TabActivity {
         menuOnglet.setCurrentTab(0);
 
         promoBeaconDAO = new PromoBeaconDAO(this);
+        promoBanniereDAO = new PromoBanniereDAO(this);
 
     }
 

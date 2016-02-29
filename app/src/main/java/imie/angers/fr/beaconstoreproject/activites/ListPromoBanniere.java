@@ -56,7 +56,7 @@ public class ListPromoBanniere extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_promo_beacon);
+        setContentView(R.layout.activity_liste_promo_banniere);
 
         verificationBluetoothDialog();
         remplirInfoDialog();
@@ -83,7 +83,7 @@ public class ListPromoBanniere extends Activity {
 
         PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.list);
+        ListView list = (ListView) findViewById(R.id.listpromobanniere);
         list.setAdapter(promoBanniereAdapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,9 +93,6 @@ public class ListPromoBanniere extends Activity {
 
                 // Sending image id to ImageSeule
                 PromoBanniereMetier BannierePromo = (PromoBanniereMetier) parent.getItemAtPosition(position);
-
-                Log.i("PromoBanniereMetier", "text :" + BannierePromo.getTxtBanniere());
-                Log.i("PromoBanniereMetier2", "titre " + BannierePromo.getTitrePromo());
 
                 Intent i = new Intent(getApplicationContext(), PromoBanniere.class);
                 // passing array index
@@ -124,7 +121,7 @@ public class ListPromoBanniere extends Activity {
 
         PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.list);
+        ListView list = (ListView) findViewById(R.id.listpromobanniere);
         list.setAdapter(promoBanniereAdapter);
 
     }

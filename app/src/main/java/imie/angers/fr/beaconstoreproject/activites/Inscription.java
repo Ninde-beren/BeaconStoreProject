@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,18 +29,19 @@ import java.util.Map;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
+import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
-public class Inscription extends Activity {
+public class Inscription extends AppCompatActivity {
 
-    private EditText email;
     private EditText mdp;
     private EditText nom;
     private EditText prenom;
     private Spinner genre;
     private EditText tel;
+    private EditText email;
     private Spinner csp;
     private EditText cp;
     private DatePicker dateNaiss;
@@ -51,6 +56,7 @@ public class Inscription extends Activity {
     private String cspAPI;
     private String cpAPI;
     private String dtnaissAPI;
+    private String adressmacAPI;
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -79,8 +85,10 @@ public class Inscription extends Activity {
         nom = (EditText) findViewById(R.id.nomInscription);
         prenom = (EditText) findViewById(R.id.prenomInscription);
         tel = (EditText) findViewById(R.id.telInscription);
+        email = (EditText) findViewById(R.id.emailInscription);
         cp = (EditText) findViewById(R.id.cpInscription);
         dateNaiss = (DatePicker) findViewById(R.id.dtNaissInscription);
+
         //-----------------------------------------------------------------------------------------
 
         genre = (Spinner) findViewById(R.id.genreInscription);
@@ -101,25 +109,23 @@ public class Inscription extends Activity {
         // Apply the adapter to the spinner
         csp.setAdapter(adapterSocialStatut);
 
-        retour = (Button) findViewById(R.id.buttonPreviousInscription);
+        /*retour = (Button) findViewById(R.id.buttonPreviousInscription);
         retour.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(nextScreen);
             }
-        });
+        });*/
 
         valider = (Button) findViewById(R.id.buttonValiderInscription);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                    Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
-                    startActivity(nextScreen);
-                    //On ecoute les clique sur le bouton login
-                    consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
-                    consommateurDAO.addConsommateur(consommateur);
-                    inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
+                inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
 
+                Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
+                nextScreen.putExtra("id", 3);
+                startActivity(nextScreen);
             }
         });
     }
@@ -130,14 +136,15 @@ public class Inscription extends Activity {
 
         consommateur = new ConsommateurMetier();
 
-       dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
-        // récupération des données du formulaire pour la base SQLite
+        //récupération des données du formulaire pour la base SQLite
 
         consommateur.setEmail(email.getText().toString());
         consommateur.setPassword(mdp.getText().toString());
         consommateur.setNom(nom.getText().toString());
         consommateur.setPrenom(prenom.getText().toString());
+
         if(genre.getSelectedItem().toString().equals("Genre..."))
         {consommateur.setGenre("");}
         else{consommateur.setGenre(genre.getSelectedItem().toString());}
@@ -154,10 +161,26 @@ public class Inscription extends Activity {
 
     private void inscriptionAPI() {
 
-        dtNaiss  = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+        dtNaiss  = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
 
-        // récupération des données du formulaire pour la base API
-        emailAPI    = email.getText().toString();
+        emailAPI = consommateur.getEmail();
+        mdpAPI = consommateur.getPassword();
+        nomAPI = consommateur.getNom();
+        prenomAPI = consommateur.getPrenom();
+        genreAPI = consommateur.getGenre();
+        telAPI = consommateur.getTel();
+        cspAPI = consommateur.getCatsocpf();
+        cpAPI = consommateur.getCdpostal();
+        dtnaissAPI = consommateur.getDtnaiss();
+
+        WifiManager mana = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = mana.getConnectionInfo();
+        String mac = info.getMacAddress();
+
+        adressmacAPI = mac == null ? null : mac;
+
+        //récupération des données du formulaire pour la base API
+        /*emailAPI    = email.getText().toString();
         mdpAPI      = mdp.getText().toString();
         nomAPI      = nom.getText().toString();
         prenomAPI   = prenom.getText().toString();
@@ -165,7 +188,7 @@ public class Inscription extends Activity {
         telAPI      = tel.getText().toString();
         cspAPI      = String.valueOf(csp.getSelectedItem().toString());
         cpAPI       = cp.getText().toString();
-        dtnaissAPI  = dtNaiss;
+        dtnaissAPI  = dtNaiss;*/
 
         valider.setEnabled(false);
 
@@ -176,16 +199,15 @@ public class Inscription extends Activity {
         progressDialog.show();
 
         Map<String, Object> toPost = new HashMap<String, Object>();
-        toPost.put("email", emailAPI);
-        toPost.put("password", mdpAPI);
-        //TODO recuperer l'adresse mac
         toPost.put("nom", nomAPI);
         toPost.put("prenom", prenomAPI);
+        toPost.put("email", emailAPI);
         toPost.put("sexe", genreAPI);
         toPost.put("tel", telAPI);
         toPost.put("catsocpf", cspAPI);
         toPost.put("cdpostal", cpAPI);
         toPost.put("dtnaiss", dtnaissAPI);
+        toPost.put("adrmac", adressmacAPI);
 
         Log.i("toPost", "param du conso : " + toPost);
 
@@ -203,6 +225,9 @@ public class Inscription extends Activity {
             @Override
             protected Boolean doInBackground(Void... params) {
 
+                consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
+                consommateurDAO.addConsommateur(consommateur);
+
                 try {
 
                     Log.i("url", url);
@@ -211,27 +236,27 @@ public class Inscription extends Activity {
 
                     Log.i("JSON", String.valueOf(result));
 
-                    if (result.getString("success").equals("1")) {
-
-                        requete = true;
+                    requete = true;
 
                         //Toast "Merci est bienvenue"
                         Toast.makeText(context, "Merci et bienvenue", Toast.LENGTH_SHORT).show();
 
+                    } catch (RESTException e1) {
 
-                    } else {
+                    e1.printStackTrace();
 
-                        requete = false;
+                    //Toast "Dsl vous n'avons pas pu vous s'inscrire".
+                    Toast.makeText(context, "Dsl vous n'avons pas pu vous s'inscrire", Toast.LENGTH_SHORT).show();
 
-                        Log.i("requete", String.valueOf(requete));
-
-                        //Toast "Dsl vous n'avons pas pu vous s'inscrire".
-                        Toast.makeText(context, "Dsl vous n'avons pas pu vous s'inscrire", Toast.LENGTH_SHORT).show();
-
-                    }
+                    requete = false;
 
                 } catch (Exception e) {
                     this.e = e;    // Store error
+
+                    //Toast "Dsl vous n'avons pas pu vous s'inscrire".
+                    Toast.makeText(context, "Dsl vous n'avons pas pu vous s'inscrire", Toast.LENGTH_SHORT).show();
+
+                    requete = false;
                 }
 
                 return requete;
@@ -246,6 +271,7 @@ public class Inscription extends Activity {
                 if (e != null) {
 
                     Log.i("We found an error!", e.getMessage());
+
                     requete = false;
 
                 } else {
@@ -255,8 +281,9 @@ public class Inscription extends Activity {
                         Log.i("salut", "salut");
 
                         onInscriptionSuccess();
-                        Intent intent = new Intent(Inscription.this, ListPromoBanniere.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        Intent intent = new Intent(Inscription.this, MainActivity.class);
+                        intent.putExtra("id", 3);
                         startActivity(intent); //Activiation de l'activité
 
                     } else {

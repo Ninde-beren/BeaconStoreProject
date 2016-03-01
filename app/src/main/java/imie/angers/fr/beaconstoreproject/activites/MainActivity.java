@@ -33,6 +33,8 @@ public class MainActivity extends TabActivity {
 
     private TabHost menuOnglet;
 
+    private ConsommateurMetier consommateur;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,8 @@ public class MainActivity extends TabActivity {
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBanniereDAO = new PromoBanniereDAO(this);
+
+        consommateur = new ConsommateurMetier();
 
         // récupérer le statut de la session user
 
@@ -68,7 +72,7 @@ public class MainActivity extends TabActivity {
 
         //on ajoute le reste des onglets
 
-        if(logger==0){
+        if(logger == -1){
             Intent intent2 = new Intent().setClass(this, LoginActivity.class);
             menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Connexion").setContent(intent2));
         }else {
@@ -100,27 +104,9 @@ public class MainActivity extends TabActivity {
 
         verificationBluetoothDialog();
 
-        if(logger!=0){remplirInfoDialog(logger);}
+        if(logger != -1){remplirInfoDialog(logger);}
 
     }
-
-    @Override
-     protected void onDestroy() {
-        super.onDestroy();
-        //promoBeaconDAO.open();
-        //promoBeaconDAO.deleteTablePromoBeacon();
-        promoBanniereDAO.open();
-        promoBanniereDAO.deleteTablePromoBanniere();
-    }
-
-    /*@Override
-    protected void onStop() {
-        super.onStop();
-        promoBeaconDAO.open();
-        promoBeaconDAO.deleteTablePromoBeacon();
-        promoBanniereDAO.open();
-        promoBanniereDAO.deleteTablePromoBanniere();
-    }*/
 
     private void verificationBluetoothDialog() {
 
@@ -159,43 +145,37 @@ public class MainActivity extends TabActivity {
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
 
-        ConsommateurMetier consommateur = new ConsommateurMetier();
+        consommateur = consommateurDAO.getConsommateur(id);
 
-            consommateur = consommateurDAO.getConsommateur(id);
+        if (consommateur.getNom().equals(null) || consommateur.getPrenom().equals(null) || consommateur.getGenre().equals(null) || consommateur.getTel().equals(null) || consommateur.getDtnaiss().equals(null) || consommateur.getCdpostal().equals(null) || consommateur.getCatsocpf().equals(null)) {
 
-            if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
-
-                AlertDialog.Builder infos;
-                infos = new AlertDialog.Builder(this);
-                infos.setTitle("Information");
-                infos.setIcon(R.drawable.ic_launcher);
-                infos.setMessage("Vous n'avez pas remplis tous les champs lors de votre inscription.\n Les remplir maintenant ?");
+            AlertDialog.Builder infos;
+            infos = new AlertDialog.Builder(this);
+            infos.setTitle("Information");
+            infos.setIcon(R.drawable.ic_launcher);
+            infos.setMessage("Vous n'avez pas remplis tous les champs lors de votre inscription.\n Les remplir maintenant ?");
 
 
-                infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
 
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent nextScreen = new Intent(getApplicationContext(), Inscription.class);
-                                startActivity(nextScreen);
-                            }
-                       }
-                );
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent nextScreen = new Intent(getApplicationContext(), Inscription.class);
+                            startActivity(nextScreen);
+                        }
+                   }
+            );
 
-                infos.setNeutralButton("Ignorer", new DialogInterface.OnClickListener() {
+            infos.setNeutralButton("Ignorer", new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
-                infos.show();
-            }
+            infos.show();
+        }
 
         return null;
-    }
-
-    public void switchTab(int tab){
-        menuOnglet.setCurrentTab(tab);
     }
 
     @Override
@@ -212,6 +192,9 @@ public class MainActivity extends TabActivity {
                 break;
             case 2 :
                 menuOnglet.setCurrentTab(0);
+                break;
+            case 3 :
+                menuOnglet.setCurrentTab(1);
                 break;
             default:
                 menuOnglet.setCurrentTab(0);

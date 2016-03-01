@@ -79,30 +79,6 @@ public class ListPromoBanniere extends Activity {
         });
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-
-        try {
-
-            listPromoBanniere = new getPromoBanniere().execute().get();
-
-        } catch (InterruptedException e) {
-
-            e.printStackTrace();
-
-        } catch (ExecutionException e) {
-
-            e.printStackTrace();
-        }
-
-        PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
-
-        ListView list = (ListView) findViewById(R.id.listpromobanniere);
-        list.setAdapter(promoBanniereAdapter);
-
-    }*/
-
     private class getPromoBanniere extends AsyncTask<Void, List<PromoBanniereMetier>, List<PromoBanniereMetier>> {
 
         @Override

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,7 @@ import imie.angers.fr.beaconstoreproject.utils.DoRequest;
  * Classe permettant de vérifier les informations de connexion d'un consommateur
  * Created by plougastel.dl03 on 23/02/2016.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -159,7 +160,6 @@ public class LoginActivity extends Activity {
                         long consoId = consommateurDAO.addConsommateur(conso);
 
                         SessionManager session = new SessionManager(LoginActivity.this);
-
                         session.createConsoSession(consoId, result.getString("nom"), result.getString("prenom"));
 
                     } else {
@@ -191,12 +191,13 @@ public class LoginActivity extends Activity {
 
                     if (data) {
 
-                        Log.i("salut", "salut");
-
                         onLoginSuccess();
-                        Intent intent = new Intent(LoginActivity.this, ListPromoBanniere.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("lastIdInsert", conso); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //intent.putExtra("lastIdInsert", conso); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
+
+                        intent.putExtra("id", 2);
 
                         startActivity(intent); //Activiation de l'activité
 

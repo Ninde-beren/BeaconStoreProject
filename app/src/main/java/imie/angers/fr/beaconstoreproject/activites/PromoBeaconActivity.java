@@ -77,8 +77,6 @@ public class PromoBeaconActivity extends AppCompatActivity {
                 i.putExtra("id", 1);
                 startActivity(i);
         }
-
-                return true;
-
+        return true;
     }
 }

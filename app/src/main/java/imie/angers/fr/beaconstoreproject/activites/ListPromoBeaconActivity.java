@@ -1,13 +1,18 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,23 +29,24 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
  * Created by Anne on 22/02/2016.
  */
 
-public class ListPromoBeaconActivity extends AppCompatActivity {
+public class ListPromoBeaconActivity extends Activity {
 
     private PromoBeaconDAO promoBeaconDAO;
     protected List<PromoBeaconMetier> listPromoBeacon;
     private PromoBeaconAdapter promoBeaconAdapter;
     private ListView list;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_liste_promo_beacon);
 
         Log.i("listBeacon", "bienvenue");
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
-
 
         try {
 
@@ -56,10 +62,12 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
+        promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>)listPromoBeacon);
 
-        list = (ListView) findViewById(R.id.list);
+        list =(ListView) findViewById(R.id.list);
+
         list.setAdapter(promoBeaconAdapter);
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -77,33 +85,9 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onNavigateUpFromChild(Activity child) {
-
-        try {
-
-            listPromoBeacon = new getPromoBeacon().execute().get();
-
-            Log.i("Etat1", "onNavigateUpFromChild");
-
-        } catch (InterruptedException e) {
-
-            e.printStackTrace();
-
-        } catch (ExecutionException e) {
-
-            e.printStackTrace();
-        }
-
-        list.setAdapter(promoBeaconAdapter);
-
-        return super.onNavigateUpFromChild(child);
-
-    }
-
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         try {
@@ -124,7 +108,7 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
 
         try {
@@ -145,7 +129,7 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
+    public void onRestart() {
         super.onRestart();
 
         try {

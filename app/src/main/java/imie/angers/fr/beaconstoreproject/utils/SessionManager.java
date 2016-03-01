@@ -77,7 +77,10 @@ public class SessionManager {
         return user;
     }
 
-    public long getIdC(){return pref.getLong(CONSO_ID, 0);}
+    public long getIdC(){
+
+        return pref.getLong(CONSO_ID, -1);
+    }
 
     public String getNomC(){return pref.getString(CONSO_NOM, null);}
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
@@ -28,7 +29,9 @@ public class Profil extends Activity {
     private ConsommateurDAO consommateurDAO;
 
     private Button modifier;
-    private Button supprimer;
+    private Button deconnexion;
+
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +41,15 @@ public class Profil extends Activity {
         // Récupération des infos dans la base et les lier avec les vues
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
+
         consommateur = new ConsommateurMetier();
 
         //TODO verifier la session user
 
         SessionManager user = new SessionManager(Profil.this);
+        id= user.getIdC();
 
-        long id= Long.parseLong(String.valueOf(user.getIdC()));
-
-            consommateur = consommateurDAO.getConsommateur(id);
+        consommateur = consommateurDAO.getConsommateur(id);
        // }
 
         //Log.i("consomateur :", consommateur.toString());
@@ -62,7 +65,7 @@ public class Profil extends Activity {
         cp        = (TextView) findViewById(R.id.cpProfil);
         dtNaiss   = (TextView) findViewById(R.id.dtNaissProfil);
 
-        nom.setText(   "Nom :"                  + consommateur.getNom());
+        nom.setText(    "Nom :"                  + consommateur.getNom());
         prenom.setText( "Prénom :"              + consommateur.getPrenom());
         genre.setText(  "Genre :"               + consommateur.getGenre());
         tel.setText(    "Tél :"                 + consommateur.getTel());
@@ -82,15 +85,20 @@ public class Profil extends Activity {
             }
        });
 
-        supprimer = (Button) findViewById(R.id.buttonSupprimerProfil);
-        supprimer.setOnClickListener(new View.OnClickListener() {
+        deconnexion = (Button) findViewById(R.id.buttonDeconnexionProfil);
+        deconnexion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                consommateurDAO.deleteConso(1);
+                int nb = consommateurDAO.deleteConso(id);
 
-                Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(nextScreen);
+                if(nb > 0) {
 
+                    Toast.makeText(Profil.this, "Vous êtes maintenant déconnecté(e)", Toast.LENGTH_SHORT).show();
+
+                    Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
+                    nextScreen.putExtra("id", 2);
+                    startActivity(nextScreen);
+                }
             }
         });
     }

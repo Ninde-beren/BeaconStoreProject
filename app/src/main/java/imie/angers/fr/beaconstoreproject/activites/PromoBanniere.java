@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,7 +14,7 @@ import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
-public class PromoBanniere extends Activity {
+public class PromoBanniere extends AppCompatActivity {
 
     private TextView titre;
     private TextView lbpromo;
@@ -49,5 +50,18 @@ public class PromoBanniere extends Activity {
         dateFinPromo.setText(promoBanniere.getDtfinval());
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageart()));
         txtPromo.setText(promoBanniere.getTxtBanniere());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("id", 2);
+                startActivity(i);
+        }
+        return true;
     }
 }

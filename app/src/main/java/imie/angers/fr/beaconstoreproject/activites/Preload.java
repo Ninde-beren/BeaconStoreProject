@@ -129,13 +129,12 @@ public class Preload extends Activity {
         }, 2000);*/
     }
 
-
-    /*@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("preload", "onDistroy");
         promoBeaconDAO.deleteTablePromoBeacon();
-        promoBanniereDAO.deleteTablePromoBanniere();
-    }*/
+    }
 
     private void nextpage() {
         Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);

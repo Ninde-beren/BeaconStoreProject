@@ -31,17 +31,26 @@ import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
 public class Inscription extends Activity {
 
+    private EditText email;
+    private EditText mdp;
     private EditText nom;
     private EditText prenom;
     private Spinner genre;
     private EditText tel;
-    private EditText email;
     private Spinner csp;
     private EditText cp;
     private DatePicker dateNaiss;
     private String dtNaiss;
 
-
+    private String emailAPI;
+    private String mdpAPI;
+    private String nomAPI;
+    private String prenomAPI;
+    private String genreAPI;
+    private String telAPI;
+    private String cspAPI;
+    private String cpAPI;
+    private String dtnaissAPI;
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -65,10 +74,11 @@ public class Inscription extends Activity {
 
         //-----------------------------------------------------------------------------------------
 
+        email = (EditText) findViewById(R.id.emailInscription);
+        mdp = (EditText) findViewById(R.id.passwordInscription);
         nom = (EditText) findViewById(R.id.nomInscription);
         prenom = (EditText) findViewById(R.id.prenomInscription);
         tel = (EditText) findViewById(R.id.telInscription);
-        email = (EditText) findViewById(R.id.emailInscription);
         cp = (EditText) findViewById(R.id.cpInscription);
         dateNaiss = (DatePicker) findViewById(R.id.dtNaissInscription);
         //-----------------------------------------------------------------------------------------
@@ -123,15 +133,18 @@ public class Inscription extends Activity {
        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
         // récupération des données du formulaire pour la base SQLite
+
+        consommateur.setEmail(email.getText().toString());
+        consommateur.setPassword(mdp.getText().toString());
         consommateur.setNom(nom.getText().toString());
         consommateur.setPrenom(prenom.getText().toString());
         if(genre.getSelectedItem().toString().equals("Genre..."))
-        {consommateur.setGenre(null);}
+        {consommateur.setGenre("");}
         else{consommateur.setGenre(genre.getSelectedItem().toString());}
         consommateur.setTel(tel.getText().toString());
-        consommateur.setEmail(email.getText().toString());
+
         if(csp.getSelectedItem().toString().equals("Catégorie social..."))
-        {consommateur.setCatsocpf(null);}
+        {consommateur.setCatsocpf("");}
         else{consommateur.setCatsocpf(csp.getSelectedItem().toString());}
         consommateur.setCdpostal(cp.getText().toString());
         consommateur.setDtnaiss(dtNaiss);
@@ -144,14 +157,15 @@ public class Inscription extends Activity {
         dtNaiss  = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
         // récupération des données du formulaire pour la base API
-        String nomAPI = nom.getText().toString();
-        String prenomAPI = prenom.getText().toString();
-        String genreAPI = String.valueOf(genre.getSelectedItem().toString());
-        String telAPI = tel.getText().toString();
-        String emailAPI =   email.getText().toString();
-        String cspAPI = String.valueOf(csp.getSelectedItem().toString());
-        String cpAPI = cp.getText().toString();
-        String dtnaissAPI = dtNaiss;
+        emailAPI    = email.getText().toString();
+        mdpAPI      = mdp.getText().toString();
+        nomAPI      = nom.getText().toString();
+        prenomAPI   = prenom.getText().toString();
+        genreAPI    = String.valueOf(genre.getSelectedItem().toString());
+        telAPI      = tel.getText().toString();
+        cspAPI      = String.valueOf(csp.getSelectedItem().toString());
+        cpAPI       = cp.getText().toString();
+        dtnaissAPI  = dtNaiss;
 
         valider.setEnabled(false);
 
@@ -162,6 +176,9 @@ public class Inscription extends Activity {
         progressDialog.show();
 
         Map<String, Object> toPost = new HashMap<String, Object>();
+        toPost.put("email", emailAPI);
+        toPost.put("password", mdpAPI);
+        //TODO recuperer l'adresse mac
         toPost.put("nom", nomAPI);
         toPost.put("prenom", prenomAPI);
         toPost.put("sexe", genreAPI);

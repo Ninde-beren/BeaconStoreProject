@@ -77,25 +77,25 @@ public class ConsommateurDAO extends DAOBase {
         if (cursor.getCount() != 0) {
 
             consommateur.setIdConso(cursor.getInt(0));
-            //Log.i("id conso :", consommateur.setIdConso(cursor.getInt(0)));
+            Log.i("id conso :", String.valueOf(cursor.getInt(0)));
             consommateur.setNom(cursor.getString(1));
-            //Log.i("Nom :", consommateur.setNom(cursor.getString(1)));
+            Log.i("Nom :", cursor.getString(1));
             consommateur.setPrenom(cursor.getString(2));
-            //Log.i("prenom :", consommateur.setPrenom(cursor.getString(2)));
+            Log.i("prenom :", cursor.getString(2));
             consommateur.setGenre(cursor.getString(3));
-            //Log.i("genre :", consommateur.setGenre(cursor.getString(3)));
+            Log.i("genre :", cursor.getString(3));
             consommateur.setTel(cursor.getString(4));
-            //Log.i("tel :", consommateur.setTel(cursor.getString(4)));
+            Log.i("tel :", cursor.getString(4));
             consommateur.setEmail(cursor.getString(5));
-            //Log.i("email :", consommateur.setEmail(cursor.getString(5)));
+            Log.i("email :", cursor.getString(5));
             consommateur.setPassword(cursor.getString(6));
-            //Log.i("password :", consommateur.setPassword(cursor.getString(6)));
+            Log.i("password :", cursor.getString(6));
             consommateur.setCatsocpf(cursor.getString(7));
-            //Log.i("cat social :", consommateur.setCatsocpf(cursor.getString(7)));
+            Log.i("cat social :", cursor.getString(7));
             consommateur.setCdpostal(cursor.getString(8));
-            //Log.i("code postal :", consommateur.setCdpostal(cursor.getString(8)));
+            Log.i("code postal :", cursor.getString(8));
             consommateur.setDtnaiss(cursor.getString(9));
-            //Log.i("date de naissance :", consommateur.setDtnaiss(cursor.getString(9)));
+            Log.i("date de naissance :", cursor.getString(9));
             Log.i("consommateur : ", String.valueOf(consommateur));
 
             //fermeture du cursor

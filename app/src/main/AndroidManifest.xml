@@ -47,7 +47,6 @@
         <activity android:name=".activites.Avis" />
         <activity android:name=".activites.Panier" />
         <activity android:name=".activites.ListPromoBanniere" />
-        <activity android:name=".activites.ListPromoBeaconActivity"/>
         <activity
             android:name=".activites.PromoBanniere"
             android:parentActivityName=".activites.ListPromoBanniere" >
@@ -55,6 +54,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activites.ListPromoBeaconActivity"/>
         </activity>
+
         <activity
             android:name=".activites.PromoBeaconActivity"
             android:parentActivityName=".activites.ListPromoBeaconActivity" >
@@ -62,6 +62,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activites.ListPromoBeaconActivity"/>
         </activity>
+
         <activity android:name=".activites.Login2.SignupActivity"/>
+
     </application>
 </manifest>

@@ -41,7 +41,7 @@ public class Profil extends Activity {
         //int user =1;
 
        // if(user==0){
-            long id =1;
+            long id =0;
 
             consommateur = consommateurDAO.getConsommateur(id);
        // }

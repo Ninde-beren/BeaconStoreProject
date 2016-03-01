@@ -98,7 +98,7 @@ public class ListPromoBanniere extends Activity {
 
         PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.list);
+        ListView list = (ListView) findViewById(R.id.listpromobanniere);
         list.setAdapter(promoBanniereAdapter);
 
     }*/

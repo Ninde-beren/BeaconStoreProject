@@ -154,14 +154,14 @@ public class MainActivity extends TabActivity {
 
         ConsommateurMetier consommateur = new ConsommateurMetier();
 
-        int user= 1;
+        int user= 0;
 
-        //if(user==0){
-            long id =1;
+        if(user==0){
+            long id =0;
 
             consommateur = consommateurDAO.getConsommateur(id);
 
-            //if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
+            if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
 
                 AlertDialog.Builder infos;
                 infos = new AlertDialog.Builder(this);
@@ -187,8 +187,8 @@ public class MainActivity extends TabActivity {
                 });
 
                 infos.show();
-            //}
-        //}
+            }
+        }
         return null;
     }
 

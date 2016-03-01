@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
-public class Inscription extends Activity implements AdapterView.OnItemSelectedListener{
+public class Inscription extends Activity {
 
     private EditText nom;
     private EditText prenom;
@@ -81,8 +82,6 @@ public class Inscription extends Activity implements AdapterView.OnItemSelectedL
         // Apply the adapter to the spinner
         genre.setAdapter(adapterSexeType);
 
-        genre.setOnItemSelectedListener(this);
-
         csp = (Spinner) findViewById(R.id.cspInscription);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterSocialStatut = ArrayAdapter.createFromResource(this,
@@ -92,58 +91,36 @@ public class Inscription extends Activity implements AdapterView.OnItemSelectedL
         // Apply the adapter to the spinner
         csp.setAdapter(adapterSocialStatut);
 
-        csp.setOnItemSelectedListener(this);
-
         retour = (Button) findViewById(R.id.buttonPreviousInscription);
         retour.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(nextScreen);
-
             }
         });
 
         valider = (Button) findViewById(R.id.buttonValiderInscription);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
-                startActivity(nextScreen);
-                //On ecoute les clique sur le bouton login
-                inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
-                consommateurDAO.addConsommateur(consommateur);
-                inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
+                if(genre.getSelectedItem().toString().equals("Genre..."))
+                {Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show();}
+
+                else if(csp.getSelectedItem().toString().equals("Catégorie social..."))
+                {Toast.makeText(getApplicationContext(), "Please select the Catégory", Toast.LENGTH_SHORT).show();}
+
+                else{
+                    Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
+                    startActivity(nextScreen);
+                    //On ecoute les clique sur le bouton login
+                    consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
+                    consommateurDAO.addConsommateur(consommateur);
+                    inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
+                }
             }
         });
-
-        //-------------------------------------------------------------------------------------
-
-
-        //-------------------------------------------------------------------------------------
-
-        if(genre.equals("Genre..."))
-        { Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show(); }
-
-        if(genre.equals("Catégorie social..."))
-        { Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show(); }
-
-        // lier les infos du formulaire à des variables et les insérer dans une méthode requête add
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TextView mytext =(TextView) view;
-
-        Toast.makeText(Inscription.this, "ma selection" + mytext.getText(), Toast.LENGTH_SHORT).show();
-
-        if(genre.equals("Genre..."))
-        { Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show(); }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    //-------------------------------------------------------------------------------------
 
     private ConsommateurMetier inscriptionSQLite() {
 
@@ -171,10 +148,10 @@ public class Inscription extends Activity implements AdapterView.OnItemSelectedL
         // récupération des données du formulaire pour la base API
         String nomAPI = nom.getText().toString();
         String prenomAPI = prenom.getText().toString();
-        String genreAPI = String.valueOf(genre.getOnItemSelectedListener());
+        String genreAPI = String.valueOf(genre.getSelectedItem().toString());
         String telAPI = tel.getText().toString();
-        //String emailAPI =   email.getText().toString();
-        String cspAPI = String.valueOf(csp.getOnItemSelectedListener());
+        String emailAPI =   email.getText().toString();
+        String cspAPI = String.valueOf(csp.getSelectedItem().toString());
         String cpAPI = cp.getText().toString();
         String dtnaissAPI = dtNaiss;
 

@@ -32,11 +32,11 @@ public class ConsommateurDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_CSP, conso.getCatsocpf());
         values.put(DatabaseHelper.COLUMN_CP, conso.getCdpostal());
         values.put(DatabaseHelper.COLUMN_DTNAISS, String.valueOf(conso.getDtnaiss()));
-        values.put(DatabaseHelper.COLUMN_DATEC, "");
 
         //insertion en base + recuperation du dernier id inséré
         long insertId = mDb.insert(DatabaseHelper.TABLE_CONSO, null, values);
 
+        Log.i("dao", "values:" + values);
 
         Log.i("dao", "insertion en bdd:" + insertId);
 
@@ -58,11 +58,11 @@ public class ConsommateurDAO extends DAOBase {
                                  + DatabaseHelper.COLUMN_CP      + ", "
                                  + DatabaseHelper.COLUMN_DTNAISS +
                         " FROM " + DatabaseHelper.TABLE_CONSO    +
-                       " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = 1";
+                       " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = ?";
 
         Log.i("requete getconsommateur", query);
 
-        Cursor cursor = mDb.rawQuery(query, null);
+        Cursor cursor = mDb.rawQuery(query,  new String[]{String.valueOf(id)});
 
         Log.i("nombre de valeur : ", String.valueOf(cursor.getCount()));
         Log.i("nombre de column : ", String.valueOf(cursor.getColumnCount()));

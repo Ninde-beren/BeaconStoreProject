@@ -1,10 +1,9 @@
-package imie.angers.fr.beaconstoreproject.activites.Login2;
+package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import imie.angers.fr.beaconstoreproject.R;
-import imie.angers.fr.beaconstoreproject.activites.ListPromoBanniere;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
@@ -52,7 +50,7 @@ public class LoginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login2);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         //instantiation de la classe ConsommateurDAO
@@ -74,8 +72,8 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                // Activiation de l'activity Signup
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                // Activiation de l'activity Incription
+                Intent intent = new Intent(getApplicationContext(), Inscription.class);
                 startActivityForResult(intent, REQUEST_SIGNUP); //demarre l'activité avec un resultat 0 si activité bien démarrée
             }
         });

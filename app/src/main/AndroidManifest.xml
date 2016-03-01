@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activites.MainActivity" />
-        <activity android:name=".activites.Login2.LoginActivity" />
+        <activity android:name=".activites.LoginActivity" />
         <activity android:name=".activites.Inscription" />
         <activity android:name=".activites.Profil" />
         <activity android:name=".activites.ModifierProfil" />
@@ -62,8 +62,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activites.ListPromoBeaconActivity"/>
         </activity>
-
-        <activity android:name=".activites.Login2.SignupActivity"/>
 
     </application>
 </manifest>

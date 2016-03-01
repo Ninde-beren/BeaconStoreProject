@@ -8,17 +8,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
+import android.util.Log;
 import android.widget.TabHost;
 import android.widget.Toast;
 
 import imie.angers.fr.beaconstoreproject.R;
-import imie.angers.fr.beaconstoreproject.activites.Login2.LoginActivity;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 public class MainActivity extends TabActivity {
 
@@ -42,6 +41,13 @@ public class MainActivity extends TabActivity {
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBanniereDAO = new PromoBanniereDAO(this);
 
+        // récupérer le statut de la session user
+
+        SessionManager user = new SessionManager(MainActivity.this);
+
+        Log.i("id de session", String.valueOf(user.getIdC()));
+        int logger = (int) user.getIdC();
+
         Intent intent;
 
         //Récupération du TabHost
@@ -61,8 +67,8 @@ public class MainActivity extends TabActivity {
         menuOnglet.addTab(spec);
 
         //on ajoute le reste des onglets
-        int connecter = 1;
-        if(connecter==0){
+
+        if(logger==0){
             Intent intent2 = new Intent().setClass(this, LoginActivity.class);
             menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Connexion").setContent(intent2));
         }else {
@@ -93,7 +99,8 @@ public class MainActivity extends TabActivity {
         menuOnglet.setCurrentTab(0);
 
         verificationBluetoothDialog();
-        remplirInfoDialog();
+
+        if(logger!=0){remplirInfoDialog(logger);}
 
     }
 
@@ -147,17 +154,12 @@ public class MainActivity extends TabActivity {
         }
     }
 
-    private Dialog remplirInfoDialog() {
+    private Dialog remplirInfoDialog(long id) {
 
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
 
         ConsommateurMetier consommateur = new ConsommateurMetier();
-
-        int user= 0;
-
-        if(user==0){
-            long id =0;
 
             consommateur = consommateurDAO.getConsommateur(id);
 
@@ -188,7 +190,7 @@ public class MainActivity extends TabActivity {
 
                 infos.show();
             }
-        }
+
         return null;
     }
 
@@ -207,6 +209,9 @@ public class MainActivity extends TabActivity {
 
             case 1 :
                 menuOnglet.setCurrentTab(5);
+                break;
+            case 2 :
+                menuOnglet.setCurrentTab(0);
                 break;
             default:
                 menuOnglet.setCurrentTab(0);

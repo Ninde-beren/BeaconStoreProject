@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 public class Profil extends Activity {
 
@@ -38,10 +40,11 @@ public class Profil extends Activity {
         consommateurDAO.open();
         consommateur = new ConsommateurMetier();
 
-        //int user =1;
+        //TODO verifier la session user
 
-       // if(user==0){
-            long id =0;
+        SessionManager user = new SessionManager(Profil.this);
+
+        long id= Long.parseLong(String.valueOf(user.getIdC()));
 
             consommateur = consommateurDAO.getConsommateur(id);
        // }

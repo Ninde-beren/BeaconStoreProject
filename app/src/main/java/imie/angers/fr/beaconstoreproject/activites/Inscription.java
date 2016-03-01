@@ -102,20 +102,14 @@ public class Inscription extends Activity {
         valider = (Button) findViewById(R.id.buttonValiderInscription);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(genre.getSelectedItem().toString().equals("Genre..."))
-                {Toast.makeText(getApplicationContext(), "Please select the Genre", Toast.LENGTH_SHORT).show();}
 
-                else if(csp.getSelectedItem().toString().equals("Catégorie social..."))
-                {Toast.makeText(getApplicationContext(), "Please select the Catégory", Toast.LENGTH_SHORT).show();}
-
-                else{
                     Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
                     startActivity(nextScreen);
                     //On ecoute les clique sur le bouton login
                     consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
                     consommateurDAO.addConsommateur(consommateur);
                     inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
-                }
+
             }
         });
     }
@@ -131,10 +125,14 @@ public class Inscription extends Activity {
         // récupération des données du formulaire pour la base SQLite
         consommateur.setNom(nom.getText().toString());
         consommateur.setPrenom(prenom.getText().toString());
-        consommateur.setGenre(genre.getSelectedItem().toString());
+        if(genre.getSelectedItem().toString().equals("Genre..."))
+        {consommateur.setGenre(null);}
+        else{consommateur.setGenre(genre.getSelectedItem().toString());}
         consommateur.setTel(tel.getText().toString());
         consommateur.setEmail(email.getText().toString());
-        consommateur.setCatsocpf(csp.getSelectedItem().toString());
+        if(csp.getSelectedItem().toString().equals("Catégorie social..."))
+        {consommateur.setCatsocpf(null);}
+        else{consommateur.setCatsocpf(csp.getSelectedItem().toString());}
         consommateur.setCdpostal(cp.getText().toString());
         consommateur.setDtnaiss(dtNaiss);
 

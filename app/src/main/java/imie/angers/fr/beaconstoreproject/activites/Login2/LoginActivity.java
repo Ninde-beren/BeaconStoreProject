@@ -3,7 +3,6 @@ package imie.angers.fr.beaconstoreproject.activites.Login2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +23,7 @@ import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.ListPromoBanniere;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
@@ -158,7 +158,11 @@ public class LoginActivity extends Activity {
                         conso.setGenre(result.getString("sexe"));
                         conso.setDtnaiss(result.getString("dtnaiss"));
 
-                        consommateurDAO.addConsommateur(conso);
+                        long consoId = consommateurDAO.addConsommateur(conso);
+
+                        SessionManager session = new SessionManager(LoginActivity.this);
+
+                        session.createConsoSession(consoId, result.getString("nom"), result.getString("prenom"));
 
                     } else {
 

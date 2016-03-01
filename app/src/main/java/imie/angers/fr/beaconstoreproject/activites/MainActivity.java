@@ -70,7 +70,6 @@ public class MainActivity extends TabActivity {
             menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Profils").setContent(intent2));
         }
 
-
         Intent intent3 = new Intent().setClass(this, Panier.class);
         menuOnglet.addTab(menuOnglet.newTabSpec("onglet_3").setIndicator("Panier").setContent(intent3));
         Intent intent4 = new Intent().setClass(this, PromoBanniere.class);
@@ -101,20 +100,20 @@ public class MainActivity extends TabActivity {
     @Override
      protected void onDestroy() {
         super.onDestroy();
-        promoBeaconDAO.open();
-        promoBeaconDAO.deleteTablePromoBeacon();
+        //promoBeaconDAO.open();
+        //promoBeaconDAO.deleteTablePromoBeacon();
         promoBanniereDAO.open();
         promoBanniereDAO.deleteTablePromoBanniere();
     }
 
-    @Override
+    /*@Override
     protected void onStop() {
         super.onStop();
         promoBeaconDAO.open();
         promoBeaconDAO.deleteTablePromoBeacon();
         promoBanniereDAO.open();
         promoBanniereDAO.deleteTablePromoBanniere();
-    }
+    }*/
 
     private void verificationBluetoothDialog() {
 
@@ -165,19 +164,17 @@ public class MainActivity extends TabActivity {
             //if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
 
                 AlertDialog.Builder infos;
-                final EditText input = new EditText(this);
                 infos = new AlertDialog.Builder(this);
-                infos.setView(input);
                 infos.setTitle("Information");
                 infos.setIcon(R.drawable.ic_launcher);
                 infos.setMessage("Vous n'avez pas remplis tous les champs lors de votre inscription.\n Les remplir maintenant ?");
+
 
                 infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent nextScreen = new Intent(getApplicationContext(), Inscription.class);
                                 startActivity(nextScreen);
-
                             }
                        }
                 );
@@ -185,7 +182,7 @@ public class MainActivity extends TabActivity {
                 infos.setNeutralButton("Ignorer", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
                     }
                 });
 
@@ -195,4 +192,24 @@ public class MainActivity extends TabActivity {
         return null;
     }
 
+    public void switchTab(int tab){
+        menuOnglet.setCurrentTab(tab);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Intent i = getIntent();
+        int id = i.getIntExtra("id", 0);
+
+        switch(id) {
+
+            case 1 :
+                menuOnglet.setCurrentTab(5);
+                break;
+            default:
+                menuOnglet.setCurrentTab(0);
+        }
+    }
 }

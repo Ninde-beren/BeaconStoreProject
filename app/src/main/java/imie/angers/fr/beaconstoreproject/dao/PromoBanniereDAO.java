@@ -69,8 +69,6 @@ public class PromoBanniereDAO extends DAOBase{
 
         Cursor cursor = mDb.rawQuery(query, null);
 
-        cursor.moveToFirst();
-
         List<PromoBanniereMetier> listPromoBanniere = new ArrayList<>();
 
         while (cursor.moveToNext()) {

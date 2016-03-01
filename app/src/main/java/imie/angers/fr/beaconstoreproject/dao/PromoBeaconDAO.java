@@ -3,16 +3,11 @@ package imie.angers.fr.beaconstoreproject.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import imie.angers.fr.beaconstoreproject.metiers.DatabaseHelper;
-import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
-import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
  * Permet d'effectuer les opérations CRUD pour l'objet PromoBeaconMetier
@@ -50,7 +45,7 @@ public class PromoBeaconDAO extends DAOBase {
         //insertion en base + recuperation du dernier id inséré
         long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBEACON, null, values);
 
-        Log.i("dao", "insertion en bdd:" + insertId);
+        Log.i("daoBeacon", "insertion en bdd:" + insertId);
 
         return insertId;
     }
@@ -107,7 +102,7 @@ public class PromoBeaconDAO extends DAOBase {
 
         Cursor cursor = mDb.rawQuery(query, null);
 
-        cursor.moveToFirst();
+        Log.i("cursor", String.valueOf(cursor));
 
         List<PromoBeaconMetier> listPromoBeacon = new ArrayList<>();
 
@@ -131,6 +126,8 @@ public class PromoBeaconDAO extends DAOBase {
         cursor.close();
 
         Log.i("dbPromo", listPromoBeacon.toString());
+        Log.i("dbPromo2", String.valueOf(listPromoBeacon.size()));
+
 
         return listPromoBeacon;
     }

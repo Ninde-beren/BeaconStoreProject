@@ -13,6 +13,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.TabHost;
 
 import java.util.concurrent.ExecutionException;
 

@@ -16,6 +16,7 @@ import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 public class Avis extends Activity {
 
@@ -30,6 +31,8 @@ public class Avis extends Activity {
     private static String url = "http://beaconstore.ninde.fr/serverRest.php/note";
 
     private int magId;
+    private long consoId;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,10 @@ public class Avis extends Activity {
 
         Intent i = getIntent();
         magId = i.getIntExtra("magId", 0);
+
+        session = new SessionManager(this);
+
+        consoId = session.getIdC();
 
         ListenerOnRatingBar();
         ListenerOnButton();
@@ -78,13 +85,12 @@ public class Avis extends Activity {
                 final Map<String, Object> toPost = new HashMap<String, Object>();
                 toPost.put("noteMag", noteMag);
                 toPost.put("magId", magId);
+                toPost.put("consoId", consoId);
 
                 //execution de la requête POST (cf API) en arrière plan dans un autre thread
                 new DoRequest(Avis.this, toPost, "POST", url) {
                     @Override
                     protected Boolean doInBackground(Void... params) {
-
-
 
                         Log.i("url note", url);
 

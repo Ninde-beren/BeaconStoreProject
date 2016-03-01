@@ -28,6 +28,8 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
 
     private PromoBeaconDAO promoBeaconDAO;
     protected List<PromoBeaconMetier> listPromoBeacon;
+    private PromoBeaconAdapter promoBeaconAdapter;
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
         try {
 
             listPromoBeacon = new getPromoBeacon().execute().get();
+            Log.i("Etat0", "onCreate");
 
         } catch (InterruptedException e) {
 
@@ -53,9 +56,9 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
+        promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
 
-        ListView list = (ListView) findViewById(R.id.list);
+        list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBeaconAdapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,6 +84,8 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
 
             listPromoBeacon = new getPromoBeacon().execute().get();
 
+            Log.i("Etat1", "onNavigateUpFromChild");
+
         } catch (InterruptedException e) {
 
             e.printStackTrace();
@@ -90,10 +95,6 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
-
-        ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBeaconAdapter);
 
         return super.onNavigateUpFromChild(child);
@@ -101,13 +102,14 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
     }
 
 
-    /* @Override
+    @Override
     protected void onResume() {
         super.onResume();
 
         try {
 
             listPromoBeacon = new getPromoBeacon().execute().get();
+            Log.i("Etat2", "onResume");
 
         } catch (InterruptedException e) {
 
@@ -118,21 +120,59 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        PromoBeaconAdapter promoBeaconAdapter = new PromoBeaconAdapter(ListPromoBeaconActivity.this, (ArrayList<PromoBeaconMetier>) listPromoBeacon);
-
-        ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(promoBeaconAdapter);
+    }
 
-    }*/
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        try {
+
+            listPromoBeacon = new getPromoBeacon().execute().get();
+            Log.i("Etat3", "onPause");
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+        list.setAdapter(promoBeaconAdapter);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        try {
+
+            listPromoBeacon = new getPromoBeacon().execute().get();
+            Log.i("Etat4", "onRestart");
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+        }
+
+        list.setAdapter(promoBeaconAdapter);
+    }
 
     private class getPromoBeacon extends AsyncTask<Void, List<PromoBeaconMetier>, List<PromoBeaconMetier>> {
+
+        List<PromoBeaconMetier> listPromoB;
 
         @Override
         protected List<PromoBeaconMetier> doInBackground(Void... params) {
 
-            List<PromoBeaconMetier> listPromoB = promoBeaconDAO.getPromoBeacon();
-
-            Log.i("listBeacon2", String.valueOf(listPromoB.size()));
+            listPromoB = promoBeaconDAO.getPromoBeacon();
 
             return listPromoB;
         }
@@ -143,11 +183,8 @@ public class ListPromoBeaconActivity extends AppCompatActivity {
 
            if(promoBeaconMetiers.size() == 0 ) {
 
-               Log.i("listBeacon3", String.valueOf(promoBeaconMetiers.size()));
-
                Toast.makeText(getBaseContext(), "Aucune promotion pour le moment", Toast.LENGTH_LONG).show();
 
-               Log.i("Hello there", "ICI");
            }
        }
     }

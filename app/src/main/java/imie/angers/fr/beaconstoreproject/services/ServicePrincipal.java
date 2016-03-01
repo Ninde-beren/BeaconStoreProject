@@ -103,9 +103,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         super.onDestroy();
         Log.i("service", "service disconnect");
         beaconManager.unbind(this);
-        promoBeaconDAO.deleteTablePromoBeacon();
+        //promoBeaconDAO.deleteTablePromoBeacon();
 
-        //stopSelf();
     }
 
     public void onBeaconServiceConnect() {
@@ -129,23 +128,10 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         } else {
 
-                            //int index = 0;
-
                             for(BeaconMetier beaconMetier : listBeacons) {
-
-                                Log.i("beaconMetier", beaconMetier.getIdsBeacon());
-                                Log.i("beacon", beacon.getIdentifiers().toString());
-
-                                Log.i("date1", String.valueOf(new Date().getTime()));
-                                Log.i("date2", String.valueOf(beaconMetier.getDateBeacon().getTime()));
-                                Log.i("date3", String.valueOf(new Date().getTime() - beaconMetier.getDateBeacon().getTime()));
-
 
                                 if(beaconMetier.getIdsBeacon().equals(beacon.getIdentifiers().toString()) && (new Date().getTime() - beaconMetier.getDateBeacon().getTime()) >= 10000) {
 
-                                    Log.i("beaconId", beacon.getIdentifiers().toString());
-
-                                    //index++;
                                     beaconNonVu = true;
                                     beaconDejaVu = beaconMetier;
                                     beaconMetier.setDateBeacon(new Date());
@@ -153,10 +139,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                                     Log.i("beaconDejaVu", beaconDejaVu.getIdsBeacon());
                                     Log.i("beaconDejaVuPromo", String.valueOf(beaconDejaVu.getIdPromo()));
 
-
                                     break;
                                 }
-                               // beaconNonVu = index == 0 ? false : true;
                             }
                         }
 
@@ -184,12 +168,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                             Notification notif = new Notification(beaconDejaVu.getIdPromo());
                             notif.sendNotification(ServicePrincipal.this);
-
-                            /*Intent intent = new Intent(ServicePrincipal.this, Notification.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("lastIdInsert", beaconDejaVu.getIdPromo()); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
-
-                            startActivity(intent); //Activiation de l'activité*/
                         }
                     }
                 }
@@ -310,8 +288,9 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     listBeacons.add(beaconVu);
 
                     Log.i("insertId", String.valueOf(insertId));
+                    Log.i("insertion", "OK");
 
-                    requete = insertId != -1;
+                    requete = true;
                 }
 
             } catch (Exception e) {
@@ -336,16 +315,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         Notification notif = new Notification(insertId);
                         notif.sendNotification(ServicePrincipal.this);
-
-                    /*Intent intent = new Intent(ServicePrincipal.this, Notification.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("lastIdInsert", insertId); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
-
-                    startActivity(intent); //Activiation de l'activité*/
                 }
-
-                //new ResponseDialog(context, "OK", e.getMessage()).showDialog();
-                Log.i("JSON2", data.toString());
             }
         }
     }

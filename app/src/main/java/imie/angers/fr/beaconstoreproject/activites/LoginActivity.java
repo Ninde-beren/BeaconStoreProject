@@ -30,7 +30,7 @@ import imie.angers.fr.beaconstoreproject.utils.DoRequest;
  * Classe permettant de vérifier les informations de connexion d'un consommateur
  * Created by plougastel.dl03 on 23/02/2016.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;

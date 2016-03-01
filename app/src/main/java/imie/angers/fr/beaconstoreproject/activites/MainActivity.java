@@ -2,13 +2,16 @@ package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.TabActivity;
+import android.app.LocalActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.Toast;
 
@@ -19,7 +22,7 @@ import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends AppCompatActivity {
 
     // Store context for dialogs
     public Context context = null;
@@ -34,6 +37,59 @@ public class MainActivity extends TabActivity {
     private TabHost menuOnglet;
 
     private ConsommateurMetier consommateur;
+
+    //*********************************************************************************************
+
+    // BEGIN_INCLUDE(create_menu)
+    /**
+     * Use this method to instantiate your menu, and add your items to it. You
+     * should return true if you have added items to it and want the menu to be displayed.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate our menu from the resources by using the menu inflater.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+    // END_INCLUDE(create_menu)
+
+    // BEGIN_INCLUDE(menu_item_selected)
+    /**
+     * This method is called when one of the menu items to selected. These items
+     * can be on the Action Bar, the overflow menu, or the standard options menu. You
+     * should return true if you handle the selection.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                // Here we might start a background refresh task
+                return true;
+
+            case R.id.menu_settings:
+                long id;
+                SessionManager user = new SessionManager(MainActivity.this);
+                id= user.getIdC();
+                int nb = consommateurDAO.deleteConso(id);
+
+                if(nb > 0) {
+
+                    Toast.makeText(MainActivity.this, "Vous êtes maintenant déconnecté(e)", Toast.LENGTH_SHORT).show();
+
+                    Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
+                    nextScreen.putExtra("id", 2);
+                    startActivity(nextScreen);
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    // END_INCLUDE(menu_item_selected)
+
+//*************************************************************************************************
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +113,12 @@ public class MainActivity extends TabActivity {
         //Récupération du TabHost
         menuOnglet = (TabHost) findViewById(android.R.id.tabhost);
 
+        //Récupération du TabHost
+        menuOnglet = (TabHost) findViewById(android.R.id.tabhost);
+        LocalActivityManager mLocalActivityManager = new LocalActivityManager(this, false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState);
+        menuOnglet.setup(mLocalActivityManager);
         //appeler la méthode setup du TabHost
-        menuOnglet.setup();
 
         //ajouter les onglets au menuOnglet
 
@@ -82,10 +142,10 @@ public class MainActivity extends TabActivity {
 
         Intent intent3 = new Intent().setClass(this, Panier.class);
         menuOnglet.addTab(menuOnglet.newTabSpec("onglet_3").setIndicator("Panier").setContent(intent3));
-        Intent intent4 = new Intent().setClass(this, PromoBanniere.class);
-        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("Onglet 4").setContent(intent4));
-        Intent intent5 = new Intent().setClass(this, Avis.class);
-        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_5").setIndicator("Onglet 5").setContent(intent5));
+        //Intent intent4 = new Intent().setClass(this, PromoBanniere.class);
+        //menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("Onglet 4").setContent(intent4));
+        //Intent intent5 = new Intent().setClass(this, Avis.class);
+       //menuOnglet.addTab(menuOnglet.newTabSpec("onglet_5").setIndicator("Onglet 5").setContent(intent5));
 
         Intent intent6 = new Intent().setClass(this, ListPromoBeaconActivity.class);
         menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("List beacon").setContent(intent6));
@@ -129,15 +189,15 @@ public class MainActivity extends TabActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode != REQUEST_CODE_ENABLE_BLUETOOTH)
-            return;
-        if (resultCode == RESULT_OK) {
-            // L'utilisation a activé le bluetooth
+        if (requestCode != REQUEST_CODE_ENABLE_BLUETOOTH) return;
 
-        } else {
-            // L'utilisation n'a pas activé le bluetooth
-            Toast.makeText(getBaseContext(), "Vous ne pourrez pas profiter des offres en magasin", Toast.LENGTH_LONG).show();
-        }
+            if (resultCode == RESULT_OK) {
+                // L'utilisation a activé le bluetooth
+
+            } else {
+                // L'utilisation n'a pas activé le bluetooth
+                Toast.makeText(getBaseContext(), "Vous ne pourrez pas profiter des offres en magasin", Toast.LENGTH_LONG).show();
+            }
     }
 
     private Dialog remplirInfoDialog(long id) {
@@ -147,7 +207,7 @@ public class MainActivity extends TabActivity {
 
         consommateur = consommateurDAO.getConsommateur(id);
 
-        if (consommateur.getNom().equals(null) || consommateur.getPrenom().equals(null) || consommateur.getGenre().equals(null) || consommateur.getTel().equals(null) || consommateur.getDtnaiss().equals(null) || consommateur.getCdpostal().equals(null) || consommateur.getCatsocpf().equals(null)) {
+        if (consommateur.getNom().equals("") || consommateur.getPrenom().equals("") || consommateur.getGenre().equals("") || consommateur.getTel().equals("") || consommateur.getDtnaiss().equals("") || consommateur.getCdpostal().equals("") || consommateur.getCatsocpf().equals("")) {
 
             AlertDialog.Builder infos;
             infos = new AlertDialog.Builder(this);

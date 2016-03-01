@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Strings titre menu -->
+    <string name="menu_refresh">Actualisé</string>
+    <string name="menu_logout">Déconnexion</string>
+
       <!-- Strings related to login -->
     <string name="prompt_name">Nom</string>
     <string name="prompt_email">E-mail</string>
@@ -53,4 +57,6 @@
         lacinia in, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
 
     <string name="description">une notification</string>
+
+    <string name="done">Valider</string>
 </resources>

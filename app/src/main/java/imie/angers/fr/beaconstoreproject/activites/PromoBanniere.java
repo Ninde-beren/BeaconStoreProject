@@ -1,12 +1,9 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +21,10 @@ public class PromoBanniere extends AppCompatActivity {
     private TextView txtPromo;
 
     private PromoBanniereMetier promoBanniere;
+
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,10 @@ public class PromoBanniere extends AppCompatActivity {
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageart()));
         txtPromo.setText(promoBanniere.getTxtBanniere());
     }
+
+/*************************************************************************************************
+* INDICATION DE LA PAGE A AFFICHER AU RETOUR
+*************************************************************************************************/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

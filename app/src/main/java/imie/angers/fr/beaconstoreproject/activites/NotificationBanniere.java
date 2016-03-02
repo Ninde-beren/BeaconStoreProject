@@ -14,10 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
-import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
-import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
-import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 
 /**
  * Permet la création d'une notification
@@ -36,6 +33,10 @@ public class NotificationBanniere extends Activity {
     private PromoBanniereDAO promoBanniereDAO;
     private PromoBanniereMetier promoBanniere;
     private long lastIdInsert;
+
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +79,9 @@ public class NotificationBanniere extends Activity {
     /**
      * Send a sample notification using the NotificationCompat API.
      */
+/**************************************************************************************************
+*
+**************************************************************************************************/
 
     public void sendNotification(PromoBanniereMetier promoMetier){ //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
 
@@ -145,6 +149,10 @@ public class NotificationBanniere extends Activity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify((int) notification_id, builder.build());
     }
+
+/**************************************************************************************************
+*
+**************************************************************************************************/
 
     private class getPromoForNotif extends AsyncTask<Void, Void, PromoBanniereMetier> {
 

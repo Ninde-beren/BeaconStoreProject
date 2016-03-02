@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
@@ -33,6 +35,10 @@ public class Avis extends Activity {
     private int magId;
     private long consoId;
     private SessionManager session;
+
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,10 @@ public class Avis extends Activity {
         ListenerOnButton();
     }
 
+/*************************************************************************************************
+* RECUPERER LES NOTES ATTRIBUEES
+*************************************************************************************************/
+
     public void ListenerOnRatingBar(){
 
         Avis_mag.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -74,6 +84,10 @@ public class Avis extends Activity {
             }
         });
     }
+
+/*************************************************************************************************
+* ENVOYER LES NOTES A L API, UNE FOIS LE BOUTON ENVOYER APPUYE
+*************************************************************************************************/
 
     public void ListenerOnButton() {
 

@@ -25,6 +25,10 @@ public class Preload extends Activity {
     private AndrestClient rest = new AndrestClient();
     private String url = "http://beaconstore.ninde.fr/serverRest.php/promobanniere?";
 
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,12 +123,20 @@ public class Preload extends Activity {
         }.execute();
     }
 
+/**************************************************************************************************
+* ON DESTROY
+**************************************************************************************************/
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i("preload", "onDistroy");
         //promoBeaconDAO.deleteTablePromoBeacon();
     }
+
+/**************************************************************************************************
+* PAGE SUIVANT, QUAND LA LISTE DE PROMOTION BANNIERE A ETE RECUPEREE
+**************************************************************************************************/
 
     private void nextpage() {
         Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
@@ -137,107 +149,4 @@ public class Preload extends Activity {
     private void chekPromoBanniere() {
 
     }
-
-    //---------------------------------------------------------------------------------------
-    /*private class doRequest extends AsyncTask<Void, Void, Boolean> {
-
-        // Store context for dialogs
-        private Context context = null;
-        // Store error message
-        private Exception e = null;
-        // Passed in data object
-        private Map<String, Object> data = null;
-        // Passed in method
-        private String method = "";
-        // Passed in url
-       private String url = "";
-
-        private JSONObject result;
-
-        public doRequest(Context context, String method, String url) {
-
-            this.context = context;
-            this.data = data;
-            this.method = method;
-            this.url = url;
-        }
-
-        //-------------------------------------------------------------------------------------
-
-        @Override
-        protected Boolean doInBackground(Void... arg0) {
-            try {
-
-                Log.i("url", url);
-                Log.i("je suis avant API", ART);
-
-                result = rest.request(url, method, data); // Do request - Envoi de la requête (API), réception des données (JSON)
-
-                Log.i("je suis apres API", ART);
-
-                Log.i("JSON", String.valueOf(result));
-
-                int jsonSize = result.length();
-
-                //Parcours de notre objet JSON (plusieurs promotions)
-                for (int i = 0; i < jsonSize; i++) {
-
-                    JSONObject jobj = result.getJSONObject("" + i + "");
-
-                    //Enregistrement de la promotion dans la base de données SQLite
-                    PromoBanniereMetier promo = new PromoBanniereMetier();
-
-                    promo.setIdbanniere(jobj.getString("idpromo"));
-                    promo.setLbPromo(jobj.getString("lbpromo"));
-                    promo.setTitrePromo(jobj.getString("titrepro"));
-                    promo.setTxtBanniere(jobj.getString("txtpromo"));
-                    promo.setDtdebval(jobj.getString("dtdebval"));
-                    promo.setDtfinval(jobj.getString("dtfinval"));
-                    promo.setTypBanniere(jobj.getString("typpromo"));
-                    promo.setImageart(jobj.getString("imgoff"));
-                    promo.setImageoff(jobj.getString("imgart"));
-
-                    insertId = promoBanniereDAO.addPromoBanniere(promo);
-
-                    Log.i("insertId", String.valueOf(insertId));
-
-                    requete = insertId != -1;
-                }
-
-            } catch (Exception e) {
-                this.e = e;    // Store error
-            }
-
-            return requete;
-        }
-
-        //-------------------------------------------------------------------------------------
-
-        @Override
-        protected void onPostExecute(Boolean data) {
-            super.onPostExecute(data);
-            // Display based on error existence
-            if (e != null) {
-
-                //new ResponseDialog(context, "We found an error!", e.getMessage()).showDialog();
-                requete = false;
-
-            } else {
-
-                if(data) {
-
-                    Log.i("salut", "salut");
-
-                    Intent intent = new Intent(Preload.this, Notification.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("lastIdInsert", insertId); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
-
-                    startActivity(intent); //Activation de l'activité
-                }
-
-                //new ResponseDialog(context, "OK", e.getMessage()).showDialog();
-                Log.i("JSON2", data.toString());
-            }
-        }
-    }*/
 }

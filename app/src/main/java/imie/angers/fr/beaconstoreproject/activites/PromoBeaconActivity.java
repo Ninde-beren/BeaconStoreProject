@@ -1,19 +1,13 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +29,10 @@ public class PromoBeaconActivity extends AppCompatActivity {
 
     private SessionManager sessionPanier;
     private List<PromoBeaconMetier> promoBeaconList;
+
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -71,6 +69,10 @@ public class PromoBeaconActivity extends AppCompatActivity {
             }
         });
     }
+
+/*************************************************************************************************
+* INDICATION DE LA PAGE A AFFICHER AU RETOUR
+*************************************************************************************************/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,27 +1,18 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.TabHost;
-
 import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
-import imie.angers.fr.beaconstoreproject.metiers.NotificationMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
-import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 
 /**
  * Permet la création d'une notification

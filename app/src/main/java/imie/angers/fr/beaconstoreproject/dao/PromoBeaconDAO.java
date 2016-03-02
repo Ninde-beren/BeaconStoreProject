@@ -79,7 +79,6 @@ public class PromoBeaconDAO extends DAOBase {
 
         //fermeture du cusor
         cursor.close();
-
         return promo;
     }
 
@@ -124,10 +123,6 @@ public class PromoBeaconDAO extends DAOBase {
 
         // fermeture du cursor
         cursor.close();
-
-        Log.i("dbPromo", listPromoBeacon.toString());
-        Log.i("dbPromo2", String.valueOf(listPromoBeacon.size()));
-
 
         return listPromoBeacon;
     }

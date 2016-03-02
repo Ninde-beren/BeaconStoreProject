@@ -37,9 +37,7 @@ public class NotificationMetier implements Parcelable {
         this.id_notif = id;
     }
 
-    public String getTitrePromo() {
-        return titrePromo;
-    }
+    public String getTitrePromo() {return titrePromo;}
 
     public void setTitrePromo(String titrePromo) {
         this.titrePromo = titrePromo;

@@ -7,13 +7,13 @@
 
     <item
         android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_action_refresh"
+
         android:title="@string/menu_refresh"
         support:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_settings"
-        android:icon="@drawable/ic_action_settings"
+
         android:title="@string/menu_logout"
         support:showAsAction="never"/>
 </menu>

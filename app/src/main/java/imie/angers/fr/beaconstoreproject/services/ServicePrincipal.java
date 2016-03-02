@@ -32,6 +32,7 @@ import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 /**
  * ServicePrincipal permet de gérer la détection des beacons, la récupération des promotions correspondants aux beacons détectés, l'enregistrement des promotions dans la base de données, l'enregistrement des données relatives à la connexion entre l'utilisateur et le beacon
@@ -62,8 +63,10 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
     //liste des beacons rencontrés
     private static List<BeaconMetier> listBeacons;
+    private SessionManager sessionBeacon;
 
-    private BeaconMetier beaconVu = new BeaconMetier();
+    private BeaconMetier beaconVu;
+
 
     @Override
     public void onCreate() {
@@ -80,6 +83,10 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         rest = new AndrestClient();
 
         listBeacons = new ArrayList<>();
+
+        sessionBeacon = new SessionManager(this);
+
+        beaconVu = new BeaconMetier();
 
         Log.i("Beac", "Hello");
     }
@@ -103,8 +110,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         super.onDestroy();
         Log.i("service", "service disconnect");
         beaconManager.unbind(this);
-        //promoBeaconDAO.deleteTablePromoBeacon();
-
     }
 
     public void onBeaconServiceConnect() {
@@ -120,9 +125,15 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     for (Beacon beacon : beacons) { //parcours de la liste de beacons identifiés par le téléphone
 
+                        Log.i("verifbeacon", "je verifie les beacons");
+
                         Log.i("listBeacon", String.valueOf(listBeacons.size()));
 
-                        if(listBeacons.size() == 0 ) {
+                        List<BeaconMetier> listB = sessionBeacon.getBeaconsMeet();
+
+                        //Log.i("listBeaconSession", String.valueOf(listB.size()));
+
+                        if(listB.size() == 0) {
 
                             beaconNonVu = false;
 
@@ -163,7 +174,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                             new doRequest(ServicePrincipal.this, toPost, "POST", url).execute();
 
 
-
                         } else if(beaconNonVu && beaconDejaVu.getIdPromo() != 0) {
 
                             Notification notif = new Notification(beaconDejaVu.getIdPromo());
@@ -193,6 +203,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        sessionBeacon.beaconClear(); // vide la liste des beacons stockés dans la session beacon
 
                         Intent i = new Intent(ServicePrincipal.this, Avis.class);
                         i.putExtra("magId", listBeacons.get(0).getIdMagasin());
@@ -262,8 +274,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     //String imgoffPath = BitMapUtil.downloadImage(jobj.getString("imageoff"), jobj.getString("idpromo"), ART);
                     //String imgartPath = BitMapUtil.downloadImage(jobj.getString("imageart"), jobj.getString("idpromo"), OFF);
 
-
-
                     //byte[] bImgoff = Base64.decode(jobj.getString("imageoff"), Base64.DEFAULT);
                     //byte[] bImageart = Base64.decode(jobj.getString("imageart"), Base64.DEFAULT);
 
@@ -286,6 +296,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     //beaconVu.setIdMagasin(jobj.getString("idmag"));
 
                     listBeacons.add(beaconVu);
+
+                    sessionBeacon.setBeaconSession(listBeacons);
 
                     Log.i("insertId", String.valueOf(insertId));
                     Log.i("insertion", "OK");

@@ -1,7 +1,8 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-
-import android.app.ActionBar;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,17 +11,19 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,12 +51,13 @@ public class Inscription extends AppCompatActivity {
     private String mdpAPI;
     private String nomAPI;
     private String prenomAPI;
-    private String genreAPI;
+    private char genreAPI;
     private String telAPI;
     private String cspAPI;
     private String cpAPI;
     private String dtnaissAPI;
     private String adressmacAPI;
+    private String passwordAPI;
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -66,7 +70,7 @@ public class Inscription extends AppCompatActivity {
     private Button retour;
     private Button valider;
 
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
@@ -160,16 +164,18 @@ public class Inscription extends AppCompatActivity {
 
         dtNaiss  = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
 
-       // emailAPI = consommateur.getEmail();
-       // mdpAPI = consommateur.getPassword();
-       // nomAPI = consommateur.getNom();
-       // prenomAPI = consommateur.getPrenom();
-       // genreAPI = consommateur.getGenre();
-       // telAPI = consommateur.getTel();
-       // cspAPI = consommateur.getCatsocpf();
-       // cpAPI = consommateur.getCdpostal();
-       // dtnaissAPI = consommateur.getDtnaiss();
-//
+        emailAPI = consommateur.getEmail();
+        mdpAPI = consommateur.getPassword();
+        nomAPI = consommateur.getNom();
+        prenomAPI = consommateur.getPrenom();
+        genreAPI = consommateur.getGenre().equals("Homme") ? 'M' :
+                consommateur.getGenre().equals("Femmes") ? 'F' : ' ';
+        telAPI = consommateur.getTel();
+        cspAPI = consommateur.getCatsocpf();
+        cpAPI = consommateur.getCdpostal();
+        dtnaissAPI = consommateur.getDtnaiss();
+        passwordAPI = consommateur.getPassword();
+
         WifiManager mana = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = mana.getConnectionInfo();
         String mac = info.getMacAddress();
@@ -177,7 +183,7 @@ public class Inscription extends AppCompatActivity {
         adressmacAPI = mac == null ? null : mac;
 
         //récupération des données du formulaire pour la base API
-        emailAPI    = email.getText().toString();
+        /*emailAPI    = email.getText().toString();
         mdpAPI      = mdp.getText().toString();
         nomAPI      = nom.getText().toString();
         prenomAPI   = prenom.getText().toString();
@@ -185,7 +191,7 @@ public class Inscription extends AppCompatActivity {
         telAPI      = tel.getText().toString();
         cspAPI      = String.valueOf(csp.getSelectedItem().toString());
         cpAPI       = cp.getText().toString();
-        dtnaissAPI  = dtNaiss;
+        dtnaissAPI  = dtNaiss;*/
 
         valider.setEnabled(false);
 
@@ -242,16 +248,10 @@ public class Inscription extends AppCompatActivity {
 
                     e1.printStackTrace();
 
-                    //Toast "Dsl vous n'avons pas pu vous s'inscrire".
-                    //Toast.makeText(context, "Dsl vous n'avons pas pu vous s'inscrire", Toast.LENGTH_SHORT).show();
-
                     requete = false;
 
                 } catch (Exception e) {
                     this.e = e;    // Store error
-
-                    //Toast "Dsl vous n'avons pas pu vous s'inscrire".
-                    //Toast.makeText(context, "Dsl vous n'avons pas pu vous s'inscrire", Toast.LENGTH_SHORT).show();
 
                     requete = false;
                 }

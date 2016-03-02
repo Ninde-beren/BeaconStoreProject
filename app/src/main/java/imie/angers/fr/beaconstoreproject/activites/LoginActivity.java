@@ -25,6 +25,7 @@ import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
+import imie.angers.fr.beaconstoreproject.utils.StringUtils;
 
 /**
  * Classe permettant de vérifier les informations de connexion d'un consommateur
@@ -104,7 +105,7 @@ public class LoginActivity extends Activity {
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
-        password = md5(password);
+        password = StringUtils.md5(password);
 
         //password = hasher(password, "MD5"); // hashe le mot de passe en md5
 
@@ -196,9 +197,7 @@ public class LoginActivity extends Activity {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         //intent.putExtra("lastIdInsert", conso); //on insère dans l'intent l'id de la dernière promotion enregistrée en bdd SQLite
-
                         intent.putExtra("id", 2);
-
                         startActivity(intent); //Activiation de l'activité
 
                     } else {
@@ -274,43 +273,11 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     * Permet de hasher le mot de passe suivant l'algorithme md5
-     * @param s
-     * @return
-     */
-
-    public String md5(String s) {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    /**
      * Permet de remettre à zéro les champs email et mdp
      */
     public void clearAll(){
         emailText.setText("");
         passwordText.setText("");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        consommateurDAO.deleteTableConso();
     }
 }
 

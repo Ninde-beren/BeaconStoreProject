@@ -16,22 +16,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 /**
  * Created by Anne on 23/02/2016.
  */
 public class PromoBeaconActivity extends AppCompatActivity {
 
-    private TextView titrePromo;
-    private ImageView imageArt;
-    private TextView txtPromo;
-
     private PromoBeaconMetier promoBeacon;
 
-    private FloatingActionButton toPanier;
+    private SessionManager sessionPanier;
+    private List<PromoBeaconMetier> promoBeaconList;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -40,19 +43,19 @@ public class PromoBeaconActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_promo_beacon);
 
-        //ActionBar actionBargetActionBar().setDisplayHomeAsUpEnabled(true);
+        sessionPanier = new SessionManager(this);
+        promoBeaconList = new ArrayList<>();
 
-        titrePromo = (TextView) findViewById(R.id.titrePromo);
-        imageArt = (ImageView) findViewById(R.id.imagePromo);
-        txtPromo = (TextView) findViewById(R.id.textPromo);
+        TextView titrePromo = (TextView) findViewById(R.id.titrePromo);
+        ImageView imageArt = (ImageView) findViewById(R.id.imagePromo);
+        TextView txtPromo = (TextView) findViewById(R.id.textPromo);
 
-        toPanier = (FloatingActionButton) findViewById(R.id.btnAddPanier);
+        FloatingActionButton toPanier = (FloatingActionButton) findViewById(R.id.btnAddPanier);
 
         Intent i = getIntent();
         promoBeacon = i.getExtras().getParcelable("promoBeacon");
 
-        Log.i("Beacon", promoBeacon.getTitrePromo());
-
+        assert promoBeacon != null;
         titrePromo.setText(promoBeacon.getTitrePromo());
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBeacon.getImageart()));
         txtPromo.setText(promoBeacon.getTxtPromo());
@@ -61,8 +64,10 @@ public class PromoBeaconActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(PromoBeaconActivity.this, Panier.class);
-                i.putExtra("promo", promoBeacon);
+                promoBeaconList.add(promoBeacon);
+
+                sessionPanier.setPanierPromoBeaconSession(promoBeaconList);
+                Toast.makeText(PromoBeaconActivity.this, "Cette promotion a bien été ajoutée à votre panier", Toast.LENGTH_SHORT).show();
             }
         });
     }

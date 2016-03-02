@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LocalActivityManager;
+import android.app.TabActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;

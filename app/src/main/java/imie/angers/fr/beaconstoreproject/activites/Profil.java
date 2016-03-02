@@ -31,6 +31,8 @@ public class Profil extends Activity {
     private Button modifier;
     private Button deconnexion;
 
+    private SessionManager user;
+
     private long id;
 
     @Override
@@ -46,13 +48,14 @@ public class Profil extends Activity {
 
         //TODO verifier la session user
 
-        SessionManager user = new SessionManager(Profil.this);
-        id= user.getIdC();
+        user = new SessionManager(Profil.this);
+        id = user.getIdC();
+
+        Log.i("idAnne", String.valueOf(id));
 
         consommateur = consommateurDAO.getConsommateur(id);
-       // }
 
-        //Log.i("consomateur :", consommateur.toString());
+        Log.i("consomateurAnne :", consommateur.toString());
 
         //-------------------------------------------------------------------------------------
 
@@ -65,7 +68,7 @@ public class Profil extends Activity {
         cp        = (TextView) findViewById(R.id.cpProfil);
         dtNaiss   = (TextView) findViewById(R.id.dtNaissProfil);
 
-        nom.setText(    "Nom :"                  + consommateur.getNom());
+        nom.setText(    "Nom :"                 + consommateur.getNom());
         prenom.setText( "Prénom :"              + consommateur.getPrenom());
         genre.setText(  "Genre :"               + consommateur.getGenre());
         tel.setText(    "Tél :"                 + consommateur.getTel());
@@ -81,7 +84,6 @@ public class Profil extends Activity {
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), ModifierProfil.class);
                 startActivity(nextScreen);
-
             }
        });
 
@@ -89,12 +91,15 @@ public class Profil extends Activity {
         deconnexion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                int nb = consommateurDAO.deleteConso(id);
+                int nb = consommateurDAO.deleteConso(id); //suppression du consommateur de la base de données sqlite
+
+                user.logoutUser(); //on vide la session user
 
                 if(nb > 0) {
 
                     Toast.makeText(Profil.this, "Vous êtes maintenant déconnecté(e)", Toast.LENGTH_SHORT).show();
 
+                    //Redirection vers l'activité promoBaniere
                     Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
                     nextScreen.putExtra("id", 2);
                     startActivity(nextScreen);

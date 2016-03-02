@@ -117,23 +117,13 @@ public class Preload extends Activity {
             }
 
         }.execute();
-
-        //Log.i("je suis a la fin de onCreate", "dfgeg");
-
-        /*new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-
-                nextpage();
-            }
-        }, 2000);*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i("preload", "onDistroy");
-        promoBeaconDAO.deleteTablePromoBeacon();
+        //promoBeaconDAO.deleteTablePromoBeacon();
     }
 
     private void nextpage() {

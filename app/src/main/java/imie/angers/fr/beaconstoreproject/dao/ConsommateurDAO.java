@@ -45,7 +45,7 @@ public class ConsommateurDAO extends DAOBase {
 
     public ConsommateurMetier getConsommateur(long id) {
 
-        //TODO selectionner le consomateur
+        Log.i("idDAO", String.valueOf(id));
 
         String query = "SELECT " + DatabaseHelper.COLUMN_IDCONSO + ", "
                                  + DatabaseHelper.COLUMN_NOM     + ", "
@@ -58,19 +58,19 @@ public class ConsommateurDAO extends DAOBase {
                                  + DatabaseHelper.COLUMN_CP      + ", "
                                  + DatabaseHelper.COLUMN_DTNAISS +
                         " FROM " + DatabaseHelper.TABLE_CONSO    +
-                       " WHERE " + DatabaseHelper.COLUMN_IDCONSO + " = ?";
+                       " WHERE " + DatabaseHelper.COLUMN_IDC + " = ?";
+
+        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
 
         Log.i("requete getconsommateur", query);
-
-        Cursor cursor = mDb.rawQuery(query,  new String[]{String.valueOf(id)});
-
         Log.i("nombre de valeur : ", String.valueOf(cursor.getCount()));
-        Log.i("nombre de column : ", String.valueOf(cursor.getColumnCount()));
 
-        Log.i("nom des column : ", String.valueOf(cursor.getColumnNames()));
+        cursor.moveToFirst();
 
         //création d'un nouveau consommateur
         ConsommateurMetier consommateur = new ConsommateurMetier();
+
+        if (cursor.getCount() > 0 ) {
 
         consommateur.setIdConso(cursor.getInt(0));
         Log.i("id conso :", String.valueOf(cursor.getInt(0)));
@@ -99,7 +99,7 @@ public class ConsommateurDAO extends DAOBase {
 
         return consommateur;
 
-        /* } else {
+        } else {
 
             Log.i("requete nest pas passer", String.valueOf(cursor.getColumnCount()));
 
@@ -107,14 +107,11 @@ public class ConsommateurDAO extends DAOBase {
             cursor.close();
 
             return consommateur;
-        }*/
-
+        }
     }
 
     public int deleteConso(long id) {
-
-        return mDb.delete(DatabaseHelper.TABLE_CONSO, DatabaseHelper.COLUMN_IDC, new String[]{String.valueOf(id)});
-
+        return mDb.delete(DatabaseHelper.TABLE_CONSO, DatabaseHelper.COLUMN_IDC + " = ?", new String[]{String.valueOf(id)});
     }
 
     public void deleteTableConso() {

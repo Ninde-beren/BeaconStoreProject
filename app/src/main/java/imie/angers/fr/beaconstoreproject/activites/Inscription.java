@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -66,9 +67,9 @@ public class Inscription extends AppCompatActivity {
     private ConsommateurDAO consommateurDAO;
 
     private String url = "http://beaconstore.ninde.fr/serverRest.php/consommateur?";
-
-    private Button retour;
     private Button valider;
+
+    private Boolean req;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,8 @@ public class Inscription extends AppCompatActivity {
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
+
+        consommateur = new ConsommateurMetier();
 
         //-----------------------------------------------------------------------------------------
 
@@ -110,17 +113,25 @@ public class Inscription extends AppCompatActivity {
         // Apply the adapter to the spinner
         csp.setAdapter(adapterSocialStatut);
 
-        /*retour = (Button) findViewById(R.id.buttonPreviousInscription);
-        retour.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(nextScreen);
-            }
-        });*/
-
         valider = (Button) findViewById(R.id.buttonValiderInscription);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
+
+                new AsyncTask<Void, Void, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+                        long idConso = consommateurDAO.addConsommateur(consommateur);
+
+                        req = idConso != -1;
+
+                        return req;
+                    }
+                };
+
 
                 inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
 
@@ -134,8 +145,6 @@ public class Inscription extends AppCompatActivity {
     //-------------------------------------------------------------------------------------
 
     private ConsommateurMetier inscriptionSQLite() {
-
-        consommateur = new ConsommateurMetier();
 
         dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
@@ -158,11 +167,12 @@ public class Inscription extends AppCompatActivity {
         consommateur.setDtnaiss(dtNaiss);
 
         return consommateur;
+
     }
 
     private void inscriptionAPI() {
 
-        dtNaiss  = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
+        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
 
         emailAPI = consommateur.getEmail();
         mdpAPI = consommateur.getPassword();
@@ -181,17 +191,6 @@ public class Inscription extends AppCompatActivity {
         String mac = info.getMacAddress();
 
         adressmacAPI = mac == null ? null : mac;
-
-        //récupération des données du formulaire pour la base API
-        /*emailAPI    = email.getText().toString();
-        mdpAPI      = mdp.getText().toString();
-        nomAPI      = nom.getText().toString();
-        prenomAPI   = prenom.getText().toString();
-        genreAPI    = String.valueOf(genre.getSelectedItem().toString());
-        telAPI      = tel.getText().toString();
-        cspAPI      = String.valueOf(csp.getSelectedItem().toString());
-        cpAPI       = cp.getText().toString();
-        dtnaissAPI  = dtNaiss;*/
 
         valider.setEnabled(false);
 
@@ -227,9 +226,6 @@ public class Inscription extends AppCompatActivity {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-
-                consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
-                consommateurDAO.addConsommateur(consommateur);
 
                 try {
 

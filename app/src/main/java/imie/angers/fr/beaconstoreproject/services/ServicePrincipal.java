@@ -47,7 +47,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
     protected static final String ART = "art";
     protected static final String OFF = "off";
 
-
     private BeaconManager beaconManager;
     //private NotificationDAO notificationDAO = new NotificationDAO(this);
     private PromoBeaconDAO promoBeaconDAO;
@@ -131,8 +130,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         List<BeaconMetier> listB = sessionBeacon.getBeaconsMeet();
 
-                        //Log.i("listBeaconSession", String.valueOf(listB.size()));
-
                         if(listB.size() == 0) {
 
                             beaconNonVu = false;
@@ -205,12 +202,13 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     public void run() {
 
                         sessionBeacon.beaconClear(); // vide la liste des beacons stockés dans la session beacon
+                        sessionBeacon.panierBeaconClear(); // vide la liste des beacons stockés dans la session panier
 
                         Intent i = new Intent(ServicePrincipal.this, Avis.class);
                         i.putExtra("magId", listBeacons.get(0).getIdMagasin());
                         startActivity(i);
                     }
-                }, 900000);;
+                }, 900000);
             }
 
             @Override

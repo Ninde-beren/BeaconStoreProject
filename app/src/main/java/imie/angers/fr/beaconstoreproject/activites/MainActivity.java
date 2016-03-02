@@ -69,10 +69,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_settings:
-                long id;
+
                 SessionManager user = new SessionManager(MainActivity.this);
-                id= user.getIdC();
-                int nb = consommateurDAO.deleteConso(id);
+                long id = user.getIdC();
+
+                int nb = consommateurDAO.deleteConso(id); //suppression du consommateur de la base de données sqlite
+
+                user.logoutUser(); //on vide la session user
 
                 if(nb > 0) {
 
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
         consommateur = consommateurDAO.getConsommateur(id);
 
-        if (consommateur.getNom().equals("") || consommateur.getPrenom().equals("") || consommateur.getGenre().equals("") || consommateur.getTel().equals("") || consommateur.getDtnaiss().equals("") || consommateur.getCdpostal().equals("") || consommateur.getCatsocpf().equals("")) {
+        if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
 
             AlertDialog.Builder infos;
             infos = new AlertDialog.Builder(this);

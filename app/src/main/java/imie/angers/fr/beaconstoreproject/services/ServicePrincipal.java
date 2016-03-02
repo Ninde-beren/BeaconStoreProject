@@ -75,16 +75,11 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         beaconManager.setBackgroundScanPeriod(1000);
         //beaconManager.setForegroundScanPeriod(1000);
         //beaconManager.setBackgroundBetweenScanPeriod(60000l);
-
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
-
         rest = new AndrestClient();
-
         listBeacons = new ArrayList<>();
-
         sessionBeacon = new SessionManager(this);
-
         beaconVu = new BeaconMetier();
 
         Log.i("Beac", "Hello");

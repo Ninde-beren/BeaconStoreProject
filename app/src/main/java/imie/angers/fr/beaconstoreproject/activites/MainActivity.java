@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
@@ -27,32 +30,40 @@ public class MainActivity extends AppCompatActivity {
 
     // Store context for dialogs
     public Context context = null;
-
     private final static int REQUEST_CODE_ENABLE_BLUETOOTH = 0;
-
     private ConsommateurDAO consommateurDAO;
-
     private PromoBeaconDAO promoBeaconDAO;
     private PromoBanniereDAO promoBanniereDAO;
-
     private TabHost menuOnglet;
-
     private ConsommateurMetier consommateur;
+    private long idConso;
+    private SessionManager user;
 
     //*********************************************************************************************
 
     // BEGIN_INCLUDE(create_menu)
+
     /**
      * Use this method to instantiate your menu, and add your items to it. You
      * should return true if you have added items to it and want the menu to be displayed.
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate our menu from the resources by using the menu inflater.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if(idConso == -1) {
+
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        } else {
+
+            getMenuInflater().inflate(R.menu.menu_main_connected, menu);
+        }
 
         return true;
     }
+
     // END_INCLUDE(create_menu)
 
     // BEGIN_INCLUDE(menu_item_selected)
@@ -63,17 +74,21 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent nextScreen;
+
         switch (item.getItemId()) {
-            case R.id.menu_refresh:
+            case R.id.menu_refresh: //item actualisation
                 // Here we might start a background refresh task
                 return true;
 
-            case R.id.menu_settings:
+            //case R.id.menu_settings:
 
-                SessionManager user = new SessionManager(MainActivity.this);
-                long id = user.getIdC();
+            case R.id.menu_logout: //item deconnexion
 
-                int nb = consommateurDAO.deleteConso(id); //suppression du consommateur de la base de données sqlite
+                Log.i("logout", String.valueOf(item.getItemId()));
+
+                int nb = consommateurDAO.deleteConso(idConso); //suppression du consommateur de la base de données sqlite
 
                 user.logoutUser(); //on vide la session user
 
@@ -81,18 +96,38 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this, "Vous êtes maintenant déconnecté(e)", Toast.LENGTH_SHORT).show();
 
-                    Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
+                    nextScreen = new Intent(getApplicationContext(), MainActivity.class);
                     nextScreen.putExtra("id", 2);
                     startActivity(nextScreen);
                 }
+
+                return true;
+
+            case R.id.menu_profil: // item profil
+
+                Log.i("monProfil", String.valueOf(item.getItemId()));
+
+                nextScreen = new Intent(getApplicationContext(), Profil.class);
+                startActivity(nextScreen);
+
+                return true;
+
+            case R.id.menu_login: //item connexion
+
+                Log.i("Login", String.valueOf(item.getItemId()));
+
+                nextScreen = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(nextScreen);
+
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     // END_INCLUDE(menu_item_selected)
 
-//*************************************************************************************************
+    //*************************************************************************************************
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
         // récupérer le statut de la session user
 
-        SessionManager user = new SessionManager(MainActivity.this);
+        user = new SessionManager(MainActivity.this);
+
+        idConso = user.getIdC();
 
         Log.i("id de session", String.valueOf(user.getIdC()));
         int logger = (int) user.getIdC();
@@ -167,7 +204,21 @@ public class MainActivity extends AppCompatActivity {
 
         verificationBluetoothDialog();
 
-        if(logger != -1){remplirInfoDialog(logger);}
+        if(logger != -1){
+
+            try {
+
+                remplirInfoDialog(logger);
+
+            } catch (ExecutionException e) {
+
+                e.printStackTrace();
+
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -203,12 +254,20 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    private Dialog remplirInfoDialog(long id) {
+    private Dialog remplirInfoDialog(final long id) throws ExecutionException, InterruptedException {
 
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
 
-        consommateur = consommateurDAO.getConsommateur(id);
+        consommateur = new AsyncTask<Void, Void, ConsommateurMetier>() {
+
+            @Override
+            protected ConsommateurMetier doInBackground(Void... params) {
+
+                return consommateurDAO.getConsommateur(id);
+            }
+        }.get();
+
 
         if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
 

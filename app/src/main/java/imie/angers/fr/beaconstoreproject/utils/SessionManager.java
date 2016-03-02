@@ -196,25 +196,21 @@ public class SessionManager {
 
                 JsonObject array = jsonElement.getAsJsonObject();
 
-                String dateBeacon = array.get("dateBeacon").getAsString();
+                long dateBeacon = array.get("dateBeacon").getAsLong();
                 int idBeacon = array.get("idBeacon").getAsInt();
-                int idPromo = array.get("idBeacon").getAsInt();
-                String majorBeacon = array.get("idBeacon").getAsString();
-                String minorBeacon = array.get("idBeacon").getAsString();
-                String uuidBeacon = array.get("idBeacon").getAsString();
+                long idPromo = array.get("idPromo").getAsLong();
+                String idsBeacon = array.get("idsBeacon").getAsString();
+                String majorBeacon = array.get("majorBeacon").getAsString();
+                String minorBeacon = array.get("minorBeacon").getAsString();
+                String uuidBeacon = array.get("uuidBeacon").getAsString();
 
                 BeaconMetier beaconMetier = new BeaconMetier();
 
-                DateFormat df = new SimpleDateFormat("E W, yyy kk:mm:ss", Locale.FRANCE);
-
-                try {
-                    beaconMetier.setDateBeacon(df.parse(dateBeacon));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                beaconMetier.setDateBeacon(dateBeacon);
                 beaconMetier.setMinorBeacon(minorBeacon);
                 beaconMetier.setMajorBeacon(majorBeacon);
                 beaconMetier.setIdBeacon(idBeacon);
+                beaconMetier.setIdsBeacon(idsBeacon);
                 beaconMetier.setIdPromo(idPromo);
                 beaconMetier.setUuidBeacon(uuidBeacon);
 

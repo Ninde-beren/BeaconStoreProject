@@ -15,7 +15,7 @@ public class BeaconMetier {
     private String idMagasin;
     private String idsBeacon;
     private long idPromo;
-    private Date dateBeacon;
+    private long dateBeacon;
 
     public String getUuidBeacon() {
         return uuidBeacon;
@@ -73,11 +73,11 @@ public class BeaconMetier {
         this.idBeacon = idBeacon;
     }
 
-    public Date getDateBeacon() {
+    public long getDateBeacon() {
         return dateBeacon;
     }
 
-    public void setDateBeacon(Date dateBeacon) {
+    public void setDateBeacon(long dateBeacon) {
         this.dateBeacon = dateBeacon;
     }
 }

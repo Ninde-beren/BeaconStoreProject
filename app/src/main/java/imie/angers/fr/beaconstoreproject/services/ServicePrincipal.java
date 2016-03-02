@@ -79,7 +79,10 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         promoBeaconDAO.open();
         rest = new AndrestClient();
         listBeacons = new ArrayList<>();
+
         sessionBeacon = new SessionManager(this);
+        //sessionBeacon.setBeaconSession(listBeacons);
+
         beaconVu = new BeaconMetier();
 
         Log.i("Beac", "Hello");
@@ -113,9 +116,11 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
                 BeaconMetier beaconDejaVu = new BeaconMetier();
-                Boolean beaconNonVu = true;
+                //Boolean beaconNonVu = true;
+                Boolean boolBeaconsVus = true;
+                Boolean timeCheck = true;
 
-                if (beacons.size() > 0) {
+                if (beacons.size() > 0) { //si des beacons ont été détectés par le téléphone
 
                     for (Beacon beacon : beacons) { //parcours de la liste de beacons identifiés par le téléphone
 
@@ -123,37 +128,59 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         Log.i("listBeacon", String.valueOf(listBeacons.size()));
 
-                        List<BeaconMetier> listB = sessionBeacon.getBeaconsMeet();
+                        listBeacons = sessionBeacon.getBeaconsMeet(); //on récupère les beacons déjà rencontré stockés dans la session beacon
 
-                        if(listB.size() == 0) {
+                        Log.i("listBeacon2", String.valueOf(listBeacons.size()));
 
-                            beaconNonVu = false;
+                        if(listBeacons.size() == 0) { // Aucun beacon déjà rencontrés
 
-                        } else {
+                            boolBeaconsVus = false;
 
-                            for(BeaconMetier beaconMetier : listBeacons) {
+                            //beaconNonVu = false;
 
-                                if(beaconMetier.getIdsBeacon().equals(beacon.getIdentifiers().toString()) && (new Date().getTime() - beaconMetier.getDateBeacon().getTime()) >= 10000) {
+                        } else { // des beacons sont stockés dans la session beacon
 
-                                    beaconNonVu = true;
+                            for(BeaconMetier beaconMetier : listBeacons) { //on parcours cette liste de beacons stockés dans la session beacon
+
+                                Log.i("DateBeacon", String.valueOf(beaconMetier.getDateBeacon()));
+
+                                if(beaconMetier.getIdsBeacon().equals(beacon.getIdentifiers().toString()) && (System.currentTimeMillis() - beaconMetier.getDateBeacon()) >= 10000) { //si le beacon vu par le téléphone a déjà été vu auparavant + le temps passé depuis que ce beacon a été vu est > à 2 min
+
+                                    boolBeaconsVus = true;
+                                    timeCheck = true;
+
                                     beaconDejaVu = beaconMetier;
-                                    beaconMetier.setDateBeacon(new Date());
+                                    beaconDejaVu.setDateBeacon(System.currentTimeMillis());
+
+                                    listBeacons.remove(beaconMetier);
+                                    listBeacons.add(beaconDejaVu);
+
+                                    sessionBeacon.setBeaconSession(listBeacons);
 
                                     Log.i("beaconDejaVu", beaconDejaVu.getIdsBeacon());
                                     Log.i("beaconDejaVuPromo", String.valueOf(beaconDejaVu.getIdPromo()));
 
-                                    break;
+                                    break; //on sort de la boucle car il faut envoyer une nouvelle notification
+
+                                } else if (beaconMetier.getIdsBeacon().equals(beacon.getIdentifiers().toString()) && (System.currentTimeMillis() - beaconMetier.getDateBeacon()) < 10000) { //si le beacon vu par le téléphone a déjà été vu auparavant + le temps passé depuis que ce beacon a été vu est > à 2 min {
+
+                                    boolBeaconsVus = true;
+                                    timeCheck = false;
+
+                                } else {
+
+                                    boolBeaconsVus = false;
                                 }
                             }
                         }
 
-                        if(!beaconNonVu) {
+                        if(!boolBeaconsVus) {
 
                             beaconVu.setUuidBeacon(beacon.getId1().toString());
                             beaconVu.setMajorBeacon(beacon.getId2().toString());
                             beaconVu.setMinorBeacon(beacon.getId3().toString());
                             beaconVu.setIdsBeacon(beacon.getIdentifiers().toString());
-                            beaconVu.setDateBeacon(new Date());
+                            beaconVu.setDateBeacon(System.currentTimeMillis());
 
                             Map<String, Object> toPost = new HashMap<String, Object>();
                             toPost.put("uuid", beacon.getId1().toString());
@@ -166,10 +193,14 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                             new doRequest(ServicePrincipal.this, toPost, "POST", url).execute();
 
 
-                        } else if(beaconNonVu && beaconDejaVu.getIdPromo() != 0) {
+                        } else if(boolBeaconsVus && timeCheck) {
 
                             Notification notif = new Notification(beaconDejaVu.getIdPromo());
                             notif.sendNotification(ServicePrincipal.this);
+                        }
+                        else {
+
+                            Log.i("envoi notif", "Je ne fais rien");
                         }
                     }
                 }

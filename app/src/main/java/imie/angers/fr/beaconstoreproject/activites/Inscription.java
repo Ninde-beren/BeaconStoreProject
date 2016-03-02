@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -297,6 +298,18 @@ public class Inscription extends AppCompatActivity {
         Toast.makeText(getBaseContext(), "inscription failed", Toast.LENGTH_LONG).show();
 
         valider.setEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+        }
+        return true;
     }
 
 }

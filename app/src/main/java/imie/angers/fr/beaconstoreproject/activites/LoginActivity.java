@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ import imie.angers.fr.beaconstoreproject.utils.StringUtils;
  * Classe permettant de vérifier les informations de connexion d'un consommateur
  * Created by plougastel.dl03 on 23/02/2016.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -278,6 +280,19 @@ public class LoginActivity extends Activity {
     public void clearAll(){
         emailText.setText("");
         passwordText.setText("");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("id", 2);
+                startActivity(i);
+        }
+        return true;
     }
 }
 

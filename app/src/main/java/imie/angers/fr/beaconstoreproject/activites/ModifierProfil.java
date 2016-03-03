@@ -2,9 +2,14 @@ package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,15 +26,19 @@ import java.util.Map;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
+import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
+import imie.angers.fr.beaconstoreproject.utils.SessionManager;
+import imie.angers.fr.beaconstoreproject.utils.StringUtils;
 
 /**
  * Created by Ninde on 27/02/2016.
  */
 public class ModifierProfil extends Activity{
 
+    private EditText mdp;
     private EditText nom;
     private EditText prenom;
     private Spinner genre;
@@ -38,7 +47,18 @@ public class ModifierProfil extends Activity{
     private Spinner csp;
     private EditText cp;
     private DatePicker dateNaiss;
-    private String dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+    private String dtNaiss;
+
+    private String emailAPI;
+    private String mdpAPI;
+    private String nomAPI;
+    private String prenomAPI;
+    private char genreAPI;
+    private String telAPI;
+    private String cspAPI;
+    private String cpAPI;
+    private String dtnaissAPI;
+    private int idConsoAPI;
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -47,14 +67,13 @@ public class ModifierProfil extends Activity{
     private ConsommateurDAO consommateurDAO;
 
     private String url = "http://beaconstore.ninde.fr/serverRest.php/consommateur?";
-
-    private Button annuler;
     private Button valider;
 
-/**************************************************************************************************
-* ON CREATE
-**************************************************************************************************/
+    private Boolean req;
 
+    /**************************************************************************************************
+     * ON CREATE
+     **************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +84,15 @@ public class ModifierProfil extends Activity{
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
 
+        consommateur = new ConsommateurMetier();
+
+        Intent intent = getIntent();
+        consommateur = intent.getParcelableExtra("consoModif");
+
         //-----------------------------------------------------------------------------------------
 
+        email = (EditText) findViewById(R.id.emailInscription);
+        mdp = (EditText) findViewById(R.id.passwordInscription);
         nom = (EditText) findViewById(R.id.nomInscription);
         prenom = (EditText) findViewById(R.id.prenomInscription);
         tel = (EditText) findViewById(R.id.telInscription);
@@ -94,94 +120,123 @@ public class ModifierProfil extends Activity{
         // Apply the adapter to the spinner
         csp.setAdapter(adapterSocialStatut);
 
-        annuler = (Button) findViewById(R.id.buttonPreviousInscription);
-        annuler.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
-                startActivity(nextScreen);
+        //************************************************************************
+        // Récupération des infos dans la base et les lier avec les vues
 
-            }
-        });
+        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+
+        email.setText(consommateur.getEmail());
+        mdp.setText(consommateur.getPassword());
+        nom.setText(consommateur.getNom());
+        prenom.setText(consommateur.getPrenom());
+        genre.setPrompt(consommateur.getGenre());
+        tel.setText(consommateur.getTel());
+        csp.setPrompt(consommateur.getCatsocpf());
+        cp.setText(consommateur.getCdpostal());
+
+        //*************************************************************
 
         valider = (Button) findViewById(R.id.buttonValiderInscription);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
-                startActivity(nextScreen);
-                //On ecoute les clique sur le bouton login
-                modifierProfilSQLite(); // appelle de la méthode inscription dans la base SQlite
-                consommateurDAO.addConsommateur(consommateur);
-                modifierProfilAPI(); // appelle de la méthode inscription dans la base SQlite
+
+                consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
+
+                new AsyncTask<Void, Void, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+                        Log.i("gotoupdateConso", "ICI");
+
+                        long idConso = consommateurDAO.updateConso(consommateur);
+
+                        req = idConso != -1;
+
+                        return req;
+                    }
+                }.execute();
+
+                inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
             }
         });
-
-        //-------------------------------------------------------------------------------------
-
-        nom.setText(   "Nom :"                  + consommateur.getNom());
-        prenom.setText("Prénom :" + consommateur.getPrenom());
-        genre.setPrompt("Genre :" + consommateur.getGenre());
-        tel.setText("Tél :" + consommateur.getTel());
-        email.setText("E-mail :" + consommateur.getEmail());
-        csp.setPrompt("Catégorie social :\n" + consommateur.getCatsocpf());
-        cp.setText("Code postal :" + consommateur.getCdpostal());
-        //dateNaiss.setText("Date de naissance :\n%s", consommateur.getDtnaiss());
-
-        //-------------------------------------------------------------------------------------
-
-        // lier les infos du formulaire à des variables et les insérer dans une méthode requête add
     }
 
-    private ConsommateurMetier modifierProfilSQLite() {
+    /**************************************************************************************************
+     * ENREGISTREMENT DES INFORMATIONS DANS LA BASE DE DONNEES SQLITE
+     **************************************************************************************************/
 
-        consommateur = new ConsommateurMetier();
+    private ConsommateurMetier inscriptionSQLite() {
 
-        // récupération des données du formulaire pour la base SQLite
+        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+
+        //récupération des données du formulaire pour la base SQLite
+
+        consommateur.setEmail(email.getText().toString());
+        consommateur.setPassword(StringUtils.md5(mdp.getText().toString()));
         consommateur.setNom(nom.getText().toString());
         consommateur.setPrenom(prenom.getText().toString());
-        consommateur.setGenre(String.valueOf(genre.getOnItemSelectedListener()));
+
+        if(genre.getSelectedItem().toString().equals("Genre..."))
+        {consommateur.setGenre("");}
+        else{consommateur.setGenre(genre.getSelectedItem().toString());}
         consommateur.setTel(tel.getText().toString());
-        consommateur.setEmail(email.getText().toString());
-        consommateur.setCatsocpf(String.valueOf(csp.getOnItemSelectedListener()));
+
+        if(csp.getSelectedItem().toString().equals("Catégorie social..."))
+        {consommateur.setCatsocpf("");}
+        else{consommateur.setCatsocpf(csp.getSelectedItem().toString());}
         consommateur.setCdpostal(cp.getText().toString());
         consommateur.setDtnaiss(dtNaiss);
 
         return consommateur;
+
     }
 
-    private void modifierProfilAPI() {
+    /*************************************************************************************************
+     * ENREGISTEREMENT DES INFORMATION DANS LA BASE DE DONNEES DE L API
+     *************************************************************************************************/
 
+    private void inscriptionAPI() {
 
-        // récupération des données du formulaire pour la base API
-        String nomAPI = nom.getText().toString();
-        String prenomAPI = prenom.getText().toString();
-        String genreAPI = String.valueOf(genre.getOnItemSelectedListener());
-        String telAPI = tel.getText().toString();
-        //String emailAPI =   email.getText().toString();
-        String cspAPI = String.valueOf(csp.getOnItemSelectedListener());
-        String cpAPI = cp.getText().toString();
-        String dtnaissAPI = dtNaiss;
+        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
+
+        idConsoAPI   = consommateur.getIdConso();
+        emailAPI     = consommateur.getEmail();
+        mdpAPI       = consommateur.getPassword();
+        nomAPI       = consommateur.getNom();
+        prenomAPI    = consommateur.getPrenom();
+        genreAPI     = consommateur.getGenre().equals("Homme") ? 'M' :
+                       consommateur.getGenre().equals("Femme") ? 'F' : ' ';
+        telAPI       = consommateur.getTel();
+        cspAPI       = consommateur.getCatsocpf();
+        cpAPI        = consommateur.getCdpostal();
+        dtnaissAPI   = consommateur.getDtnaiss();
 
         valider.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(ModifierProfil.this, ProgressDialog.STYLE_SPINNER);
 
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Inscription...");
+        progressDialog.setMessage("Modifications en cours...");
         progressDialog.show();
 
-        Map<String, Object> toPost = new HashMap<String, Object>();
-        toPost.put("nom", nomAPI);
-        toPost.put("prenom", prenomAPI);
-        toPost.put("sexe", genreAPI);
-        toPost.put("tel", telAPI);
-        toPost.put("catsocpf", cspAPI);
-        toPost.put("cdpostal", cpAPI);
-        toPost.put("dtnaiss", dtnaissAPI);
+        Map<String, Object> toPut = new HashMap<String, Object>();
 
-        Log.i("toPost", "param du conso : " + toPost);
+        toPut.put("idconso", idConsoAPI);
+        toPut.put("nom", nomAPI);
+        toPut.put("prenom", prenomAPI);
+        toPut.put("email", emailAPI);
+        toPut.put("password", mdpAPI);
+        toPut.put("sexe", genreAPI);
+        toPut.put("tel", telAPI);
+        toPut.put("catsocpf", cspAPI);
+        toPut.put("cdpostal", cpAPI);
+        toPut.put("dtnaiss", dtnaissAPI);
+
+        Log.i("toPut", "param du conso : " + toPut);
 
         //execution de la requête POST (cf API) en arrière plan dans un autre thread
-        new DoRequest(ModifierProfil.this, toPost, "PUT", url) {
+        new DoRequest(ModifierProfil.this, toPut, "POST", url) {
 
             JSONObject result;
 
@@ -202,27 +257,18 @@ public class ModifierProfil extends Activity{
 
                     Log.i("JSON", String.valueOf(result));
 
-                    if (result.getString("success").equals("1")) {
+                    requete = true;
 
-                        requete = true;
+                } catch (RESTException e1) {
 
-                        //Toast "Merci est bienvenue"
-                        Toast.makeText(context, "Merci et bienvenue", Toast.LENGTH_SHORT).show();
+                    e1.printStackTrace();
 
-
-                    } else {
-
-                        requete = false;
-
-                        Log.i("requete", String.valueOf(requete));
-
-                        //Toast "Dsl vous n'avons pas pu vous s'inscrire".
-                        Toast.makeText(context, "Dsl vous n'avons pas pu vous s'inscrire", Toast.LENGTH_SHORT).show();
-
-                    }
+                    requete = false;
 
                 } catch (Exception e) {
                     this.e = e;    // Store error
+
+                    requete = false;
                 }
 
                 return requete;
@@ -237,36 +283,55 @@ public class ModifierProfil extends Activity{
                 if (e != null) {
 
                     Log.i("We found an error!", e.getMessage());
+
                     requete = false;
 
                 } else {
 
                     if (data) {
 
-                        Log.i("salut", "salut");
+                        onInscriptionSuccess();
 
-                        onModifierProfilSuccess();
-                        Intent intent = new Intent(ModifierProfil.this, ListPromoBanniere.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //Toast "Merci est bienvenue"
+                        Toast.makeText(context, "Votre profil a bien été mis à jour", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(ModifierProfil.this, Profil.class);
                         startActivity(intent); //Activiation de l'activité
 
                     } else {
 
-                        onModifierProfilFailed();
+                        onInscriptionFailed();
                     }
                 }
             }
         }.execute();
     }
 
-    public void onModifierProfilSuccess() {
+    /*************************************************************************************************
+     * VERIFICATION QUE TOUT C EST BIEN PASSE
+     *************************************************************************************************/
+
+    public void onInscriptionSuccess() {
         valider.setEnabled(true);
         finish();
     }
 
-    public void onModifierProfilFailed() {
+    public void onInscriptionFailed() {
         Toast.makeText(getBaseContext(), "inscription failed", Toast.LENGTH_LONG).show();
 
         valider.setEnabled(true);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+        }
+        return true;
+    }
+
 }

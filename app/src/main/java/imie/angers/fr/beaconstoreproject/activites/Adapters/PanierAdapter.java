@@ -20,29 +20,20 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 /**
  * Created by Anne on 01/03/2016.
  */
-public class PanierAdapter<T> extends ArrayAdapter<T> {
+public class PanierAdapter extends ArrayAdapter {
 
-    private List<T> listPanier;
-    private PromoBeaconMetier objPromoBeacon;
-    private PromoBanniereMetier objPromoBanniere;
+    private List<PromoBeaconMetier> listPanier;
+    private PromoBeaconMetier promoPanier;
 
 
-    public PanierAdapter(Context context, ArrayList<T> listPanier) {
+    public PanierAdapter(Context context, ArrayList<PromoBeaconMetier> listPanier) {
         super(context, 0, listPanier);
-        this.listPanier = listPanier;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(listPanier.get(0).getClass() == PromoBeaconMetier.class) {
-
-            objPromoBeacon = (PromoBeaconMetier) getItem(position); //retourne l'objet T à la position "position"
-
-        } else {
-
-            objPromoBanniere = (PromoBanniereMetier) getItem(position); //retourne l'objet T à la position "position"
-        }
+        promoPanier = (PromoBeaconMetier) getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -51,24 +42,14 @@ public class PanierAdapter<T> extends ArrayAdapter<T> {
         }
         // Lookup view for data population
         TextView titleView = (TextView) convertView.findViewById(R.id.titrePanier);
-        TextView descView = (TextView) convertView.findViewById(R.id.txtPanier);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.imgPanier);
+        ImageView imgViewCodeBarre = (ImageView) convertView.findViewById(R.id.imgCodeBarrePanier);
 
         // Populate the data into the template view using the data object
 
-        if(objPromoBeacon.getClass() == PromoBeaconMetier.class) {
-
-            titleView.setText(objPromoBeacon.getTitrePromo());
-            descView.setText(objPromoBeacon.getLbPromo());
-            imgView.setImageBitmap(BitMapUtil.getBitmapFromString(objPromoBeacon.getImageoff()));
-
-        } else {
-
-            titleView.setText(objPromoBanniere.getTitrePromo());
-            descView.setText(objPromoBanniere.getLbPromo());
-            imgView.setImageBitmap(BitMapUtil.getBitmapFromString(objPromoBanniere.getImageoff()));
-
-        }
+        titleView.setText(promoPanier.getTitrePromo());
+        //imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promoPanier.getImageoff()));
+        //imgViewCodeBarre.setImageBitmap(BitMapUtil.getBitmapFromString(promoPanier.getImageart()));
 
         // Return the completed view to render on screen
         return convertView;

@@ -76,7 +76,7 @@ public class PromoBanniereDAO extends DAOBase{
             //création d'une nouvelle banniere
             PromoBanniereMetier banniere = new PromoBanniereMetier();
 
-            banniere.setId(cursor.getInt(0));
+            banniere.setId_Banniere(cursor.getInt(0));
             banniere.setTitrePromo(cursor.getString(1));
             banniere.setLbPromo(cursor.getString(2));
             banniere.setTxtBanniere(cursor.getString(3));
@@ -118,7 +118,7 @@ public class PromoBanniereDAO extends DAOBase{
         //création d'une nouvelle banniere
         PromoBanniereMetier promoBanniere = new PromoBanniereMetier();
 
-        promoBanniere.setId(cursor.getInt(0));
+        promoBanniere.setId_Banniere(cursor.getInt(0));
         promoBanniere.setDtdebval(cursor.getString(1));
         promoBanniere.setDtfinval(cursor.getString(2));
         promoBanniere.setTitrePromo(cursor.getString(3));
@@ -149,7 +149,7 @@ public class PromoBanniereDAO extends DAOBase{
         //Instanciation d'une nouvelle notification
         PromoBanniereMetier promo = new PromoBanniereMetier();
 
-        promo.setId(cursor.getInt(0));
+        promo.setId_Banniere(cursor.getInt(0));
         promo.setTitrePromo(cursor.getString(1));
         promo.setLbPromo(cursor.getString(2));
         promo.setImageoff(cursor.getString(3));

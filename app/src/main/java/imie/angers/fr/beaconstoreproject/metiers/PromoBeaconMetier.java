@@ -16,7 +16,7 @@ import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 public class PromoBeaconMetier extends NotificationMetier {
 
     //Attributs de notre objet PromoBeaconMetier
-    private int id_promo;
+    private long id_promo;
     private String idpromo;
     private String txtPromo;
     private String typpromo;
@@ -79,11 +79,11 @@ public class PromoBeaconMetier extends NotificationMetier {
         this.idpromo = idpromo;
     }
 
-    public int getId_promo() {
+    public long getId_promo() {
         return id_promo;
     }
 
-    public void setId_promo(int id_promo) {
+    public void setId_promo(long id_promo) {
         this.id_promo = id_promo;
     }
 
@@ -96,7 +96,7 @@ public class PromoBeaconMetier extends NotificationMetier {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
-        dest.writeInt(id_promo);
+        dest.writeLong(id_promo);
         dest.writeString(idpromo);
         dest.writeString(txtPromo);
         dest.writeString(typpromo);
@@ -108,7 +108,7 @@ public class PromoBeaconMetier extends NotificationMetier {
     protected PromoBeaconMetier(Parcel in) {
         super(in);
 
-        id_promo = in.readInt();
+        id_promo = in.readLong();
         idpromo = in.readString();
         txtPromo = in.readString();
         typpromo = in.readString();

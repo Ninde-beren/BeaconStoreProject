@@ -26,10 +26,6 @@ public class Notification {
     private PromoBeaconMetier promoMetier;
     private long lastIdInsert;
 
-    public Notification(long lastId){
-        this.lastIdInsert = lastId;
-        notification_id = lastId;
-    }
 
     /**
      * A numeric value that identifies the notification that we'll be sending.
@@ -38,45 +34,10 @@ public class Notification {
      */
 
 
-    /*public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(null);
-
-        promoMetier = new PromoBeaconMetier();
-
-        promoBeaconDAO = new PromoBeaconDAO(this);
-        promoBeaconDAO.open();
-
-        Intent i = getIntent();
-
-        lastIdInsert = i.getLongExtra("lastIdInsert", 0);
-
-        //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
-
-        try {
-
-            promoMetier = new getPromoForNotif().execute().get(); //retourne une instance de l'objet PromotionMetier
-
-        } catch (InterruptedException e) {
-
-                e.printStackTrace();
-
-        } catch (ExecutionException e) {
-
-            e.printStackTrace();
-        }
-
-
-        notification_id = lastIdInsert;
-
-        Log.i("hello", "hello");
-        Log.i("PromoBeacon0", promoMetier.getTxtPromo());
-
-       sendNotification();
-        finish();
-    }*/
-
-
+    public Notification(long lastId){
+        this.lastIdInsert = lastId;
+        notification_id = lastId;
+    }
 
     /**
      * Send a sample notification using the NotificationCompat API.

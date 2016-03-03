@@ -61,17 +61,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TOKEN = "token";
     public static final String COLUMN_DATEC = "dateAjoutConso";
 
+    //table pannier
+    public static final String TABLE_PANIER = "panier";
+    public static final String COLUMN_IDPA = "id_pa";
+    public static final String COLUMN_PROMO = "promopanier";
+    //public static final String COLUMN_IDC = "id_c";
+    public static final String COLUMN_TIME = "timepanier";
+
 
 
     //constante représentant la création de la table promobanniere
     public static final String TABLE_PROMOBANNIERE_CREATE = "CREATE TABLE " + TABLE_PROMOBANNIERE + " (" + COLUMN_IDB + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDBANNIERE + " VARCHAR(255),"+ COLUMN_LBBANNIERE + " VARCHAR(255)," + COLUMN_TITREBAN + " VARCHAR(255)," + COLUMN_TXTBAN + " VARCHAR(255)," + COLUMN_B_DTDEBVAL + " VARCHAR(255)," + COLUMN_B_DTFINVAL + " VARCHAR(255)," + COLUMN_TYPBAN + " VARCHAR(255)," + COLUMN_B_IMAGEOFF + " VARCHAR(255)," + COLUMN_B_IMAGEART + " VARCHAR(255));";
 
     //constante représentant la création de la table promobeacon
-    public static final String TABLE_PROMOBEACON_CREATE = "CREATE TABLE " + TABLE_PROMOBEACON + " (" + COLUMN_IDP + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDPROMO + " VARCHAR(255),"+ COLUMN_LBPROMO + " VARCHAR(255)," + COLUMN_TITREPRO + " VARCHAR(255)," + COLUMN_TXTPROMO + " VARCHAR(255)," + COLUMN_TYPPROMO + " VARCHAR(255)," + COLUMN_IMAGEOFF + " VARCHAR(255)," + COLUMN_IMAGEART + " VARCHAR(255)," + COLUMN_BEACON + " VARCHAR(255)," + COLUMN_DATEP + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ");";
+    public static final String TABLE_PROMOBEACON_CREATE = "CREATE TABLE " + TABLE_PROMOBEACON + " (" + COLUMN_IDP + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDPROMO + " VARCHAR(255),"+ COLUMN_LBPROMO + " VARCHAR(255)," + COLUMN_TITREPRO + " VARCHAR(255)," + COLUMN_TXTPROMO + " VARCHAR(255)," + COLUMN_TYPPROMO + " VARCHAR(255)," + COLUMN_IMAGEOFF + " VARCHAR(255)," + COLUMN_IMAGEART + " VARCHAR(255)," + COLUMN_BEACON + " VARCHAR(255)," + COLUMN_DATEP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
     //constante représentant la création de la table consommateur
-    public static final String TABLE_CONSO_CREATE = "CREATE TABLE " + TABLE_CONSO + " (" + COLUMN_IDC + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDCONSO + " INTEGER, " + COLUMN_NOM + " VARCHAR(255),"+ COLUMN_PRENOM + " VARCHAR(255)," + COLUMN_GENRE + " VARCHAR(255)," + COLUMN_TEL + " VARCHAR(255)," + COLUMN_DTNAISS + " VARCHAR(255)," + COLUMN_CP + " VARCHAR(255)," + COLUMN_CSP  + " VARCHAR(255),"  + COLUMN_EMAIL + " VARCHAR(255)," + COLUMN_MDP + " VARCHAR(255)," + COLUMN_TOKEN + " VARCHAR(255)," + COLUMN_DATEC + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ");";
+    public static final String TABLE_CONSO_CREATE = "CREATE TABLE " + TABLE_CONSO + " (" + COLUMN_IDC + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_IDCONSO + " INTEGER, " + COLUMN_NOM + " VARCHAR(255),"+ COLUMN_PRENOM + " VARCHAR(255)," + COLUMN_GENRE + " VARCHAR(255)," + COLUMN_TEL + " VARCHAR(255)," + COLUMN_DTNAISS + " VARCHAR(255)," + COLUMN_CP + " VARCHAR(255)," + COLUMN_CSP  + " VARCHAR(255),"  + COLUMN_EMAIL + " VARCHAR(255)," + COLUMN_MDP + " VARCHAR(255)," + COLUMN_TOKEN + " VARCHAR(255)," + COLUMN_DATEC + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
+    //constante représentant la création de la table panier
+    public static final String TABLE_PANIER_CREATE = "CREATE TABLE " + TABLE_PANIER + " (" + COLUMN_IDPA + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_PROMO + " INTEGER," + COLUMN_TIME + " INTEGER);";
 
 	// Création de la bdd à partir du Context, du Nom de la table et du numéro de version
 	public DatabaseHelper(Context context) {
@@ -82,17 +91,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@SuppressLint("LongLogTag")
     @Override
 	public void onCreate(SQLiteDatabase db) {
-        //db.execSQL(TABLE_NOTIFICATION_CREATE);
         db.execSQL(TABLE_PROMOBEACON_CREATE);
         db.execSQL(TABLE_PROMOBANNIERE_CREATE);
         db.execSQL(TABLE_CONSO_CREATE);
+        db.execSQL(TABLE_PANIER_CREATE);
 
         Log.i("SQLite DB : Constructeur ", "Constructeur");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PANIER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROMOBEACON);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROMOBANNIERE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONSO);

@@ -2,10 +2,12 @@ package imie.angers.fr.beaconstoreproject.activites;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import imie.angers.fr.beaconstoreproject.R;
+import imie.angers.fr.beaconstoreproject.dao.PanierDAO;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
@@ -27,8 +30,7 @@ public class PromoBeaconActivity extends AppCompatActivity {
 
     private PromoBeaconMetier promoBeacon;
 
-    private SessionManager sessionPanier;
-    private List<PromoBeaconMetier> promoBeaconList;
+    private PanierDAO panierDAO;
 
 /**************************************************************************************************
 * ON CREATE
@@ -41,8 +43,8 @@ public class PromoBeaconActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_promo_beacon);
 
-        sessionPanier = new SessionManager(this);
-        promoBeaconList = new ArrayList<>();
+        panierDAO = new PanierDAO(this);
+        panierDAO.open();
 
         TextView titrePromo = (TextView) findViewById(R.id.titrePromo);
         ImageView imageArt = (ImageView) findViewById(R.id.imagePromo);
@@ -62,10 +64,27 @@ public class PromoBeaconActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                promoBeaconList.add(promoBeacon);
+                new AsyncTask<Void, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
 
-                sessionPanier.setPanierPromoBeaconSession(promoBeaconList);
-                Toast.makeText(PromoBeaconActivity.this, "Cette promotion a bien été ajoutée à votre panier", Toast.LENGTH_SHORT).show();
+                        Log.i("time", String.valueOf(System.currentTimeMillis()));
+                        Log.i("idPromo", String.valueOf(promoBeacon.getId_promo()));
+
+                        panierDAO.addPromoPanier(promoBeacon.getId_promo(), System.currentTimeMillis());
+
+                        return true;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean o) {
+
+                        super.onPostExecute(o);
+
+                        Toast.makeText(PromoBeaconActivity.this, "Cette promotion a bien été ajoutée à votre panier", Toast.LENGTH_SHORT).show();
+                    }
+                }.execute();
+
             }
         });
     }

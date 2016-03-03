@@ -29,6 +29,7 @@ import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
+import imie.angers.fr.beaconstoreproject.utils.StringUtils;
 
 public class Inscription extends AppCompatActivity {
 
@@ -53,7 +54,6 @@ public class Inscription extends AppCompatActivity {
     private String cpAPI;
     private String dtnaissAPI;
     private String adressmacAPI;
-    private String passwordAPI;
 
     private AndrestClient rest = new AndrestClient();
     private Boolean requete;
@@ -132,10 +132,6 @@ public class Inscription extends AppCompatActivity {
                 }.execute();
 
                 inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
-
-                Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
-                nextScreen.putExtra("id", 3);
-                startActivity(nextScreen);
             }
         });
     }
@@ -151,7 +147,7 @@ public class Inscription extends AppCompatActivity {
         //récupération des données du formulaire pour la base SQLite
 
         consommateur.setEmail(email.getText().toString());
-        consommateur.setPassword(mdp.getText().toString());
+        consommateur.setPassword(StringUtils.md5(mdp.getText().toString()));
         consommateur.setNom(nom.getText().toString());
         consommateur.setPrenom(prenom.getText().toString());
 
@@ -188,7 +184,6 @@ public class Inscription extends AppCompatActivity {
         cspAPI       = consommateur.getCatsocpf();
         cpAPI        = consommateur.getCdpostal();
         dtnaissAPI   = consommateur.getDtnaiss();
-        passwordAPI  = consommateur.getPassword();
 
         WifiManager mana = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = mana.getConnectionInfo();
@@ -207,6 +202,7 @@ public class Inscription extends AppCompatActivity {
         Map<String, Object> toPost = new HashMap<String, Object>();
         toPost.put("nom", nomAPI);
         toPost.put("prenom", prenomAPI);
+        toPost.put("password", mdpAPI);
         toPost.put("email", emailAPI);
         toPost.put("sexe", genreAPI);
         toPost.put("tel", telAPI);
@@ -241,9 +237,6 @@ public class Inscription extends AppCompatActivity {
 
                     requete = true;
 
-                        //Toast "Merci est bienvenue"
-                        Toast.makeText(context, "Merci et bienvenue", Toast.LENGTH_SHORT).show();
-
                     } catch (RESTException e1) {
 
                     e1.printStackTrace();
@@ -275,7 +268,8 @@ public class Inscription extends AppCompatActivity {
 
                     if (data) {
 
-                        Log.i("salut", "salut");
+                        //Toast "Merci est bienvenue"
+                        Toast.makeText(context, "Merci et bienvenue", Toast.LENGTH_SHORT).show();
 
                         onInscriptionSuccess();
 

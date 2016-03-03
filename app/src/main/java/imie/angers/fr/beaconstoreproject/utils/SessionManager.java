@@ -85,14 +85,14 @@ public class SessionManager {
      * Crée ou met à jour un panier conso avec des promotions beacons
      * @param promoBeacon
      */
-    public void setPanierPromoBeaconSession(List<PromoBeaconMetier> promoBeacon) {
+    /*public void setPanierPromoBeaconSession(List<> promoBeacon) {
 
         String promoBeaconJson = gson.toJson(promoBeacon);
         editor.putString(PANIER_BEACON, promoBeaconJson);
         editor.commit();
 
         Log.i("jsonbeaconsession", promoBeaconJson);
-    }
+    }*/
 
     //----------------------------------------------------------------------------//
     /**

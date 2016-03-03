@@ -2,6 +2,7 @@ package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
@@ -59,7 +62,18 @@ public class Profil extends AppCompatActivity {
 
         Log.i("idAnne", String.valueOf(id));
 
-        consommateur = consommateurDAO.getConsommateur(id);
+        try {
+            consommateur = new AsyncTask<Void, Void, ConsommateurMetier>() {
+                @Override
+                protected ConsommateurMetier doInBackground(Void... params) {
+
+                    return consommateurDAO.getConsommateur(id);
+                }
+            }.execute().get() ;
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
         Log.i("consomateurAnne :", consommateur.toString());
 
@@ -89,6 +103,7 @@ public class Profil extends AppCompatActivity {
         modifier.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent nextScreen = new Intent(getApplicationContext(), ModifierProfil.class);
+                nextScreen.putExtra("consoModif", consommateur);
                 startActivity(nextScreen);
             }
        });

@@ -52,7 +52,8 @@ public class PromoBeaconDAO extends DAOBase {
 
     public PromoBeaconMetier getLastPromotionInserted(long id) {
 
-        String query = "SELECT " + DatabaseHelper.COLUMN_IDP + ", "
+        String query = "SELECT "
+                + DatabaseHelper.COLUMN_IDP + ", "
                 + DatabaseHelper.COLUMN_TITREPRO + ", "
                 + DatabaseHelper.COLUMN_LBPROMO + ", "
                 + DatabaseHelper.COLUMN_IMAGEOFF + ", "
@@ -69,7 +70,7 @@ public class PromoBeaconDAO extends DAOBase {
         //Instanciation d'une nouvelle notification
         PromoBeaconMetier promo = new PromoBeaconMetier();
 
-        promo.setId(cursor.getInt(0));
+        promo.setId_promo(cursor.getInt(0));
         promo.setTitrePromo(cursor.getString(1));
         promo.setLbPromo(cursor.getString(2));
         promo.setImageoff(cursor.getString(3));
@@ -90,7 +91,8 @@ public class PromoBeaconDAO extends DAOBase {
 
     public List<PromoBeaconMetier> getPromoBeacon() {
 
-        String query = "SELECT " + DatabaseHelper.COLUMN_IDP + ", "
+        String query = "SELECT "
+                + DatabaseHelper.COLUMN_IDP + ", "
                 + DatabaseHelper.COLUMN_TITREPRO + ", "
                 + DatabaseHelper.COLUMN_LBPROMO + ", "
                 + DatabaseHelper.COLUMN_IMAGEOFF + ", "
@@ -110,7 +112,7 @@ public class PromoBeaconDAO extends DAOBase {
             //création d'une nouvelle notification
             PromoBeaconMetier promo = new PromoBeaconMetier();
 
-            promo.setId(cursor.getInt(0));
+            promo.setId_promo(cursor.getInt(0));
             promo.setTitrePromo(cursor.getString(1));
             promo.setLbPromo(cursor.getString(2));
             promo.setImageoff(cursor.getString(3));

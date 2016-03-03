@@ -8,6 +8,7 @@
         android:id="@+id/menu_refresh"
 
         android:title="@string/menu_refresh"
+        android:icon="@drawable/ic_action_refresh"
         support:showAsAction="ifRoom"/>
 
     <item

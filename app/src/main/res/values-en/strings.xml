@@ -11,7 +11,7 @@
         <!-- Strings related to login -->
     <string name="prompt_name">Name</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Register/create account</string>
     <string name="action_login">Sign in</string>
     <string name="action_go_to_register">No account yet ? Create on</string>

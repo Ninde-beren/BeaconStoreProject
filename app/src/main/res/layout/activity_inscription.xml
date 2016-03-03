@@ -160,19 +160,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Previous"
-        android:id="@+id/buttonPreviousInscription"
-        android:layout_below="@+id/cspInscription"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/action_submit"
         android:id="@+id/buttonValiderInscription"
+        android:layout_below="@+id/cspInscription"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

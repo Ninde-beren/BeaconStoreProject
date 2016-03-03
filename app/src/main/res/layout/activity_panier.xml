@@ -1,12 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/panier"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dip" >
+    android:padding="10dp"
+    android:layout_marginBottom="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/ColorAccent"
+        android:padding="5dp"
+        android:layout_marginBottom="0dp"
         android:id="@+id/linear1">
 
     <ImageView
@@ -29,6 +33,7 @@
         android:gravity="center_vertical"
         android:text="Example application"
         android:textSize="16sp"
+        android:textColor="#000"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true" />
     </LinearLayout>
@@ -36,10 +41,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/ColorAccent"
+        android:layout_marginTop="0dp"
+        android:padding="5dp"
         android:layout_below="@id/linear1">
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:id="@+id/imgCodeBarrePanier"
         android:src="@drawable/codebarre" />
     </LinearLayout>

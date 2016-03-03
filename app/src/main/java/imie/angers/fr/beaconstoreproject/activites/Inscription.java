@@ -131,7 +131,7 @@ public class Inscription extends AppCompatActivity {
 
                         return req;
                     }
-                };
+                }.execute();
 
 
                 inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite

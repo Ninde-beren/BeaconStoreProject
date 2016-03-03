@@ -3,7 +3,6 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LocalActivityManager;
-import android.app.TabActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,9 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.Toast;
-
 import java.util.concurrent.ExecutionException;
-
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
@@ -256,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Dialog remplirInfoDialog(final long id) throws ExecutionException, InterruptedException {
 
-        consommateurDAO = new ConsommateurDAO(this);
+        consommateurDAO = new ConsommateurDAO(getApplicationContext());
         consommateurDAO.open();
 
         consommateur = new AsyncTask<Void, Void, ConsommateurMetier>() {
@@ -266,7 +263,9 @@ public class MainActivity extends AppCompatActivity {
 
                 return consommateurDAO.getConsommateur(id);
             }
-        }.get();
+        }.execute().get();
+
+        Log.i("consoInfo", String.valueOf(consommateur.getId_c()));
 
 
         if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {

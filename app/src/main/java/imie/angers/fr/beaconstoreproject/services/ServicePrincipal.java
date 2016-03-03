@@ -193,7 +193,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                             new doRequest(ServicePrincipal.this, toPost, "POST", url).execute();
 
 
-                        } else if(boolBeaconsVus && timeCheck) {
+                        } else if(timeCheck) {
 
                             Notification notif = new Notification(beaconDejaVu.getIdPromo());
                             notif.sendNotification(ServicePrincipal.this);

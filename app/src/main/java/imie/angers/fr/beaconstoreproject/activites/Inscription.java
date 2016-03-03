@@ -1,8 +1,5 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,18 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +65,10 @@ public class Inscription extends AppCompatActivity {
     private Button valider;
 
     private Boolean req;
+
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +131,6 @@ public class Inscription extends AppCompatActivity {
                     }
                 }.execute();
 
-
                 inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
 
                 Intent nextScreen = new Intent(getApplicationContext(), MainActivity.class);
@@ -143,7 +140,9 @@ public class Inscription extends AppCompatActivity {
         });
     }
 
-    //-------------------------------------------------------------------------------------
+/**************************************************************************************************
+* ENREGISTREMENT DES INFORMATIONS DANS LA BASE DE DONNEES SQLITE
+**************************************************************************************************/
 
     private ConsommateurMetier inscriptionSQLite() {
 
@@ -171,21 +170,25 @@ public class Inscription extends AppCompatActivity {
 
     }
 
+/*************************************************************************************************
+* ENREGISTEREMENT DES INFORMATION DANS LA BASE DE DONNEES DE L API
+*************************************************************************************************/
+
     private void inscriptionAPI() {
 
         dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
 
-        emailAPI = consommateur.getEmail();
-        mdpAPI = consommateur.getPassword();
-        nomAPI = consommateur.getNom();
-        prenomAPI = consommateur.getPrenom();
-        genreAPI = consommateur.getGenre().equals("Homme") ? 'M' :
-                consommateur.getGenre().equals("Femmes") ? 'F' : ' ';
-        telAPI = consommateur.getTel();
-        cspAPI = consommateur.getCatsocpf();
-        cpAPI = consommateur.getCdpostal();
-        dtnaissAPI = consommateur.getDtnaiss();
-        passwordAPI = consommateur.getPassword();
+        emailAPI     = consommateur.getEmail();
+        mdpAPI       = consommateur.getPassword();
+        nomAPI       = consommateur.getNom();
+        prenomAPI    = consommateur.getPrenom();
+        genreAPI     = consommateur.getGenre().equals("Homme") ? 'M' :
+                       consommateur.getGenre().equals("Femmes") ? 'F' : ' ';
+        telAPI       = consommateur.getTel();
+        cspAPI       = consommateur.getCatsocpf();
+        cpAPI        = consommateur.getCdpostal();
+        dtnaissAPI   = consommateur.getDtnaiss();
+        passwordAPI  = consommateur.getPassword();
 
         WifiManager mana = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = mana.getConnectionInfo();
@@ -288,6 +291,10 @@ public class Inscription extends AppCompatActivity {
             }
         }.execute();
     }
+
+/*************************************************************************************************
+* VERIFICATION QUE TOUT C EST BIEN PASSE
+*************************************************************************************************/
 
     public void onInscriptionSuccess() {
         valider.setEnabled(true);

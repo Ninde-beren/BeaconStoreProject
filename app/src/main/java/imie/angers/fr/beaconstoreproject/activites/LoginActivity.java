@@ -47,6 +47,10 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.btn_login) Button loginButton;
     @Bind(R.id.link_signup) TextView signupLink;
 
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,9 +83,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Permet de vérifier les informations de login
-     */
+/*************************************************************************************************
+* PERMET DE VERIFIER LES INFORMATION DU LOGIN
+*************************************************************************************************/
 
     public void login() {
         Log.d(TAG, "Login");
@@ -210,6 +214,10 @@ public class LoginActivity extends AppCompatActivity {
         }.execute();
     }
 
+/*************************************************************************************************
+* RETOURNE QUELQUE CHOSE QUAND L AUTHENTIFICATION A FONCTIONNE
+*************************************************************************************************/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
@@ -224,16 +232,27 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+/*************************************************************************************************
+* PERMET DE REVENIR A L ACTIVITE PRECEDENTE
+*************************************************************************************************/
+
     @Override
     public void onBackPressed() { //permet de revenir à l'activité précédente
         // disable going back to the MainActivity
         moveTaskToBack(true);
     }
 
+/*************************************************************************************************
+* ACTION QUAND L AUTHENTIFICATION A FONCTIONNE
+*************************************************************************************************/
+
     public void onLoginSuccess() {
         loginButton.setEnabled(true);
         finish();
     }
+/*************************************************************************************************
+* ACTION QUAND L AUTHENTIFICATION N A PAS FONCTIONNE
+*************************************************************************************************/
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
@@ -241,10 +260,10 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setEnabled(true);
     }
 
-    /**
-     * Méthode permettant de vérifier la format de l'email et du mdp
-     * @return
-     */
+/*************************************************************************************************
+* METHODE PERMETTANT DE VERIFIER LE FORMAT DE L EMAIL ET DU MOT DE PASSE
+* @return
+**************************************************************************************************/
 
     public boolean validate() {
 
@@ -270,9 +289,10 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    /**
-     * Permet de remettre à zéro les champs email et mdp
-     */
+/*************************************************************************************************
+* PERMET DE REMETTRE A ZERO LES CHAMPS EMZAIL ET MOT DE PASSE
+*************************************************************************************************/
+
     public void clearAll(){
         emailText.setText("");
         passwordText.setText("");

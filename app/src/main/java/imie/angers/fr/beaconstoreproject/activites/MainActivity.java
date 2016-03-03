@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private long idConso;
     private SessionManager user;
 
-    //*********************************************************************************************
+/**************************************************************************************************
+* ACTION BAR
+**************************************************************************************************/
 
     // BEGIN_INCLUDE(create_menu)
 
@@ -124,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
     // END_INCLUDE(menu_item_selected)
 
-    //*************************************************************************************************
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,13 +173,13 @@ public class MainActivity extends AppCompatActivity {
 
         //on ajoute le reste des onglets
 
-        if(logger == -1){
-            Intent intent2 = new Intent().setClass(this, LoginActivity.class);
-            menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Connexion").setContent(intent2));
-        }else {
-            Intent intent2 = new Intent().setClass(this, Profil.class);
-            menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Profils").setContent(intent2));
-        }
+      // if(logger == -1){
+      //     Intent intent2 = new Intent().setClass(this, LoginActivity.class);
+      //     menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Connexion").setContent(intent2));
+      // }else {
+      //     Intent intent2 = new Intent().setClass(this, Profil.class);
+      //     menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Profils").setContent(intent2));
+      // }
 
         Intent intent3 = new Intent().setClass(this, Panier.class);
         menuOnglet.addTab(menuOnglet.newTabSpec("onglet_3").setIndicator("Panier").setContent(intent3));
@@ -198,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
         );
 
         menuOnglet.setCurrentTab(0);
-
+        
+        //**********************************************
+        
         verificationBluetoothDialog();
 
         if(logger != -1){
@@ -219,6 +225,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+/**************************************************************************************************
+* VERIFICATION DU BLUETOOTH
+**************************************************************************************************/
+
     private void verificationBluetoothDialog() {
 
         BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -237,6 +247,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+/**************************************************************************************************
+* ENVOI UN TOAST SI LE BLUETOOH N EST PAS ACTIVE
+**************************************************************************************************/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -250,6 +264,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Vous ne pourrez pas profiter des offres en magasin", Toast.LENGTH_LONG).show();
             }
     }
+    
+/**************************************************************************************************
+* VERIFICATION DES INFORMATIONS DE L UTILISATEUR
+**************************************************************************************************/
 
     private Dialog remplirInfoDialog(final long id) throws ExecutionException, InterruptedException {
 
@@ -298,6 +316,10 @@ public class MainActivity extends AppCompatActivity {
 
         return null;
     }
+
+/**************************************************************************************************
+* ON RESUME
+**************************************************************************************************/
 
     @Override
     protected void onResume() {

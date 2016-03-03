@@ -38,6 +38,11 @@ public class Profil extends AppCompatActivity {
 
     private long id;
 
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

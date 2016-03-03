@@ -6,16 +6,18 @@ import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.Adapters.PanierAdapter;
-import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 public class Panier extends Activity {
+
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

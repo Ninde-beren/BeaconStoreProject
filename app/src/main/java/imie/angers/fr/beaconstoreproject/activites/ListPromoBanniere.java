@@ -1,17 +1,12 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.bluetooth.BluetoothAdapter;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,9 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.Adapters.PromoBanniereAdapter;
-import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
-import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 
 public class ListPromoBanniere extends Activity {
@@ -31,7 +24,9 @@ public class ListPromoBanniere extends Activity {
     private PromoBanniereDAO promoBanniereDAO;
     protected List<PromoBanniereMetier> listPromoBanniere;
 
-    //----------------------------------------------------------------------
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +73,10 @@ public class ListPromoBanniere extends Activity {
             }
         });
     }
+
+/*************************************************************************************************
+* DONNE LA LISTE DES PROMOTIONS BANNNIERES
+*************************************************************************************************/
 
     private class getPromoBanniere extends AsyncTask<Void, List<PromoBanniereMetier>, List<PromoBanniereMetier>> {
 

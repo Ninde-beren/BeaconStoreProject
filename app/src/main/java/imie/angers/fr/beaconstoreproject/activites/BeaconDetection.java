@@ -20,6 +20,11 @@ public class BeaconDetection extends Application implements BootstrapNotifier {
     private static final String TAG = ".MyApplicationName";
     private RegionBootstrap regionBootstrap;
 
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,10 +37,18 @@ public class BeaconDetection extends Application implements BootstrapNotifier {
         regionBootstrap = new RegionBootstrap(this, region);
     }
 
+/**************************************************************************************************
+*
+**************************************************************************************************/
+
     @Override
     public void didDetermineStateForRegion(int arg0, Region arg1) {
         // Don't care
     }
+
+/*************************************************************************************************
+* QUAND ON RENTRE DANS LA REGION D UN BEACON
+*************************************************************************************************/
 
     @Override
     public void didEnterRegion(Region arg0) {
@@ -49,6 +62,10 @@ public class BeaconDetection extends Application implements BootstrapNotifier {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startService(intent);
     }
+
+/*************************************************************************************************
+* QUAND ON SORT DE LA REGION D UN BEACON
+*************************************************************************************************/
 
     @Override
     public void didExitRegion(Region arg0) {

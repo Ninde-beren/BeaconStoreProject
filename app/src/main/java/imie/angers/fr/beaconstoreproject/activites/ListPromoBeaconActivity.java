@@ -1,18 +1,11 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -36,6 +29,9 @@ public class ListPromoBeaconActivity extends Activity {
     private PromoBeaconAdapter promoBeaconAdapter;
     private ListView list;
 
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +81,9 @@ public class ListPromoBeaconActivity extends Activity {
         });
     }
 
+/*************************************************************************************************
+* ON RESUME
+*************************************************************************************************/
 
     @Override
     public void onResume() {
@@ -107,6 +106,10 @@ public class ListPromoBeaconActivity extends Activity {
         list.setAdapter(promoBeaconAdapter);
     }
 
+/*************************************************************************************************
+* ON PAUSE
+*************************************************************************************************/
+
     @Override
     public void onPause() {
         super.onPause();
@@ -128,6 +131,10 @@ public class ListPromoBeaconActivity extends Activity {
         list.setAdapter(promoBeaconAdapter);
     }
 
+/*************************************************************************************************
+* ON RESTART
+*************************************************************************************************/
+
     @Override
     public void onRestart() {
         super.onRestart();
@@ -148,6 +155,10 @@ public class ListPromoBeaconActivity extends Activity {
 
         list.setAdapter(promoBeaconAdapter);
     }
+
+/*************************************************************************************************
+* DONNE LA LISTE DES PROMOTION BEACON
+*************************************************************************************************/
 
     private class getPromoBeacon extends AsyncTask<Void, List<PromoBeaconMetier>, List<PromoBeaconMetier>> {
 

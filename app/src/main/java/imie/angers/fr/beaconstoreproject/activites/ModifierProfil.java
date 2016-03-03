@@ -51,6 +51,11 @@ public class ModifierProfil extends Activity{
     private Button annuler;
     private Button valider;
 
+/**************************************************************************************************
+* ON CREATE
+**************************************************************************************************/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

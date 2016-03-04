@@ -81,6 +81,28 @@ public class PanierDAO extends DAOBase {
         return listPromoPanier;
     }
 
+    public List<String> getPromoPanierForAPI() {
+
+        String query = "SELECT "
+                + " b." + DatabaseHelper.COLUMN_IDPROMO + ", "
+                + " FROM " + DatabaseHelper.TABLE_PANIER + " p JOIN " + DatabaseHelper.TABLE_PROMOBEACON + " b ON p." + DatabaseHelper.COLUMN_PROMO + " = b." +
+                DatabaseHelper.COLUMN_IDP;
+
+        Cursor cursor = mDb.rawQuery(query, null);
+
+        List<String> listPromoPanier = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+
+            listPromoPanier.add(cursor.getString(0));
+        }
+
+        // fermeture du cursor
+        cursor.close();
+
+        return listPromoPanier;
+    }
+
     public int deletePromoPanier(long idPromo) {
 
         return mDb.delete(DatabaseHelper.TABLE_PANIER, DatabaseHelper.COLUMN_PROMO + " = ?", new String[]{String.valueOf(idPromo)});

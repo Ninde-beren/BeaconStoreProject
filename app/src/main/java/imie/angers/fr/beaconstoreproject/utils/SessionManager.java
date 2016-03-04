@@ -222,35 +222,6 @@ public class SessionManager {
         return beaconList;
     }
 
-    //----------------------------------------------------------------------------//
-
-    /**
-     * Permet de récupérer la liste des promostions beacons clickées par le consommateur
-     * @return
-     */
-
-    public Collection getPromoBeaconSession(){
-
-        String promoBeaconListJson = pref.getString(PANIER_BEACON, null);
-
-        return gson.fromJson(promoBeaconListJson, Collection.class);
-    }
-
-    //----------------------------------------------------------------------------//
-
-    /**
-     * Permet de récupérer la liste des promotion bannières clickées par le consommateur
-     * @return
-     */
-
-    public Collection getPromoBanniereSession(){
-
-        String promoBanniereListJson = pref.getString(PANIER_BANNIERE, null);
-
-        return gson.fromJson(promoBanniereListJson, Collection.class);
-    }
-
-    //----------------------------------------------------------------------------//
 
     /**
      * Vide la session consommateur

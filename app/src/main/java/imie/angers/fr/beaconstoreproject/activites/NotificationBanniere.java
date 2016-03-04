@@ -35,14 +35,11 @@ public class NotificationBanniere {
 /**************************************************************************************************
 * CONSTRUCTEUR
 **************************************************************************************************/
-    public NotificationBanniere() {
-    }
+    public NotificationBanniere() {}
 
-    /**
-     * Send a sample notification using the NotificationCompat API.
-     */
+
 /**************************************************************************************************
-*
+* SEND NOTIFICATION
 **************************************************************************************************/
 
     public void sendNotification(Context context){ //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
@@ -53,7 +50,6 @@ public class NotificationBanniere {
          */
 
         Intent intent = new Intent(context, MainActivity.class);
-
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /**
@@ -107,7 +103,7 @@ public class NotificationBanniere {
          * Send the notification. This will immediately display the notification icon in the
          * notification bar.
          */
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify((int) NOTIFICATION_ID, builder.build());
     }
 }

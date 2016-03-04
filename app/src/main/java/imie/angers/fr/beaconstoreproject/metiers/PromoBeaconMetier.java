@@ -128,4 +128,9 @@ public class PromoBeaconMetier extends NotificationMetier {
             return new PromoBeaconMetier[size];
         }
     };
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

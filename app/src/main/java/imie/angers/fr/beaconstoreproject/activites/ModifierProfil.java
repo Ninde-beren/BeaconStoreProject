@@ -1,6 +1,8 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +30,8 @@ import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
+import imie.angers.fr.beaconstoreproject.services.ServicePromoBanniere;
+import imie.angers.fr.beaconstoreproject.services.UpdateTimerBanniere;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
@@ -333,5 +337,4 @@ public class ModifierProfil extends Activity{
         }
         return true;
     }
-
 }

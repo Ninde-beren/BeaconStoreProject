@@ -59,7 +59,7 @@ public class ServicePromoBanniere extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.i("ServicePromoBanniere2", "dans le on start command");
+        Log.i("ServicePromoBanniere2", "dans le on startCommand");
 
         new DoRequest(ServicePromoBanniere.this, "GET", URL) {
 

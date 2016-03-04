@@ -17,6 +17,9 @@ public class BeaconMetier {
     private long idPromo;
     private long dateBeacon;
 
+    public BeaconMetier(){}
+
+
     public String getUuidBeacon() {
         return uuidBeacon;
     }

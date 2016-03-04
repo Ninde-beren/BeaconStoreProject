@@ -347,4 +347,5 @@ public class MainActivity extends AppCompatActivity {
                 menuOnglet.setCurrentTab(0);
         }
     }
+
 }

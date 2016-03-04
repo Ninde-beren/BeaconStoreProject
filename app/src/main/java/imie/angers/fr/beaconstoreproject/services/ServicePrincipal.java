@@ -16,6 +16,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -24,14 +25,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.activites.Avis;
 import imie.angers.fr.beaconstoreproject.activites.Notification;
+import imie.angers.fr.beaconstoreproject.dao.PanierDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
+import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
+import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 /**
@@ -50,9 +55,11 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
     private BeaconManager beaconManager;
     //private NotificationDAO notificationDAO = new NotificationDAO(this);
     private PromoBeaconDAO promoBeaconDAO;
+    private PanierDAO panierDAO;
 
     private AndrestClient rest;
-    private String url = "http://beaconstore.ninde.fr/serverRest.php/notifications?";
+    private static final String URL = "http://beaconstore.ninde.fr/serverRest.php/notifications?";
+    private static final String URL_PANIER = "http://beaconstore.ninde.fr/serverRest.php/panier?";
 
     //booleen permettant de savoir si les requête envoyée par l'API ont bien fonctionnées
     private Boolean requete = false;
@@ -66,7 +73,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
     private BeaconMetier beaconVu;
 
-
     @Override
     public void onCreate() {
 
@@ -77,6 +83,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         //beaconManager.setBackgroundBetweenScanPeriod(60000l);
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBeaconDAO.open();
+
+        panierDAO = new PanierDAO(this);
         rest = new AndrestClient();
         listBeacons = new ArrayList<>();
 
@@ -190,7 +198,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                             Log.i("toPost", "param du beacon : " + toPost);
 
                             //execution de la requête POST (cf API) en arrière plan dans un autre thread
-                            new doRequest(ServicePrincipal.this, toPost, "POST", url).execute();
+                            new doRequest(ServicePrincipal.this, toPost, "POST", URL).execute();
 
 
                         } else if(timeCheck) {
@@ -227,15 +235,67 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     @Override
                     public void run() {
 
+                        Log.i("bye bye", "je suis dans postDelayed");
+
+                        List<String> monPanier = new ArrayList<>();
+
                         sessionBeacon.beaconClear(); // vide la liste des beacons stockés dans la session beacon
 
-                        //TODO envoi panier
+                        long idconso = sessionBeacon.getIdC();
 
-                        Intent i = new Intent(ServicePrincipal.this, Avis.class);
-                        i.putExtra("magId", listBeacons.get(0).getIdMagasin());
-                        startActivity(i);
+                        try {
+
+                            monPanier = new AsyncTask<Void, Void, List<String>>() {
+                                @Override
+                                protected List<String> doInBackground(Void... params) {
+
+                                    panierDAO.open();
+                                    return panierDAO.getPromoPanierForAPI();
+                                }
+                            }.execute().get();
+
+                        } catch (InterruptedException | ExecutionException e) {
+
+                            e.printStackTrace();
+                        }
+
+                        Map<String, Object> toPost = new HashMap<String, Object>();
+                        toPost.put("promo", monPanier);
+                        toPost.put("idconso", idconso);
+
+                        new DoRequest(ServicePrincipal.this, toPost, "POST", URL_PANIER) {
+
+                            JSONObject result;
+                            Boolean req;
+
+                            @Override
+                            protected Boolean doInBackground(Void... params) {
+
+                                try {
+                                    result = rest.request(url, method, data);
+                                } catch (RESTException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                                try {
+                                    if (result.getString("success").equals("1")) {
+
+                                        req = true;
+                                    }
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                                return req;
+                            }
+                        }.execute();
+
+                        //NotificationAvis notifAvis = new NotificationAvis();
+                        //notifAvis.sendNotif();
                     }
-                }, 900000);
+
+                }, 60000);
+
             }
 
             @Override
@@ -285,7 +345,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         protected Boolean doInBackground(Void... arg0) {
             try {
 
-                Log.i("url", url);
+                Log.i("url", URL);
 
                 result = rest.request(url, method, data); // Do request - Envoi de la requête (API), réception des données (JSON)
 

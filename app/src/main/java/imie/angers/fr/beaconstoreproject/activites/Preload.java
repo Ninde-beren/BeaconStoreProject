@@ -102,18 +102,12 @@ public class Preload extends Activity {
 
                     requete =  true;
 
-                } catch (RESTException e1) {
+                } catch (RESTException | JSONException e1) {
 
-                    e1.printStackTrace();
-
-                    requete = false;
-
-                } catch (JSONException e1) {
                     e1.printStackTrace();
 
                     requete = false;
                 }
-
                 return requete;
             }
 
@@ -150,15 +144,9 @@ public class Preload extends Activity {
         startActivity(nextScreen);
     }
 
-    //TODO faire une méthode qui check toute les certaine heure ou 1 fois par jours, si il y a des nouvelles Promo bannieres, si la date est dépassée elle sont supprimées
-
-    private void chekPromoBanniere() {
-
-    }
-
 /**************************************************************************************************
- * SCHEDULE UPDATE
- **************************************************************************************************/
+* SCHEDULE UPDATE
+**************************************************************************************************/
 
     // Setup a recurring alarm every half hour
     public void scheduleUpdate() {
@@ -178,6 +166,6 @@ public class Preload extends Activity {
 
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, firstMillis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
+        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, firstMillis, 60000, pIntent);
     }
 }

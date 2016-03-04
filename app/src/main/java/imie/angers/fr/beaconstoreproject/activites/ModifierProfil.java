@@ -10,6 +10,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +41,7 @@ import imie.angers.fr.beaconstoreproject.utils.StringUtils;
 /**
  * Created by Ninde on 27/02/2016.
  */
-public class ModifierProfil extends Activity{
+public class ModifierProfil extends AppCompatActivity{
 
     private EditText mdp;
     private EditText nom;

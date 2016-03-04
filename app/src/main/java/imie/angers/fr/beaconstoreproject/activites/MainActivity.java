@@ -1,8 +1,10 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LocalActivityManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +23,8 @@ import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
+import imie.angers.fr.beaconstoreproject.services.ServicePromoBanniere;
+import imie.angers.fr.beaconstoreproject.services.UpdateTimerBanniere;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 public class MainActivity extends AppCompatActivity {

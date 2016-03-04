@@ -52,10 +52,10 @@ public class PanierDAO extends DAOBase {
 
         String query = "SELECT "
                 + " p." + DatabaseHelper.COLUMN_PROMO + ", "
-                + " b." +DatabaseHelper.COLUMN_TITREPRO + ", "
-                + " b." +DatabaseHelper.COLUMN_IMAGEART + ", "
-                + " b." +DatabaseHelper.COLUMN_IMAGEOFF +
-                " FROM " + DatabaseHelper.TABLE_PANIER + " p JOIN " + DatabaseHelper.TABLE_PROMOBEACON + " b ON p." + DatabaseHelper.COLUMN_IDPA + " = b." +
+                + " b." + DatabaseHelper.COLUMN_TITREPRO + ", "
+                + " b." + DatabaseHelper.COLUMN_IMAGEART + ", "
+                + " b." + DatabaseHelper.COLUMN_IMAGEOFF +
+                " FROM " + DatabaseHelper.TABLE_PANIER + " p JOIN " + DatabaseHelper.TABLE_PROMOBEACON + " b ON p." + DatabaseHelper.COLUMN_PROMO + " = b." +
                 DatabaseHelper.COLUMN_IDP;
 
         Cursor cursor = mDb.rawQuery(query, null);

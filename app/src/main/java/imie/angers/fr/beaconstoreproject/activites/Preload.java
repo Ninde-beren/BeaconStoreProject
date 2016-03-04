@@ -1,6 +1,9 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +14,8 @@ import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
+import imie.angers.fr.beaconstoreproject.services.ServicePromoBanniere;
+import imie.angers.fr.beaconstoreproject.services.UpdateTimerBanniere;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 
@@ -33,6 +38,8 @@ public class Preload extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preload);
+
+        scheduleUpdate();
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBanniereDAO = new PromoBanniereDAO(this);
@@ -91,7 +98,6 @@ public class Preload extends Activity {
                         //Enregistrement base SQLite
 
                         lastInsertId = promoBanniereDAO.addPromoBanniere(promo);
-
                     }
 
                     requete =  true;
@@ -148,5 +154,30 @@ public class Preload extends Activity {
 
     private void chekPromoBanniere() {
 
+    }
+
+/**************************************************************************************************
+ * SCHEDULE UPDATE
+ **************************************************************************************************/
+
+    // Setup a recurring alarm every half hour
+    public void scheduleUpdate() {
+
+        Log.i("scheduleUpdate", "dans scheduleUpdate");
+
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(getApplicationContext(), ServicePromoBanniere.class);
+
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, UpdateTimerBanniere.REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Setup periodic alarm every 5 seconds
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
+        // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
+        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, firstMillis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
     }
 }

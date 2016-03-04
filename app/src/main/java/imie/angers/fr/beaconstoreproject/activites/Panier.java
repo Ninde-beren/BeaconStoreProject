@@ -13,12 +13,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.daimajia.swipe.SwipeLayout;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.Adapters.PanierSwipeAdapter;
 import imie.angers.fr.beaconstoreproject.dao.PanierDAO;
@@ -46,6 +43,8 @@ public class Panier extends Activity {
             }
         }
 
+        Log.i("Panier", "dans OnCreate");
+
         panierDAO = new PanierDAO(this);
         panierDAO.open();
 
@@ -64,7 +63,9 @@ public class Panier extends Activity {
 
         }
 
-        final PanierSwipeAdapter panierSwipeAdapter = new PanierSwipeAdapter(this, R.layout.activity_panier_swipe, R.id.position, listPanier);
+        Log.i("listePanier", String.valueOf(listPanier));
+
+        PanierSwipeAdapter panierSwipeAdapter = new PanierSwipeAdapter(this, R.layout.activity_panier_swipe, R.id.position, listPanier);
 
         mListView.setAdapter(panierSwipeAdapter);
 
@@ -74,49 +75,7 @@ public class Panier extends Activity {
                 ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
 
                 Log.e("ListView", "OnClick");
-
-                int switchPanier = panierSwipeAdapter.getSwipeLayoutResourceId(position);
-
-                SwipeLayout swipeLayout = (SwipeLayout) findViewById(switchPanier);
-
-                swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-                    @Override
-                    public void onClose(SwipeLayout layout) {
-                        //when the SurfaceView totally cover the BottomView.
-
-
-                    }
-
-                    @Override
-                    public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-                        //you are swiping.
-                    }
-
-                    @Override
-                    public void onStartOpen(SwipeLayout layout) {
-
-                    }
-
-                    @Override
-                    public void onOpen(SwipeLayout layout) {
-                        //when the BottomView totally show.
-
-                        Log.e("ListView", "je sui ici");
-                    }
-
-                    @Override
-                    public void onStartClose(SwipeLayout layout) {
-
-                    }
-
-                    @Override
-                    public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-                        //when user's hand released.
-                    }
-                });
-
             }
-
         });
 
         mListView.setOnTouchListener(new View.OnTouchListener() {

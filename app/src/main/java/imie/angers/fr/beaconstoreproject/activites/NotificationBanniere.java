@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -21,7 +22,7 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
  * Utilisation du sample notification proposé par google
  * Created by Ninde on 25/02/2016.
  */
-public class NotificationBanniere extends Activity {
+public class NotificationBanniere {
 
     /**
      * A numeric value that identifies the notification that we'll be sending.
@@ -29,52 +30,13 @@ public class NotificationBanniere extends Activity {
      * unique system-wide.
      */
 
-    public static long notification_id;
-    private PromoBanniereDAO promoBanniereDAO;
-    private PromoBanniereMetier promoBanniere;
-    private long lastIdInsert;
+    public static long NOTIFICATION_ID = 1;
 
 /**************************************************************************************************
-* ON CREATE
+* CONSTRUCTEUR
 **************************************************************************************************/
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.notification);
-
-        promoBanniere = new PromoBanniereMetier();
-
-        promoBanniereDAO = new PromoBanniereDAO(this);
-        promoBanniereDAO.open();
-
-        Intent i = getIntent();
-
-        lastIdInsert = i.getLongExtra("lastIdInsert", 0);
-
-        //Récuprération de l'id de la dernière promo enregistrée dans la base de données via l'intent provenant de ServicePrincipal
-
-        try {
-
-            promoBanniere = new getPromoForNotif().execute().get(); //retourne une instance de l'objet PromotionMetier
-
-        } catch (InterruptedException e) {
-
-            e.printStackTrace();
-
-        } catch (ExecutionException e) {
-
-            e.printStackTrace();
-        }
-
-
-        notification_id = lastIdInsert;
-
-        Log.i("hello", "hello");
-        Log.i("PromoBanniere0", promoBanniere.getTxtBanniere());
-
-        sendNotification(promoBanniere);
+    public NotificationBanniere() {
     }
-
 
     /**
      * Send a sample notification using the NotificationCompat API.
@@ -83,22 +45,22 @@ public class NotificationBanniere extends Activity {
 *
 **************************************************************************************************/
 
-    public void sendNotification(PromoBanniereMetier promoMetier){ //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
+    public void sendNotification(Context context){ //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(this, PromoBeaconActivity.class);
-        intent.putExtra("promoBanniere", promoMetier);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /**
          * Use NotificationCompat.Builder to set up our notification.
          */
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         /** Set the icon that will appear in the notification bar. This icon also appears
          * in the lower right hand corner of the notification itself.
@@ -125,8 +87,7 @@ public class NotificationBanniere extends Activity {
          * reasonable default if you don't have anything more compelling to use as an icon.
          */
 
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
-        //builder.setLargeIcon(BitMapUtil.getBitmapFromString(this.notification.getImageoff()));
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
 
         /**
          * Set the text of the notification. This sample sets the three most commononly used
@@ -138,39 +99,15 @@ public class NotificationBanniere extends Activity {
          *    anything vital!
          */
 
-        builder.setContentTitle(this.promoBanniere.getTitrePromo());
-        builder.setContentText(this.promoBanniere.getLbPromo());
+        builder.setContentTitle("NOUVELLES PROMOTIONS !");
+        builder.setContentText("De nouvelles offres sont disponibles");
         builder.setSubText("En savoir plus...");
 
         /**
          * Send the notification. This will immediately display the notification icon in the
          * notification bar.
          */
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify((int) notification_id, builder.build());
-    }
-
-/**************************************************************************************************
-*
-**************************************************************************************************/
-
-    private class getPromoForNotif extends AsyncTask<Void, Void, PromoBanniereMetier> {
-
-        private PromoBanniereMetier promoB;
-
-        @Override
-        protected PromoBanniereMetier doInBackground(Void... params) {
-
-            promoB =  promoBanniereDAO.getLastPromoBanniereInserted(lastIdInsert);
-
-            Log.i("listBeacon2", promoB.getTitrePromo());
-
-            return promoB;
-        }
-
-        @Override
-        protected void onPostExecute(PromoBanniereMetier promoBanniereMetier) {
-            super.onPostExecute(promoBanniereMetier);
-        }
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        notificationManager.notify((int) NOTIFICATION_ID, builder.build());
     }
 }

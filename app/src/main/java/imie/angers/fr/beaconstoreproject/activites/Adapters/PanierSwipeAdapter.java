@@ -30,7 +30,6 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
 
     private Boolean req;
 
-
     public PanierSwipeAdapter(Context context, int resource, int textViewResourceId, List promoPanier) {
         super(context, resource, textViewResourceId, promoPanier);
         this.panierDAO = new PanierDAO(context);
@@ -40,11 +39,6 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
     @Override
     public int getSwipeLayoutResourceId(int position) {
         return R.id.swipe;
-    }
-
-    public boolean getDeleteResponse() {
-
-        return req;
     }
 
     @Override
@@ -93,16 +87,14 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
                     @Override
                     protected Boolean doInBackground(Void... params) {
 
+                        Log.i("delete panier1", String.valueOf((promoPanier.getId_promo())));
+                        panierDAO.open();
+
                        int reponse = panierDAO.deletePromoPanier(promoPanier.getId_promo());
 
-
+                        Log.i("delete panier2", String.valueOf(reponse));
 
                         req = reponse != -1;
-
-                        if(req) {
-
-                            PanierSwipeAdapter.this.notifyDataSetChanged();
-                        }
 
                         return req;
 
@@ -113,6 +105,8 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
                         super.onPostExecute(requete);
 
                         if(requete){
+
+                            //cPanierSwipeAdapter.this.notifyDataSetChanged();
 
                             Toast.makeText(getContext(), "Cette promotion a bien été supprimée de votre panier", Toast.LENGTH_SHORT).show();
 

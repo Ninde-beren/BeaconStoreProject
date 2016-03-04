@@ -35,6 +35,7 @@ public class Notification {
 
 
     public Notification(long lastId){
+
         this.lastIdInsert = lastId;
         notification_id = lastId;
     }

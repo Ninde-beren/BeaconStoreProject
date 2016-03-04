@@ -228,7 +228,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     public void run() {
 
                         sessionBeacon.beaconClear(); // vide la liste des beacons stockés dans la session beacon
-                        sessionBeacon.panierBeaconClear(); // vide la liste des beacons stockés dans la session panier
+
+                        //TODO envoi panier
 
                         Intent i = new Intent(ServicePrincipal.this, Avis.class);
                         i.putExtra("magId", listBeacons.get(0).getIdMagasin());

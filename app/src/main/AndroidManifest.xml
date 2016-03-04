@@ -82,5 +82,14 @@
                 android:value=".activites.LoginActivity"/>
         </activity>
 
+        <receiver
+            android:name=".services.UpdateTimerBanniere"
+            android:process=":remote" >
+        </receiver>
+
+        <service
+            android:name=".services.ServicePromoBanniere"
+            android:exported="false" />
+
     </application>
 </manifest>

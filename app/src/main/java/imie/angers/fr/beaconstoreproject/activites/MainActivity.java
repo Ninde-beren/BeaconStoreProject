@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
        //menuOnglet.addTab(menuOnglet.newTabSpec("onglet_5").setIndicator("Onglet 5").setContent(intent5));
 
         Intent intent6 = new Intent().setClass(this, ListPromoBeaconActivity.class);
-        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("List beacon").setContent(intent6));
+        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("Liste beacon").setContent(intent6));
 
         //parametrer un écouteur onTabChangedListener pour récupérer le changement d'onglet
         menuOnglet.setOnTabChangedListener(
@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("consoInfo", String.valueOf(consommateur.getId_c()));
 
 
-        if (consommateur.getNom() == null || consommateur.getPrenom() == null || consommateur.getGenre() == null || consommateur.getTel() == null || consommateur.getDtnaiss() == null || consommateur.getCdpostal() == null || consommateur.getCatsocpf() == null) {
+        if (consommateur.getNom() .equals("") || consommateur.getPrenom().equals("") || consommateur.getGenre().equals("") || consommateur.getTel().equals("") || consommateur.getDtnaiss().equals("") || consommateur.getCdpostal().equals("") || consommateur.getCatsocpf().equals("")) {
 
             AlertDialog.Builder infos;
             infos = new AlertDialog.Builder(this);
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
             infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent nextScreen = new Intent(getApplicationContext(), Inscription.class);
+                            Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
                             startActivity(nextScreen);
                         }
                    }

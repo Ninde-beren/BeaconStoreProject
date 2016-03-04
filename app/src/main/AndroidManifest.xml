@@ -42,7 +42,7 @@
         <activity android:name=".activites.MainActivity" />
         <activity android:name=".activites.ModifierProfil" />
         <activity android:name=".activites.Avis" />
-        <activity android:name=".activites.Panier" />
+        <activity android:name=".activites.Panier"/>
         <activity android:name=".activites.ListPromoBanniere" />
         <activity android:name=".activites.ListPromoBeaconActivity"/>
         <activity

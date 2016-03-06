@@ -138,13 +138,13 @@ public class MainActivity extends AppCompatActivity {
 * ON CREATE
 **************************************************************************************************/
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-            setSupportActionBar(myToolbar);
+        getSupportActionBar().setElevation(0);
 
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBanniereDAO = new PromoBanniereDAO(this);

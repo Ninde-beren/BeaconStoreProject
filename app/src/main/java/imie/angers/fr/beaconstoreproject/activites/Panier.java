@@ -25,7 +25,7 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 /**
  * Created by Anne on 03/03/2016.
  */
-public class Panier extends AppCompatActivity {
+public class Panier extends Activity {
 
     private ListView mListView;
     private Context mContext = this;

@@ -63,7 +63,7 @@
 
     <string name="done">Done</string>
     <string name="nom">Firstname : </string>
-    <string name="prenom">name : </string>
+    <string name="prenom">Name : </string>
     <string name="genre">Genre : </string>
     <string name="tel">Phone number : </string>
     <string name="email">E-mail : </string>

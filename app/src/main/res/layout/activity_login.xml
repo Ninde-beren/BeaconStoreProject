@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="25dp"
-        android:layout_marginTop="75dp"
-       android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/background">
+    android:layout_height="wrap_content"
+    android:padding="25dp"
+    android:layout_marginTop="75dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@color/background"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -68,5 +55,4 @@
             android:gravity="center"
             android:textSize="16sp"/>
 
-    </LinearLayout>
 </LinearLayout>

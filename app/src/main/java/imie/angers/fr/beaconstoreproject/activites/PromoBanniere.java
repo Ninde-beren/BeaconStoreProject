@@ -32,9 +32,6 @@ public class PromoBanniere extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
         // récupérer l'ID avec une intent
 
         Intent i = getIntent();

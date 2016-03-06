@@ -1,5 +1,6 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -47,13 +48,11 @@ public class Profil extends AppCompatActivity {
 **************************************************************************************************/
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         // Récupération des infos dans la base et les lier avec les vues
         consommateurDAO = new ConsommateurDAO(this);

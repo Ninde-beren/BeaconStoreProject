@@ -4,9 +4,9 @@
     <color name="background">#00aeef</color>
 
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#56000000</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="black">#000</color>
+    <color name="black">#76ceeb</color>
     <color name="red">#F00</color>
     <color name="blue">#00F</color>
     <color name="green">#0F0</color>
@@ -34,5 +34,9 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="ColorAccent">#c8e8ff</color>
+    <color name="accent_material_light">#40ffff</color>
+    <color name="primary_material_dark">#00bcd4</color>
+    <color name="primary_dark_material_dark">#0097a7</color>
+    <color name="colorBackground">#d71f1f</color>
 
 </resources>

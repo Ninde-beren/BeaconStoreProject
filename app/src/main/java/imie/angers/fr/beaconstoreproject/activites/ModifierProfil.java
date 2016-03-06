@@ -87,9 +87,6 @@ public class ModifierProfil extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();

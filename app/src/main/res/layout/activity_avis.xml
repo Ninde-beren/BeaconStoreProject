@@ -6,21 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Quelle note pour ce magasin ?"
         android:textSize="22dp"
-        android:textColor="@color/black"
+        android:textColor="@color/carbon_black"
         android:textStyle="bold"
         android:id="@+id/textavismag"
         android:layout_above="@+id/ratingBarMag"
@@ -32,7 +24,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ratingBarMag"
         android:progressTint="@color/yellow"
-        android:secondaryProgressTint="@color/orange"
+        android:secondaryProgressTint="@color/default_line_indicator_selected_color"
         android:progressBackgroundTint="@color/black"
         android:layout_above="@+id/resultmag"
         android:layout_gravity="center"
@@ -46,7 +38,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Quelle note pour ces promotions ?"
         android:textSize="22dp"
-        android:textColor="@color/black"
+        android:textColor="@color/carbon_black"
         android:textStyle="bold"
         android:id="@+id/textavispromo"
         android:layout_gravity="center"
@@ -59,7 +51,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ratingBarPromo"
         android:progressTint="@color/yellow"
-        android:secondaryProgressTint="@color/orange"
+        android:secondaryProgressTint="@color/default_line_indicator_selected_color"
         android:progressBackgroundTint="@color/black"
         android:layout_above="@+id/resultpromo"
         android:layout_gravity="center"

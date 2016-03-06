@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.activites;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ public class PromoBanniere extends AppCompatActivity {
     private TextView lbpromo;
     private TextView dateDebutPromo;
     private TextView dateFinPromo;
-    private ImageView imageArt;
+    private ImageView imageBan;
     private TextView txtPromo;
 
     private PromoBanniereMetier promoBanniere;
@@ -31,6 +32,9 @@ public class PromoBanniere extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         // récupérer l'ID avec une intent
 
         Intent i = getIntent();
@@ -41,15 +45,15 @@ public class PromoBanniere extends AppCompatActivity {
         //lbpromo = (TextView) findViewById(R.id.);
         dateDebutPromo = (TextView) findViewById(R.id.dtDebVal);
         dateFinPromo = (TextView) findViewById(R.id.dtFinVal);
-        imageArt = (ImageView) findViewById(R.id.imgPromoBanniereView);
+        imageBan = (ImageView) findViewById(R.id.imgPromoBanniereView);
         txtPromo = (TextView) findViewById(R.id.textPromoBanniereView);
 
         //extraction des données
-        titre.setText(promoBanniere.getTitrePromo());
+        titre.setText(promoBanniere.getTitrePromo() + "\n");
         //lbpromo.setText(promoBanniere.getIdpromo());
         dateDebutPromo.setText(promoBanniere.getDtdebval());
         dateFinPromo.setText(promoBanniere.getDtfinval());
-        imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageart()));
+        imageBan.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageban()));
         txtPromo.setText(promoBanniere.getTxtBanniere());
     }
 

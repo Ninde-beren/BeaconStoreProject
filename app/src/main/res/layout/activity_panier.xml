@@ -8,48 +8,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ColorAccent"
         android:padding="5dp"
         android:layout_marginBottom="0dp"
-        android:id="@+id/linear1">
+        android:id="@+id/linear1"
+        android:background="@color/background">
 
-    <ImageView
-        android:id="@+id/imgPanier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:contentDescription="TODO"
-        android:src="@drawable/ic_launcher" />
+        <TextView
+            android:id="@+id/titrePanier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Example application"
+            android:textSize="16sp"
+            android:textColor="#000" />
 
-    <TextView
-        android:id="@+id/titrePanier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/imgPanier"
-        android:gravity="center_vertical"
-        android:text="Example application"
-        android:textSize="16sp"
-        android:textColor="#000"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ColorAccent"
         android:layout_marginTop="0dp"
         android:padding="5dp"
-        android:layout_below="@id/linear1">
+        android:layout_below="@id/linear1"
+        android:background="@color/background">
+
+    <ImageView
+        android:id="@+id/imgPanier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="6dip"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_launcher"
+        android:contentDescription="TODO" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:id="@+id/imgCodeBarrePanier"
-        android:src="@drawable/codebarre" />
+        android:src="@drawable/codebarre"
+        android:contentDescription="CodeBarre" />
     </LinearLayout>
     
 </RelativeLayout>

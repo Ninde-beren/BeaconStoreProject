@@ -48,7 +48,7 @@ public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
         // Populate the data into the template view using the data object
         titleView.setText(promo.getTitrePromo());
         descView.setText(promo.getLbPromo());
-        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
+        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageban()));
 
         // Check if an existing view is being reused, otherwise inflate the view
         /*if (convertView == null) {

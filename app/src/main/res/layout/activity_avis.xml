@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="imie.angers.fr.beaconstoreproject.Avis">
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Quelle note pour ce magasin ?"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:id="@+id/textavismag"
         android:layout_above="@+id/ratingBarMag"
         android:layout_gravity="center"
@@ -30,18 +41,13 @@
         android:numStars="5" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/resultmag"
-        android:text="result : "
-        />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Quelle note pour ces promotions ?"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:id="@+id/textavispromo"
         android:layout_gravity="center"
         android:layout_above="@+id/ratingBarPromo"
@@ -60,25 +66,18 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:numStars="5" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/resultpromo"
-        android:text="result : "
-        />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/action_submit"
+    <at.markushi.ui.CircleButton
+        android:layout_width="64dip"
+        android:layout_height="64dip"
         android:id="@+id/buttonValideavis"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginBottom="10dp" />
+        android:src="@drawable/ic_action_tick"
+        android:layout_gravity="center"
+        app:cb_color="#99CC00"
+        app:cb_pressedRingWidth="8dip"
+        tools:overrideLibrary="at.markushi.circlebutton"/>
 
 </LinearLayout>

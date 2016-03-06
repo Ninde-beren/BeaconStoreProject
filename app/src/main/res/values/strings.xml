@@ -23,4 +23,13 @@
 
     <string name="done">Done</string>
 
+    <string name="nom"> Nom : </string>
+    <string name="prenom">Prénom : </string>
+    <string name="genre">Genre : </string>
+    <string name="tel">"Tél : </string>
+    <string name="email">"E-mail : </string>
+    <string name="csp">Catégorie social : </string>
+    <string name="cp">Code postal :</string>
+    <string name="dtnaiss">Date de naissance : </string>
+
 </resources>

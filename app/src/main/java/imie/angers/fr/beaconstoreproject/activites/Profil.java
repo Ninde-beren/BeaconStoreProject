@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,9 @@ public class Profil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         // Récupération des infos dans la base et les lier avec les vues
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
@@ -88,14 +92,16 @@ public class Profil extends AppCompatActivity {
         cp        = (TextView) findViewById(R.id.cpProfil);
         dtNaiss   = (TextView) findViewById(R.id.dtNaissProfil);
 
-        nom.setText(    "Nom :"                 + consommateur.getNom());
-        prenom.setText( "Prénom :"              + consommateur.getPrenom());
-        genre.setText(  "Genre :"               + consommateur.getGenre());
-        tel.setText(    "Tél :"                 + consommateur.getTel());
-        email.setText(  "E-mail :"              + consommateur.getEmail());
-        csp.setText(    "Catégorie social :\n"  + consommateur.getCatsocpf());
-        cp.setText(     "Code postal :"         + consommateur.getCdpostal());
-        dtNaiss.setText("Date de naissance :\n" + consommateur.getDtnaiss());
+        nom.setText(    getString(R.string.nom)     + " " + consommateur.getNom());
+        prenom.setText( getString(R.string.prenom)  + " " + consommateur.getPrenom());
+        if(consommateur.getGenre().equals("M")){ genre.setText(getString(R.string.genre)   + " " + "Homme");}
+        else if(consommateur.getGenre().equals("F")) {genre.setText(getString(R.string.genre) + " " + "Femme");}
+        else{genre.setText(getString(R.string.genre) + consommateur.getGenre());}
+        tel.setText(    getString(R.string.tel)     + " " + consommateur.getTel());
+        email.setText(  getString(R.string.email)   + " " + consommateur.getEmail());
+        csp.setText(    getString(R.string.csp)     + " " + consommateur.getCatsocpf());
+        cp.setText(     getString(R.string.cp)      + " " + consommateur.getCdpostal());
+        dtNaiss.setText(getString(R.string.dtnaiss) + " " + consommateur.getDtnaiss());
 
         //-------------------------------------------------------------------------------------
 

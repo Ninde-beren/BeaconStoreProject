@@ -1,101 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/wallpaper"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/nomProfil"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/prenomProfil"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/nomProfil"
-        android:layout_alignLeft="@+id/nomProfil"
-        android:layout_alignStart="@+id/nomProfil" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/emailProfil"
-        android:layout_marginTop="15dp"
-       android:layout_below="@+id/prenomProfil"
-        android:layout_alignLeft="@+id/prenomProfil"
-        android:layout_alignStart="@+id/prenomProfil"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/dtNaissProfil"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/emailProfil"
-        android:layout_alignLeft="@+id/emailProfil"
-        android:layout_alignStart="@+id/emailProfil" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/ColorAccent"
+            android:padding="@dimen/txt_size_profil"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/abc_action_bar_content_inset_material">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/genreProfil"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/dtNaissProfil"
-        android:layout_alignLeft="@+id/dtNaissProfil"
-        android:layout_alignStart="@+id/dtNaissProfil" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:id="@+id/nomProfil"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/telProfil"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/genreProfil"
-        android:layout_alignLeft="@+id/genreProfil"
-        android:layout_alignStart="@+id/genreProfil" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/prenomProfil"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/nomProfil"
+                android:layout_alignLeft="@+id/nomProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/nomProfil" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/cspProfil"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/telProfil"
-        android:layout_alignLeft="@+id/telProfil"
-        android:layout_alignStart="@+id/telProfil" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/emailProfil"
+                android:layout_marginTop="15dp"
+               android:layout_below="@+id/prenomProfil"
+                android:layout_alignLeft="@+id/prenomProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/prenomProfil"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/cpProfil"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/cspProfil"
-        android:layout_alignLeft="@+id/cspProfil"
-        android:layout_alignStart="@+id/cspProfil" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/dtNaissProfil"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/emailProfil"
+                android:layout_alignLeft="@+id/emailProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/emailProfil" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/buttonModifierProfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_24dp"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentEnd="false"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/genreProfil"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/dtNaissProfil"
+                android:layout_alignLeft="@+id/dtNaissProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/dtNaissProfil" />
 
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/telProfil"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/genreProfil"
+                android:layout_alignLeft="@+id/genreProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/genreProfil" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/cspProfil"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/telProfil"
+                android:layout_alignLeft="@+id/telProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/telProfil" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/cpProfil"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/cspProfil"
+                android:layout_alignLeft="@+id/cspProfil"
+                android:text="@string/nom"
+                android:textSize="@dimen/txt_size_profil"
+                android:layout_alignStart="@+id/cspProfil" />
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/buttonModifierProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_create_white_24dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+</LinearLayout>

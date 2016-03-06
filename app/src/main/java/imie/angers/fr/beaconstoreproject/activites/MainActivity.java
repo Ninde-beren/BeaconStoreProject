@@ -1,5 +1,6 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
+import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,9 +10,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 /**************************************************************************************************
 * ACTION BAR
 **************************************************************************************************/
+
 
     // BEGIN_INCLUDE(create_menu)
 
@@ -139,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            setSupportActionBar(myToolbar);
+
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBanniereDAO = new PromoBanniereDAO(this);
 
@@ -158,8 +165,6 @@ public class MainActivity extends AppCompatActivity {
         //Récupération du TabHost
         menuOnglet = (TabHost) findViewById(android.R.id.tabhost);
 
-        //Récupération du TabHost
-        menuOnglet = (TabHost) findViewById(android.R.id.tabhost);
         LocalActivityManager mLocalActivityManager = new LocalActivityManager(this, false);
         mLocalActivityManager.dispatchCreate(savedInstanceState);
         menuOnglet.setup(mLocalActivityManager);
@@ -169,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
         //parametre de l'onglet 1
         intent = new Intent().setClass(this, ListPromoBanniere.class);
-        TabHost.TabSpec spec = menuOnglet.newTabSpec("Onglet_1").setIndicator("Liste banniere");
+        TabHost.TabSpec spec = menuOnglet.newTabSpec("Onglet_1").setIndicator("News");
         //spécification du layout à afficher
         spec.setContent(intent);
         //On ajoute l'onglet au TabHost
@@ -177,30 +182,21 @@ public class MainActivity extends AppCompatActivity {
 
         //on ajoute le reste des onglets
 
-      // if(logger == -1){
-      //     Intent intent2 = new Intent().setClass(this, LoginActivity.class);
-      //     menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Connexion").setContent(intent2));
-      // }else {
-      //     Intent intent2 = new Intent().setClass(this, Profil.class);
-      //     menuOnglet.addTab(menuOnglet.newTabSpec("onglet_2").setIndicator("Profils").setContent(intent2));
-      // }
-
         Intent intent3 = new Intent().setClass(this, Panier.class);
         menuOnglet.addTab(menuOnglet.newTabSpec("onglet_3").setIndicator("Panier").setContent(intent3));
-        //Intent intent4 = new Intent().setClass(this, PromoBanniere.class);
-        //menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("Onglet 4").setContent(intent4));
-        //Intent intent5 = new Intent().setClass(this, Avis.class);
+
+       //Intent intent5 = new Intent().setClass(this, Avis.class);
        //menuOnglet.addTab(menuOnglet.newTabSpec("onglet_5").setIndicator("Onglet 5").setContent(intent5));
 
         Intent intent6 = new Intent().setClass(this, ListPromoBeaconActivity.class);
-        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("Liste beacon").setContent(intent6));
+        menuOnglet.addTab(menuOnglet.newTabSpec("onglet_4").setIndicator("Promotion").setContent(intent6));
 
         //parametrer un écouteur onTabChangedListener pour récupérer le changement d'onglet
         menuOnglet.setOnTabChangedListener(
                 new TabHost.OnTabChangeListener() {
                     @Override
                     public void onTabChanged(String tabId) {
-                        Toast.makeText(MainActivity.this, "l'onglet avec l'idendifiant :" + tabId + "a été cliqué",Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this, "l'onglet avec l'idendifiant :" + tabId + "a été cliqué",Toast.LENGTH_SHORT).show();
                     }
                 }
         );

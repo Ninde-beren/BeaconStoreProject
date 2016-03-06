@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +50,30 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.link_signup) TextView signupLink;
 
 /**************************************************************************************************
+* ACTION BAR
+**************************************************************************************************/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+    // Inflate our menu from the resources by using the menu inflater.
+    getMenuInflater().inflate(R.menu.menu_retour, menu);
+
+    return true;
+}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("id", 2);
+                startActivity(i);
+        }
+        return true;
+    }
+
+/**************************************************************************************************
 * ON CREATE
 **************************************************************************************************/
 
@@ -56,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
@@ -296,19 +325,6 @@ public class LoginActivity extends AppCompatActivity {
     public void clearAll(){
         emailText.setText("");
         passwordText.setText("");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-
-                Intent i = new Intent(this, MainActivity.class);
-                i.putExtra("id", 2);
-                startActivity(i);
-        }
-        return true;
     }
 }
 

@@ -100,8 +100,7 @@ public class ServicePromoBanniere extends Service {
                             promo.setDtdebval(jobj.getString("dtdebval"));
                             promo.setDtfinval(jobj.getString("dtfinval"));
                             promo.setTypBanniere(jobj.getString("typpromo"));
-                            promo.setImageart(jobj.getString("imageoff"));
-                            promo.setImageoff(jobj.getString("imageart"));
+                            promo.setImageban(jobj.getString("imageban"));
 
                             //Enregistrement base SQLite
                             long lastInsertId = promoBanniereDAO.addPromoBanniere(promo);

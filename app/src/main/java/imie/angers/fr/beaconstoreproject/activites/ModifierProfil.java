@@ -11,7 +11,9 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -72,7 +74,7 @@ public class ModifierProfil extends AppCompatActivity{
     private ConsommateurDAO consommateurDAO;
 
     private String url = "http://beaconstore.ninde.fr/serverRest.php/consommateur?";
-    private Button valider;
+    private at.markushi.ui.CircleButton valider;
 
     private Boolean req;
 
@@ -84,6 +86,9 @@ public class ModifierProfil extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
@@ -141,9 +146,11 @@ public class ModifierProfil extends AppCompatActivity{
 
         //*************************************************************
 
-        valider = (Button) findViewById(R.id.buttonValiderInscription);
+        valider = (at.markushi.ui.CircleButton) findViewById(R.id.buttonValiderInscription);
         valider.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                if (validate()) { //si les champs sont bien remplis
 
                 consommateur = inscriptionSQLite(); // appelle de la méthode inscription dans la base SQlite
 
@@ -152,17 +159,18 @@ public class ModifierProfil extends AppCompatActivity{
                     @Override
                     protected Boolean doInBackground(Void... params) {
 
-                        Log.i("gotoupdateConso", "ICI");
+                            Log.i("gotoupdateConso", "ICI");
 
-                        long idConso = consommateurDAO.updateConso(consommateur);
+                            long idConso = consommateurDAO.updateConso(consommateur);
 
-                        req = idConso != -1;
+                            req = idConso != -1;
 
-                        return req;
-                    }
-                }.execute();
+                            return req;
+                        }
+                    }.execute();
 
-                inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
+                    inscriptionAPI(); // appelle de la méthode inscription dans la base SQlite
+                }
             }
         });
     }
@@ -326,6 +334,51 @@ public class ModifierProfil extends AppCompatActivity{
 
         valider.setEnabled(true);
     }
+
+/*************************************************************************************************
+* METHODE PERMETTANT DE VERIFIER LE FORMAT DES CHAMPS DU FORMULAIRE
+* @return
+**************************************************************************************************/
+
+    public boolean validate() {
+
+        boolean valid = true;
+
+        if (email.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.toString()).matches()) {
+            email.setError("Email invalide");
+            valid = false;
+        } else {
+            email.setError(null);
+        }
+
+        if (mdp.toString().isEmpty() || mdp.length() < 4 || mdp.length() > 10) {
+            mdp.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            mdp.setError(null);
+        }
+
+        if (tel.length() < 4) {
+            tel.setError( "Telephone doit avoir 10 chiffres");
+            valid = false;
+        } else {
+            tel.setError(null);
+        }
+
+        if (cp.length() < 5 || cp.length() > 5) {
+            cp.setError("5 chiffres requis");
+            valid = false;
+        } else {
+            cp.setError(null);
+        }
+
+        return valid;
+    }
+
+/*************************************************************************************************
+* ICONE RETOUR
+*************************************************************************************************/
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

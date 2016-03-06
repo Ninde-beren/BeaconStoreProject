@@ -62,4 +62,13 @@
     <string name="description">a notification</string>
 
     <string name="done">Done</string>
+    <string name="nom">Firstname : </string>
+    <string name="prenom">name : </string>
+    <string name="genre">Genre : </string>
+    <string name="tel">Phone number : </string>
+    <string name="email">E-mail : </string>
+    <string name="csp">Social catégory : </string>
+    <string name="cp">Code postal : </string>
+    <string name="dtnaiss">Date of birthday : </string>
+
 </resources>

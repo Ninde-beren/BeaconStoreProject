@@ -1,64 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".PromoBanniere">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        android:backgroundTint="@color/background"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Du 00/00/2016"
-        android:id="@+id/dtDebVal"
-        android:layout_alignParentLeft="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Au 00/00/2016"
-        android:id="@+id/dtFinVal"
-        android:layout_alignParentRight="true" />
-
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/imgPromoBanniereView"
-        android:layout_below="@+id/dtDebVal"
-        android:background="@drawable/codepromo"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".PromoBanniere">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/titrePromoBanniereView"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/imgPromoBanniereView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/article"
-        android:id="@+id/textPromoBanniereView"
-        android:layout_below="@+id/titrePromoBanniereView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Du 00/00/2016"
+                android:id="@+id/dtDebVal"
+                android:layout_alignParentLeft="true" />
 
-    </RelativeLayout>
-</ScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Au 00/00/2016"
+                android:id="@+id/dtFinVal"
+                android:layout_alignParentRight="true" />
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/imgPromoBanniereView"
+                android:layout_below="@+id/dtDebVal"
+                android:background="@drawable/codepromo"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/titrePromoBanniereView"
+                android:layout_centerVertical="true"
+                android:layout_below="@+id/imgPromoBanniereView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/article"
+                android:id="@+id/textPromoBanniereView"
+                android:layout_below="@+id/titrePromoBanniereView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+      </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

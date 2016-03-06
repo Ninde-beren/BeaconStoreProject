@@ -20,7 +20,7 @@ public class PromoBanniereMetier extends NotificationMetier {
     private String dtdebval;
     private String dtfinval;
     private String typBanniere;
-    private String imageart;
+    private String imageban;
 
     public PromoBanniereMetier() {
         super();
@@ -50,12 +50,12 @@ public class PromoBanniereMetier extends NotificationMetier {
         this.typBanniere = typBanniere;
     }
 
-    public String getImageart() {
-        return imageart;
+    public String getImageban() {
+        return imageban;
     }
 
-    public void setImageart(String imageart) {
-        this.imageart = imageart;
+    public void setImageban(String imageart) {
+        this.imageban = imageart;
     }
 
     public String getDtfinval() {
@@ -97,7 +97,7 @@ public class PromoBanniereMetier extends NotificationMetier {
         dest.writeString(this.txtBanniere);
         dest.writeString(this.dtdebval);
         dest.writeString(this.dtfinval);
-        dest.writeString(this.imageart);
+        dest.writeString(this.imageban);
         dest.writeString(this.typBanniere);
     }
     
@@ -109,7 +109,7 @@ public class PromoBanniereMetier extends NotificationMetier {
         this.txtBanniere = in.readString();
         this.dtdebval = in.readString();
         this.dtfinval = in.readString();
-        this.imageart = in.readString();
+        this.imageban = in.readString();
         this.typBanniere = in.readString();
     }
 

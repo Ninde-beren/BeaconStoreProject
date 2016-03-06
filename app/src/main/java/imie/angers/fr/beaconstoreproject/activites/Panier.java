@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +25,7 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 /**
  * Created by Anne on 03/03/2016.
  */
-public class Panier extends Activity {
+public class Panier extends AppCompatActivity {
 
     private ListView mListView;
     private Context mContext = this;

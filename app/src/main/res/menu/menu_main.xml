@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <item
+   <!-- <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:title="@string/menu_refresh"
-        support:showAsAction="always"/>
+        support:showAsAction="always"/>-->
 
     <item
         android:id="@+id/menu_settings"

@@ -146,7 +146,7 @@
             android:datePickerMode="spinner"
             android:minDate="1955"
             android:maxDate="1998"
-            android:startYear="2016"/>
+            android:startYear="1955"/>
             </android.support.design.widget.TextInputLayout>
 
         <!-- Genre Label -->
@@ -236,11 +236,9 @@
                 android:layout_below="@+id/csp"
                 android:src="@drawable/ic_action_tick"
                 android:layout_gravity="center_horizontal"
-                app:cb_color="#99CC00"
+                app:cb_color="@color/background"
                 app:cb_pressedRingWidth="8dip"
                 tools:overrideLibrary="at.markushi.circlebutton" />
-
-            <!-- android:src="@drawable/ic_action_tick" -->
 
         </RelativeLayout>
 

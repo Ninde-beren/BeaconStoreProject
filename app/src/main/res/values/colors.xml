@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background">#00aeef</color>
+    <color name="background">#00bcd4</color>
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#56000000</color>
@@ -34,7 +34,7 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="ColorAccent">#c8e8ff</color>
-    <color name="accent_material_light">#40ffff</color>
+    <color name="accent_material_light">#00bcd4</color>
     <color name="primary_material_dark">#00bcd4</color>
     <color name="primary_dark_material_dark">#0097a7</color>
     <color name="colorBackground">#d71f1f</color>

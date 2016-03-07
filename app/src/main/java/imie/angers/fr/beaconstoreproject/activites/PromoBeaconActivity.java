@@ -39,6 +39,8 @@ public class PromoBeaconActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getSupportActionBar().setElevation(0);
+
         setContentView(R.layout.activity_promo_beacon);
 
         panierDAO = new PanierDAO(this);

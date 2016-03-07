@@ -87,6 +87,8 @@ public class ModifierProfil extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
 
+        getSupportActionBar().setElevation(0);
+
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();
@@ -341,7 +343,7 @@ public class ModifierProfil extends AppCompatActivity{
 
         boolean valid = true;
 
-        if (email.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.toString()).matches()) {
+        if (email.toString().isEmpty()) {
             email.setError("Email invalide");
             valid = false;
         } else {
@@ -383,7 +385,7 @@ public class ModifierProfil extends AppCompatActivity{
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
 
-                Intent i = new Intent(this, LoginActivity.class);
+                Intent i = new Intent(this, Profil.class);
                 startActivity(i);
         }
         return true;

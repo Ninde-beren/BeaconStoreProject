@@ -8,9 +8,14 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 import imie.angers.fr.beaconstoreproject.utils.BitMapUtil;
+import imie.angers.fr.beaconstoreproject.utils.DateConvertor;
 
 public class PromoBanniere extends AppCompatActivity {
 
@@ -22,15 +27,20 @@ public class PromoBanniere extends AppCompatActivity {
     private TextView txtPromo;
 
     private PromoBanniereMetier promoBanniere;
+    private DateConvertor converted;
 
-/**************************************************************************************************
-* ON CREATE
-**************************************************************************************************/
+    /**************************************************************************************************
+     * ON CREATE
+     **************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
+
+        getSupportActionBar().setElevation(0);
+
+        converted = new DateConvertor();
 
         // récupérer l'ID avec une intent
 
@@ -48,13 +58,13 @@ public class PromoBanniere extends AppCompatActivity {
         //extraction des données
         titre.setText(promoBanniere.getTitrePromo() + "\n");
         //lbpromo.setText(promoBanniere.getIdpromo());
-        dateDebutPromo.setText(promoBanniere.getDtdebval());
-        dateFinPromo.setText(promoBanniere.getDtfinval());
+        dateDebutPromo.setText(converted.DateConvertor(promoBanniere.getDtdebval()));
+        dateFinPromo.setText(converted.DateConvertor(promoBanniere.getDtfinval()));
         imageBan.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageban()));
         txtPromo.setText(promoBanniere.getTxtBanniere());
     }
 
-/*************************************************************************************************
+    /*************************************************************************************************
 * INDICATION DE LA PAGE A AFFICHER AU RETOUR
 *************************************************************************************************/
 

@@ -77,6 +77,7 @@ public class Inscription extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
 
+        getSupportActionBar().setElevation(0);
 
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
@@ -147,7 +148,8 @@ public class Inscription extends AppCompatActivity {
 
     private ConsommateurMetier inscriptionSQLite() {
 
-        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+        //dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+        dtNaiss = String.valueOf( dateNaiss.getYear() +"-" + dateNaiss.getMonth() +"-"+ dateNaiss.getDayOfMonth());
 
         //récupération des données du formulaire pour la base SQLite
 
@@ -177,7 +179,8 @@ public class Inscription extends AppCompatActivity {
 
     private void inscriptionAPI() {
 
-        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
+        //dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
+        dtNaiss = String.valueOf( dateNaiss.getYear() +"-" + dateNaiss.getMonth() +"-"+ dateNaiss.getDayOfMonth());
 
         emailAPI     = consommateur.getEmail();
         mdpAPI       = consommateur.getPassword();
@@ -315,7 +318,7 @@ public class Inscription extends AppCompatActivity {
 
         boolean valid = true;
 
-        if (email.toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.toString()).matches()) {
+        if (email.toString().isEmpty()) {
             email.setError("Email invalide");
             valid = false;
         } else {
@@ -329,14 +332,14 @@ public class Inscription extends AppCompatActivity {
             mdp.setError(null);
         }
 
-        if (!tel.toString().isEmpty() || tel.length() < 4) {
+        if ( tel.length() < 0 && tel.length() < 4) {
             tel.setError( "Telephone doit avoir 10 chiffres");
             valid = false;
         } else {
             tel.setError(null);
         }
 
-        if (!cp.toString().isEmpty() || cp.length() < 5 || cp.length() > 5) {
+        if ( cp.length() < 0 && cp.length() < 5 || cp.length() > 5) {
             cp.setError("5 chiffres requis");
             valid = false;
         } else {

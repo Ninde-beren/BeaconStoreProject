@@ -239,10 +239,10 @@ public class MainActivity2 extends AppCompatActivity {
         Intent nextScreen;
 
         switch (item.getItemId()) {
-            case R.id.menu_refresh: //item actualisation
-                // Here we might start a background refresh task
-                return true;
-
+       //     case R.id.menu_refresh: //item actualisation
+       //         // Here we might start a background refresh task
+       //         return true;
+//
             //case R.id.menu_settings:
 
             case R.id.menu_logout: //item deconnexion

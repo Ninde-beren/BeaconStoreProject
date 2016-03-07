@@ -54,6 +54,8 @@ public class Profil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
 
+        getSupportActionBar().setElevation(0);
+
         // Récupération des infos dans la base et les lier avec les vues
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();

@@ -48,24 +48,10 @@ public class PromoBanniereAdapter extends ArrayAdapter<PromoBanniereMetier>{
         // Populate the data into the template view using the data object
         titleView.setText(promo.getTitrePromo());
         descView.setText(promo.getLbPromo());
-        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageban()));
+       // if (!promo.getImageban().equals(null)){
+       //         imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageban()));
+       // }
 
-        // Check if an existing view is being reused, otherwise inflate the view
-        /*if (convertView == null) {
-
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_promo_banniere_list_adapter, parent, false);
-        }
-        // Lookup view for data population
-        TextView titleView = (TextView) convertView.findViewById(R.id.titreBanniereView);
-        TextView descView = (TextView) convertView.findViewById(R.id.lbBanniereView);
-        ImageView imgView = (ImageView) convertView.findViewById(R.id.imgBanniereView);
-
-        // Populate the data into the template view using the data object
-        titleView.setText(promo.getTitrePromo());
-        descView.setText(promo.getLbPromo());
-        imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));*/
-
-        // Return the completed view to render on screen
         return convertView;
     }
 }

@@ -37,14 +37,14 @@ public class PromoBanniereDAO extends DAOBase{
 
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseHelper.COLUMN_IDBANNIERE, DbUtil.sant(banniere.getIdbanniere()));
-        values.put(DatabaseHelper.COLUMN_LBBANNIERE, DbUtil.sant(banniere.getLbPromo()));
-        values.put(DatabaseHelper.COLUMN_TITREBAN,   DbUtil.sant(banniere.getTitrePromo()));
-        values.put(DatabaseHelper.COLUMN_TXTBAN,     DbUtil.sant(banniere.getTxtBanniere()));
-        values.put(DatabaseHelper.COLUMN_DTDEBVAL, banniere.getDtdebval());
-        values.put(DatabaseHelper.COLUMN_DTFINVAL, banniere.getDtfinval());
-        values.put(DatabaseHelper.COLUMN_TYPBAN,     DbUtil.sant(banniere.getTypBanniere()));
-        values.put(DatabaseHelper.COLUMN_IMAGEBAN, DbUtil.sant(banniere.getImageban()));
+        values.put(DatabaseHelper.COLUMN_IDBANNIERE, banniere.getIdbanniere());
+        values.put(DatabaseHelper.COLUMN_LBBANNIERE, banniere.getLbPromo());
+        values.put(DatabaseHelper.COLUMN_TITREBAN,   banniere.getTitrePromo());
+        values.put(DatabaseHelper.COLUMN_TXTBAN,     banniere.getTxtBanniere());
+        values.put(DatabaseHelper.COLUMN_DTDEBVAL,   banniere.getDtdebval());
+        values.put(DatabaseHelper.COLUMN_DTFINVAL,   banniere.getDtfinval());
+        values.put(DatabaseHelper.COLUMN_TYPBAN,     banniere.getTypBanniere());
+        values.put(DatabaseHelper.COLUMN_IMAGEBAN,   banniere.getImageban());
 
         //insertion en base + recuperation du dernier id inséré
         long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBANNIERE, null, values);
@@ -82,8 +82,7 @@ public class PromoBanniereDAO extends DAOBase{
             banniere.setDtfinval(cursor.getString(5));
             banniere.setImageban(cursor.getString(6));
 
-
-            listPromoBanniere.add(banniere);
+                listPromoBanniere.add(banniere);
 
             Log.i("banniereId", String.valueOf(cursor.getInt(0)));
         }
@@ -94,76 +93,6 @@ public class PromoBanniereDAO extends DAOBase{
         Log.i("listbanDAO", String.valueOf(listPromoBanniere.size()));
 
         return listPromoBanniere;
-    }
-
-    public Object getPromoBanniere(long id) {
-
-        // selectionner la banniere pour l'activity PromoBanniere
-
-        String query = "SELECT " + DatabaseHelper.COLUMN_IDB          + ", "
-                                 + DatabaseHelper.COLUMN_DTDEBVAL     + ", "
-                                 + DatabaseHelper.COLUMN_DTFINVAL     + ", "
-                                 + DatabaseHelper.COLUMN_TITREBAN     + ", "
-                                 + DatabaseHelper.COLUMN_TXTBAN       + ", "
-                                 + DatabaseHelper.COLUMN_IMAGEBAN     +
-                        " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE +
-                       " WHERE " + DatabaseHelper.COLUMN_IDB          + " = ?";
-
-        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
-
-        cursor.moveToFirst();
-
-        //création d'une nouvelle banniere
-        PromoBanniereMetier promoBanniere = new PromoBanniereMetier();
-
-        promoBanniere.setId_Banniere(cursor.getInt(0));
-        promoBanniere.setDtdebval(cursor.getString(1));
-        promoBanniere.setDtfinval(cursor.getString(2));
-        promoBanniere.setTitrePromo(cursor.getString(3));
-        promoBanniere.setTxtBanniere(cursor.getString(4));
-        promoBanniere.setImageban(cursor.getString(5));
-
-        //fermeture du cursor
-        cursor.close();
-
-        return promoBanniere;
-    }
-
-    public PromoBanniereMetier getLastPromoBanniereInserted(long id) {
-
-        String query = "SELECT " + DatabaseHelper.COLUMN_IDB        + ", "
-                                 + DatabaseHelper.COLUMN_TITREBAN   + ", "
-                                 + DatabaseHelper.COLUMN_LBBANNIERE + ", "
-                                 + DatabaseHelper.COLUMN_IMAGEBAN   + ", "
-                                 + DatabaseHelper.COLUMN_TXTBAN     +
-                        " FROM " + DatabaseHelper.TABLE_PROMOBANNIERE +
-                       " WHERE " + DatabaseHelper.COLUMN_IDB        + " = ?";
-
-        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
-
-        cursor.moveToFirst();
-
-        //Instanciation d'une nouvelle notification
-        PromoBanniereMetier promo = new PromoBanniereMetier();
-
-        promo.setId_Banniere(cursor.getInt(0));
-        promo.setTitrePromo(cursor.getString(1));
-        promo.setLbPromo(cursor.getString(2));
-        promo.setImageban(cursor.getString(3));
-        promo.setTxtBanniere(cursor.getString(4));
-
-        //fermeture du cusor
-        cursor.close();
-
-        return promo;
-    }
-
-    public void deletePromoBanniere( long id) {
-
-        String query ="DELETE FROM " + DatabaseHelper.TABLE_PROMOBANNIERE + "WHERE " + DatabaseHelper.COLUMN_IDBANNIERE + "=?";
-        Cursor cursor = mDb.rawQuery(query, new String[]{String.valueOf(id)});
-
-        cursor.close();
     }
 
     public void deleteTablePromoBanniere() {

@@ -30,8 +30,8 @@ public class PromoBeaconDAO extends DAOBase {
 
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseHelper.COLUMN_IDPROMO, promotion.getIdpromo());
-        values.put(DatabaseHelper.COLUMN_LBPROMO, promotion.getLbPromo());
+        values.put(DatabaseHelper.COLUMN_IDPROMO,  promotion.getIdpromo());
+        values.put(DatabaseHelper.COLUMN_LBPROMO,  promotion.getLbPromo());
         values.put(DatabaseHelper.COLUMN_TITREPRO, promotion.getTitrePromo());
         values.put(DatabaseHelper.COLUMN_TXTPROMO, promotion.getTxtPromo());
         values.put(DatabaseHelper.COLUMN_TYPPROMO, promotion.getTyppromo());

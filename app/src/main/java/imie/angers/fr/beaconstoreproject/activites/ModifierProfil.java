@@ -133,7 +133,7 @@ public class ModifierProfil extends AppCompatActivity{
         dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
 
         email.setText(consommateur.getEmail());
-        mdp.setText(consommateur.getPassword());
+        //mdp.setText(consommateur.getPassword());
         nom.setText(consommateur.getNom());
         prenom.setText(consommateur.getPrenom());
         genre.setPrompt(consommateur.getGenre());

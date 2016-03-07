@@ -51,7 +51,7 @@ public class Preload extends Activity {
         promoBeaconDAO.open();
 
         Log.i("url", url);
-        Log.i("je suis dans onCreate", "ergaeg");
+        Log.i("je suis dans onCreate", "preload");
 
         //execution de la requête POST (cf API) en arrière plan dans un autre thread
 
@@ -81,8 +81,6 @@ public class Preload extends Activity {
                         JSONObject jobj = null;
 
                         jobj = result.getJSONObject("" + i + "");
-
-                        Log.i("JSON idpromo", jobj.getString("idpromo"));
 
                         //Enregistrement de la promotion dans la base de données SQLite
                         PromoBanniereMetier promo = new PromoBanniereMetier();

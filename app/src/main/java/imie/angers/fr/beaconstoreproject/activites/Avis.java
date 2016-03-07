@@ -31,7 +31,7 @@ public class Avis extends AppCompatActivity {
     //private float notePromo;
 
     private static String URL = "http://beaconstore.ninde.fr/serverRest.php/notes";
-    private static String URL2 = "http://beaconstore.ninde.fr/serverRest.php/notespromo";
+    //private static String URL2 = "http://beaconstore.ninde.fr/serverRest.php/notespromo";
 
     private String magId;
     //private int proId;
@@ -51,7 +51,7 @@ public class Avis extends AppCompatActivity {
         consommateurDAO.open();
 
         Avis_mag = (RatingBar) findViewById(R.id.ratingBarMag);
-        Avis_promo = (RatingBar) findViewById(R.id.ratingBarPromo);
+        //Avis_promo = (RatingBar) findViewById(R.id.ratingBarPromo);
         btn_submit = (at.markushi.ui.CircleButton) findViewById(R.id.buttonValideavis);
 
         rest = new AndrestClient();
@@ -81,12 +81,12 @@ public class Avis extends AppCompatActivity {
 
         });
 
-        Avis_promo.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                //notePromo = rating;
-            }
-        });
+       // Avis_promo.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//
+       //     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+       //         //notePromo = rating;
+       //     }
+       // });
     }
 
 /*************************************************************************************************
@@ -138,11 +138,12 @@ public class Avis extends AppCompatActivity {
                     }
                 }.execute();
                 //*******************************************************************************
+                //POUR ENVOYER UNE NOTE SUR UNE PROMO, NON IMPLEMENTER
 
                /* final Map<String, Object> toPost2 = new HashMap<String, Object>();
-                toPost.put("notepro", notePromo);
-                toPost.put("idpromo", proId);
-                toPost.put("idconso", consoId);
+                toPost2.put("notepro", notePromo);
+                toPost2.put("idpromo", proId);
+                toPost2.put("idconso", consoId);
 
                 Log.i("le post2", String.valueOf(toPost2));
 

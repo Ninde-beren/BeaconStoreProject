@@ -22,14 +22,13 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.concurrent.ExecutionException;
+
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.Adapters.SampleFragmentPagerAdapter;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
-import imie.angers.fr.beaconstoreproject.services.ServicePromoBanniere;
-import imie.angers.fr.beaconstoreproject.services.UpdateTimerBanniere;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 /**************************************************************************************************
 * ACTION BAR
 **************************************************************************************************/
+
 
     // BEGIN_INCLUDE(create_menu)
 

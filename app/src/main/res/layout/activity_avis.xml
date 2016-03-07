@@ -17,7 +17,7 @@
         android:id="@+id/textavismag"
         android:layout_above="@+id/ratingBarMag"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="150dp"/>
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -26,13 +26,12 @@
         android:progressTint="@color/yellow"
         android:secondaryProgressTint="@color/default_line_indicator_selected_color"
         android:progressBackgroundTint="@color/black"
-        android:layout_above="@+id/resultmag"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="17dp"
         android:numStars="5" />
 
-    <TextView
+   <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -59,7 +58,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:numStars="5" />
+        android:numStars="5" />-->
 
 
     <at.markushi.ui.CircleButton
@@ -67,9 +66,10 @@
         android:layout_height="64dip"
         android:id="@+id/buttonValideavis"
 
+       
         android:layout_gravity="center"
         app:cb_color="#99CC00"
         app:cb_pressedRingWidth="8dip"
         tools:overrideLibrary="at.markushi.circlebutton"/>
-
+    <!--  android:src="@drawable/ic_action_tick"-->
 </LinearLayout>

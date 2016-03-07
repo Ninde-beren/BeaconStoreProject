@@ -41,6 +41,9 @@ public class Preload extends Activity {
 
         scheduleUpdate();
 
+        /*ServicePromoBanniere service = new ServicePromoBanniere();
+        service.updade*/
+
         promoBeaconDAO = new PromoBeaconDAO(this);
         promoBanniereDAO = new PromoBanniereDAO(this);
 
@@ -165,6 +168,6 @@ public class Preload extends Activity {
 
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, firstMillis, 60000, pIntent);
+        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, firstMillis, 6000, pIntent);
     }
 }

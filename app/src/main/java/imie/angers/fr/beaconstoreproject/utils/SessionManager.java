@@ -67,9 +67,7 @@ public class SessionManager {
 
     private static final String BEACON_SET = "beaconSet";
 
-    private static final String PANIER_BEACON = "panierBeacon";
-
-    private static final String PANIER_BANNIERE = "panierBanniere";
+    private static final String ID_MAGASIN = "magasin";
 
     // Constructor
     public SessionManager(Context context){
@@ -77,33 +75,6 @@ public class SessionManager {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         gson = new Gson();
         editor = pref.edit();
-    }
-
-    //----------------------------------------------------------------------------//
-
-    /**
-     * Crée ou met à jour un panier conso avec des promotions beacons
-     * @param promoBeacon
-     */
-    /*public void setPanierPromoBeaconSession(List<> promoBeacon) {
-
-        String promoBeaconJson = gson.toJson(promoBeacon);
-        editor.putString(PANIER_BEACON, promoBeaconJson);
-        editor.commit();
-
-        Log.i("jsonbeaconsession", promoBeaconJson);
-    }*/
-
-    //----------------------------------------------------------------------------//
-    /**
-     * Crée ou met à jour un panier conso avec des promotions bannieres
-     * @param promoBanniere
-     */
-    public void setPanierPromoBanniereSession(List<PromoBanniereMetier> promoBanniere) {
-
-        String promoBanniereJson = gson.toJson(promoBanniere);
-        editor.putString(PANIER_BANNIERE, promoBanniereJson);
-        editor.commit();
     }
 
     //----------------------------------------------------------------------------//
@@ -141,11 +112,24 @@ public class SessionManager {
         editor.commit();
     }
 
+    /**
+     * Crée une session magasin pour stocker l'identifiant du magasin
+     * @param idmag
+     */
+
+    public void createMagSession(String idmag){
+
+        editor.putString(ID_MAGASIN, idmag);
+
+        // commit changes
+        editor.commit();
+    }
+
     //----------------------------------------------------------------------------//
 
     /**
      *
-     * Get conso session data
+     * Récupérer les données de session du consommateur
      * @return
      */
     public HashMap<String, String> getUserDetails(){
@@ -175,6 +159,8 @@ public class SessionManager {
 
 
     //----------------------------------------------------------------------------//
+
+    public String getIdMagasin(){return pref.getString(ID_MAGASIN, null);}
 
     /**
      * Permet de récupérer la liste des beacons rencontrés
@@ -240,24 +226,6 @@ public class SessionManager {
     public void beaconClear(){
 
         editor.remove(BEACON_SET);
-        editor.commit();
-    }
-
-    /**
-     * Vide la session panier beacon
-     */
-    public void panierBeaconClear() {
-
-        editor.remove(PANIER_BANNIERE);
-        editor.commit();
-    }
-
-    /**
-     * Vide la session panier banniere
-     */
-    public void setPanierBanniereClear() {
-
-        editor.remove(PANIER_BANNIERE);
         editor.commit();
     }
 }

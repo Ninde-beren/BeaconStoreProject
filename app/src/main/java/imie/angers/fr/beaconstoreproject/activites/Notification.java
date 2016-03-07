@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import java.util.concurrent.ExecutionException;
@@ -119,6 +120,12 @@ public class Notification {
         builder.setContentTitle(this.promoMetier.getTitrePromo());
         builder.setContentText(this.promoMetier.getLbPromo());
         builder.setSubText("En savoir plus...");
+
+        /**
+         * Ajout d'une vibration lors de la réception de la notification
+         */
+
+        builder.setDefaults(android.app.Notification.DEFAULT_VIBRATE);
 
         /**
          * Send the notification. This will immediately display the notification icon in the

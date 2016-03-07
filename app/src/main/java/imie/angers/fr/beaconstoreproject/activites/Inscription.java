@@ -91,7 +91,6 @@ public class Inscription extends AppCompatActivity {
         nom = (EditText) findViewById(R.id.nomInscription);
         prenom = (EditText) findViewById(R.id.prenomInscription);
         tel = (EditText) findViewById(R.id.telInscription);
-        email = (EditText) findViewById(R.id.emailInscription);
         cp = (EditText) findViewById(R.id.cpInscription);
         dateNaiss = (DatePicker) findViewById(R.id.dtNaissInscription);
 

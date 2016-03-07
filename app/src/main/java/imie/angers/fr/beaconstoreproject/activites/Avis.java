@@ -33,7 +33,7 @@ public class Avis extends AppCompatActivity {
     private static String URL = "http://beaconstore.ninde.fr/serverRest.php/notes";
     private static String URL2 = "http://beaconstore.ninde.fr/serverRest.php/notespromo";
 
-    private int magId;
+    private String magId;
     //private int proId;
     private long consoId;
     private SessionManager session;
@@ -56,18 +56,14 @@ public class Avis extends AppCompatActivity {
 
         rest = new AndrestClient();
 
-        Intent i = getIntent();
-        magId = i.getIntExtra("magId", 0);
-        //proId = i.getIntExtra("proId", 0);
-
-
         session = new SessionManager(this);
+
+        magId = session.getIdMagasin();
 
         consoId = session.getIdC();
 
-
-
         ListenerOnRatingBar();
+
         ListenerOnButton();
     }
 

@@ -38,7 +38,7 @@ public class PromoBeaconDAO extends DAOBase {
         values.put(DatabaseHelper.COLUMN_IMAGEART, promotion.getImageart());
         values.put(DatabaseHelper.COLUMN_IMAGEOFF, promotion.getImageoff());
         values.put(DatabaseHelper.COLUMN_BEACON, promotion.getIdBeacon());
-        //values.put(DatabaseHelper.COLUMN_MAGASIN, promotion.getIdmagasin());
+        values.put(DatabaseHelper.COLUMN_MAGASIN, promotion.getIdmag());
 
         values.put(DatabaseHelper.COLUMN_DATEP, "");
 
@@ -93,6 +93,7 @@ public class PromoBeaconDAO extends DAOBase {
 
         String query = "SELECT "
                 + DatabaseHelper.COLUMN_IDP + ", "
+                + DatabaseHelper.COLUMN_IDPROMO + ", "
                 + DatabaseHelper.COLUMN_TITREPRO + ", "
                 + DatabaseHelper.COLUMN_LBPROMO + ", "
                 + DatabaseHelper.COLUMN_IMAGEOFF + ", "
@@ -113,12 +114,13 @@ public class PromoBeaconDAO extends DAOBase {
             PromoBeaconMetier promo = new PromoBeaconMetier();
 
             promo.setId_promo(cursor.getInt(0));
-            promo.setTitrePromo(cursor.getString(1));
-            promo.setLbPromo(cursor.getString(2));
-            promo.setImageoff(cursor.getString(3));
-            promo.setTxtPromo(cursor.getString(4));
-            promo.setImageart((cursor.getString(5)));
-            promo.setIdBeacon(cursor.getString(6));
+            promo.setIdpromo(cursor.getString(1));
+            promo.setTitrePromo(cursor.getString(2));
+            promo.setLbPromo(cursor.getString(3));
+            promo.setImageoff(cursor.getString(4));
+            promo.setTxtPromo(cursor.getString(5));
+            promo.setImageart((cursor.getString(6)));
+            promo.setIdBeacon(cursor.getString(7));
 
             listPromoBeacon.add(promo);
         }

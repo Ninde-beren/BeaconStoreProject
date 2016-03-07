@@ -11,7 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -317,9 +317,9 @@ public class ModifierProfil extends AppCompatActivity{
         }.execute();
     }
 
-    /*************************************************************************************************
-     * VERIFICATION QUE TOUT C EST BIEN PASSE
-     *************************************************************************************************/
+/*************************************************************************************************
+* VERIFICATION QUE TOUT C EST BIEN PASSE
+*************************************************************************************************/
 
     public void onInscriptionSuccess() {
         valider.setEnabled(true);
@@ -387,5 +387,34 @@ public class ModifierProfil extends AppCompatActivity{
                 startActivity(i);
         }
         return true;
+    }
+
+/*************************************************************************************************
+* SAUVEGARDE DES INFOS SAISIES PAR L'UTILISATEUR SI CHANGEMENT DE L'ORIENTATION DE L'ECRAN
+*************************************************************************************************/
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // TODO Auto-generated method stub
+        super.onSaveInstanceState(outState);
+        outState.putString("email", String.valueOf(email.getText()));
+        outState.putString("nom", String.valueOf(nom.getText()));
+        outState.putString("prenom", String.valueOf(nom.getText()));
+        outState.putString("tel", String.valueOf(nom.getText()));
+        outState.putString("mdp", String.valueOf(mdp.getText()));
+        outState.putString("cp", String.valueOf(cp.getText()));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onRestoreInstanceState(savedInstanceState);
+
+        email.setText(savedInstanceState.getString("email"));
+        mdp.setText(savedInstanceState.getString("mdp"));
+        nom.setText(savedInstanceState.getString("nom"));
+        prenom.setText(savedInstanceState.getString("prenom"));
+        tel.setText(savedInstanceState.getString("tel"));
+        cp.setText(savedInstanceState.getString("cp"));
     }
 }

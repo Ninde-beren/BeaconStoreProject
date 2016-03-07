@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,24 +23,46 @@ import imie.angers.fr.beaconstoreproject.activites.Adapters.PromoBanniereAdapter
 import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 
-public class ListPromoBanniere extends Activity {
+public class ListPromoBanniere extends ListFragment {
+
+    public static final String ARG_PAGE = "ARG_PAGE";
+
+    private int mPage;
 
     private PromoBanniereDAO promoBanniereDAO;
-    protected List<PromoBanniereMetier> listPromoBanniere;
+    private List<PromoBanniereMetier> listPromoBanniere;
+
+    public static ListPromoBanniere newInstance(int page) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, page);
+        ListPromoBanniere fragment = new ListPromoBanniere();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
 /**************************************************************************************************
 * ON CREATE
 **************************************************************************************************/
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_promo_banniere);
+        mPage = getArguments().getInt(ARG_PAGE);
+
+        promoBanniereDAO = new PromoBanniereDAO(getContext());
+        promoBanniereDAO.open();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.activity_liste_promo_banniere, container, false);
 
         Log.i("listBanniere", "bienvenue");
-
-        promoBanniereDAO = new PromoBanniereDAO(this);
-        promoBanniereDAO.open();
 
         try {
 
@@ -44,35 +70,40 @@ public class ListPromoBanniere extends Activity {
 
             Log.i("listbeanniere", String.valueOf(listPromoBanniere.size()));
 
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
 
             e.printStackTrace();
 
-        } catch (ExecutionException e) {
-
-            e.printStackTrace();
         }
 
-        PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(ListPromoBanniere.this, (ArrayList<PromoBanniereMetier>) listPromoBanniere);
+        PromoBanniereAdapter promoBanniereAdapter = new PromoBanniereAdapter(getContext(), (ArrayList<PromoBanniereMetier>) listPromoBanniere);
 
-        ListView list = (ListView) findViewById(R.id.listpromobanniere);
-        list.setAdapter(promoBanniereAdapter);
+        setListAdapter(promoBanniereAdapter);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // Sending image id to ImageSeule
-                PromoBanniereMetier BannierePromo = (PromoBanniereMetier) parent.getItemAtPosition(position);
-
-                Intent i = new Intent(getApplicationContext(), PromoBanniere.class);
-                // passing array index
-                i.putExtra("promoBanniere", BannierePromo);
-                startActivity(i);
-            }
-        });
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+/*************************************************************************************************
+* Actions effectuées lorsqu'un item est cliqué
+* @param l
+* @param v
+ * @param position
+* @param id
+***********************************************************************************************/
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        // Sending image id to ImageSeule
+        PromoBanniereMetier BannierePromo = (PromoBanniereMetier) l.getAdapter().getItem(position);
+
+        Intent i = new Intent(getContext(), PromoBanniere.class);
+        // passing array index
+        i.putExtra("promoBanniere", BannierePromo);
+        startActivity(i);
+    }
+
 
 /*************************************************************************************************
 * DONNE LA LISTE DES PROMOTIONS BANNNIERES
@@ -94,7 +125,7 @@ public class ListPromoBanniere extends Activity {
 
             if (promoBanniereMetiers.size() == 0) {
 
-                Toast.makeText(getBaseContext(), "Aucune promotion pour le moment", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Aucune promotion pour le moment", Toast.LENGTH_LONG).show();
 
             }
         }

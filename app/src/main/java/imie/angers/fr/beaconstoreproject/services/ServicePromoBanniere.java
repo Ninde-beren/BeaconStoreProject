@@ -38,7 +38,7 @@ public class ServicePromoBanniere extends Service {
 
     private PromoBanniereDAO promoBanniereDAO;
     private AndrestClient rest;
-    private final static String URL = "http://beaconstore.ninde.fr/serverRest.php/promobaniere?";
+    private final static String URL = "http://beaconstore.ninde.fr/serverRest.php/promobanniere?";
 
     private Boolean requete;
 

@@ -52,14 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 /**************************************************************************************************
 * ACTION BAR
 **************************************************************************************************/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-    // Inflate our menu from the resources by using the menu inflater.
-    getMenuInflater().inflate(R.menu.menu_retour, menu);
-
-    return true;
-}
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

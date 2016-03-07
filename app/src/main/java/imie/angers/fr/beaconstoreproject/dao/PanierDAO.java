@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -23,20 +24,32 @@ public class PanierDAO extends DAOBase {
 
     /**
      *
-     * @param idPromoBeacon
+     * @param promo
      * @param time
      * @return
      */
 
-    public long addPromoPanier(long idPromoBeacon, long time) {
+    public long addPromoPanier(PromoBeaconMetier promo, long time) {
+
+        long insertId;
 
         ContentValues values = new ContentValues();
 
-        values.put(DatabaseHelper.COLUMN_PROMO, idPromoBeacon);
+        values.put(DatabaseHelper.COLUMN_PROMO, promo.getId_promo());
+        values.put(DatabaseHelper.COLUMN_PROMO_IDSTRING, promo.getIdpromo());
         values.put(DatabaseHelper.COLUMN_TIME, time);
 
+        try {
+
+            insertId = mDb.insertOrThrow (DatabaseHelper.TABLE_PANIER, null, values);
+
+        } catch (SQLiteConstraintException e) {
+
+            insertId = -2;
+        }
+
         //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_PANIER, null, values);
+
 
         Log.i("daoPanier", "insertion en bdd:" + insertId);
 
@@ -81,20 +94,25 @@ public class PanierDAO extends DAOBase {
         return listPromoPanier;
     }
 
-    public List<String> getPromoPanierForAPI() {
+    public List<ArrayList> getPromoPanierForAPI() {
 
         String query = "SELECT "
-                + " b." + DatabaseHelper.COLUMN_IDPROMO + ", "
-                + " FROM " + DatabaseHelper.TABLE_PANIER + " p JOIN " + DatabaseHelper.TABLE_PROMOBEACON + " b ON p." + DatabaseHelper.COLUMN_PROMO + " = b." +
-                DatabaseHelper.COLUMN_IDP;
+                + DatabaseHelper.COLUMN_PROMO_IDSTRING + ", "
+                + DatabaseHelper.COLUMN_TIME
+                + "FROM " + DatabaseHelper.TABLE_PANIER;
 
         Cursor cursor = mDb.rawQuery(query, null);
 
-        List<String> listPromoPanier = new ArrayList<>();
+        List<ArrayList> listPromoPanier = new ArrayList<>();
 
         while (cursor.moveToNext()) {
 
-            listPromoPanier.add(cursor.getString(0));
+            ArrayList promoInfos = new ArrayList<>();
+
+            promoInfos.add(cursor.getString(0));
+            promoInfos.add(cursor.getLong(1));
+
+            listPromoPanier.add(promoInfos);
         }
 
         // fermeture du cursor
@@ -104,6 +122,8 @@ public class PanierDAO extends DAOBase {
     }
 
     public int deletePromoPanier(long idPromo) {
+
+        Log.i("idprom deletefrompanier", String.valueOf(idPromo));
 
         return mDb.delete(DatabaseHelper.TABLE_PANIER, DatabaseHelper.COLUMN_PROMO + " = ?", new String[]{String.valueOf(idPromo)});
     }

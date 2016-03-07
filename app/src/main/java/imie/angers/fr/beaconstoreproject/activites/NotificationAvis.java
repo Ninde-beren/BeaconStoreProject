@@ -1,28 +1,18 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-
-import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
-import imie.angers.fr.beaconstoreproject.dao.PromoBanniereDAO;
-import imie.angers.fr.beaconstoreproject.metiers.PromoBanniereMetier;
 
 /**
- * Permet la création d'une notification
- * Utilisation du sample notification proposé par google
- * Created by Ninde on 25/02/2016.
+ * Created by Anne on 05/03/2016.
  */
-public class NotificationBanniere {
+public class NotificationAvis {
 
     /**
      * A numeric value that identifies the notification that we'll be sending.
@@ -32,15 +22,15 @@ public class NotificationBanniere {
 
     public static long NOTIFICATION_ID = 1;
 
-/**************************************************************************************************
-* CONSTRUCTEUR
-**************************************************************************************************/
-    public NotificationBanniere() {}
+    /**************************************************************************************************
+     * CONSTRUCTEUR
+     **************************************************************************************************/
+    public NotificationAvis() {}
 
 
-/**************************************************************************************************
-* SEND NOTIFICATION
-**************************************************************************************************/
+    /**************************************************************************************************
+     * SEND NOTIFICATION
+     **************************************************************************************************/
 
     public void sendNotification(Context context){ //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
 
@@ -49,7 +39,8 @@ public class NotificationBanniere {
          * notification service can fire it on our behalf.
          */
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, Avis.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /**
@@ -95,9 +86,9 @@ public class NotificationBanniere {
          *    anything vital!
          */
 
-        builder.setContentTitle("NOUVELLES PROMOTIONS !");
-        builder.setContentText("De nouvelles offres sont disponibles");
-        builder.setSubText("En savoir plus...");
+        builder.setContentTitle("BeaconStore");
+        builder.setContentText("Merci d'être venu dans notre magasin");
+        builder.setSubText("Donnez une note...");
 
         builder.setDefaults(android.app.Notification.DEFAULT_VIBRATE);
 

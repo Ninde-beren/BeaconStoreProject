@@ -6,10 +6,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,29 +29,41 @@ import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 /**
  * Created by Anne on 03/03/2016.
  */
-public class Panier extends Activity {
+public class Panier extends ListFragment {
 
-    private ListView mListView;
-    private Context mContext = this;
+    public static final String ARG_PAGE = "ARG_PAGE";
+
+    private int mPage;
+
     private PanierDAO panierDAO;
     private List<PromoBeaconMetier> listPanier;
+    private PanierSwipeAdapter panierSwipeAdapter;
+
+    public static Panier newInstance(int page) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, page);
+        Panier fragment = new Panier();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_panier);
-        mListView = (ListView) findViewById(R.id.listview);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ActionBar actionBar = getActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle("ListView");
-            }
-        }
+
+        mPage = getArguments().getInt(ARG_PAGE);
+
+        panierDAO = new PanierDAO(getContext());
+        panierDAO.open();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.activity_liste_panier, container, false);
 
         Log.i("Panier", "dans OnCreate");
-
-        panierDAO = new PanierDAO(this);
-        panierDAO.open();
 
         try {
 
@@ -64,37 +80,89 @@ public class Panier extends Activity {
 
         }
 
-        Log.i("listePanier", String.valueOf(listPanier));
+        panierSwipeAdapter = new PanierSwipeAdapter(getContext(), R.layout.activity_panier_swipe, R.id.position, listPanier);
 
-        PanierSwipeAdapter panierSwipeAdapter = new PanierSwipeAdapter(this, R.layout.activity_panier_swipe, R.id.position, listPanier);
+        setListAdapter(panierSwipeAdapter);
 
-        mListView.setAdapter(panierSwipeAdapter);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    /*@Override
+    public void onPause() {
+        super.onPause();
+
+        try {
+
+            listPanier = new AsyncTask<Void, Void, List<PromoBeaconMetier>>() {
+                @Override
+                protected List<PromoBeaconMetier> doInBackground(Void... params) {
+                    return panierDAO.getPromoPanier();
+                }
+            }.execute().get();
+
+        } catch (InterruptedException | ExecutionException e) {
+
+            e.printStackTrace();
+
+        }
+
+        setListAdapter(panierSwipeAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        try {
+
+            listPanier = new AsyncTask<Void, Void, List<PromoBeaconMetier>>() {
+                @Override
+                protected List<PromoBeaconMetier> doInBackground(Void... params) {
+                    return panierDAO.getPromoPanier();
+                }
+            }.execute().get();
+
+        } catch (InterruptedException | ExecutionException e) {
+
+            e.printStackTrace();
+        }
+        setListAdapter(panierSwipeAdapter);
+    }*/
+
+    @Override
+    public void onListItemClick(final ListView l, View v, final int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        //int pos = position;
+
+        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                ((SwipeLayout) (l.getChildAt(position - l.getFirstVisiblePosition()))).open(true);
 
                 Log.e("ListView", "OnClick");
+
             }
         });
 
-        mListView.setOnTouchListener(new View.OnTouchListener() {
+        l.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.e("ListView", "OnTouch");
                 return false;
             }
         });
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        l.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(mContext, "OnItemLongClickListener", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "OnItemLongClickListener", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
 
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        l.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 Log.e("ListView", "onScrollStateChanged");
@@ -106,7 +174,7 @@ public class Panier extends Activity {
             }
         });
 
-        mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        l.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("ListView", "onItemSelected:" + position);
@@ -118,4 +186,7 @@ public class Panier extends Activity {
             }
         });
     }
+
+
+
 }

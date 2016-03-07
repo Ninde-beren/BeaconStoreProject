@@ -23,19 +23,12 @@ public class NotificationMetier implements Parcelable {
     private String lbPromo;
     private String imageoff;
     private String idBeacon;
-    private int idPromo;
     private String dateAjoutNotif;
+    private String idmag;
 
     public NotificationMetier() {}
 
     //Getters & Setters
-    public int getId() {
-        return id_notif;
-    }
-
-    public void setId(int id) {
-        this.id_notif = id;
-    }
 
     public String getTitrePromo() {return titrePromo;}
 
@@ -75,12 +68,12 @@ public class NotificationMetier implements Parcelable {
         this.idBeacon = idBeacon;
     }
 
-    public int getIdPromo() {
-        return idPromo;
+    public String getIdmag() {
+        return idmag;
     }
 
-    public void setIdPromo(int idPromo) {
-        this.idPromo = idPromo;
+    public void setIdmag(String idmag) {
+        this.idmag = idmag;
     }
 
     public String getDateAjoutNotif() {
@@ -104,10 +97,9 @@ public class NotificationMetier implements Parcelable {
         dest.writeString(lbPromo);
         dest.writeString(imageoff);
         dest.writeString(idBeacon);
-        dest.writeInt(idPromo);
+        dest.writeString(idmag);
         dest.writeString(dateAjoutNotif);
     }
-
 
     protected NotificationMetier(Parcel in) {
         id_notif = in.readInt();
@@ -115,7 +107,7 @@ public class NotificationMetier implements Parcelable {
         lbPromo = in.readString();
         imageoff = in.readString();
         idBeacon = in.readString();
-        idPromo = in.readInt();
+        idmag = in.readString();
         dateAjoutNotif = in.readString();
     }
 

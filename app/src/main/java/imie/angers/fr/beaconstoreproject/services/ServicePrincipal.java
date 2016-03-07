@@ -25,10 +25,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.activites.Avis;
+import imie.angers.fr.beaconstoreproject.activites.ListPromoBeaconActivity;
 import imie.angers.fr.beaconstoreproject.activites.Notification;
+import imie.angers.fr.beaconstoreproject.activites.NotificationAvis;
 import imie.angers.fr.beaconstoreproject.dao.PanierDAO;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
 import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
@@ -231,71 +234,89 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                 Log.i(TAG, "I no longer see an beacon");
 
-                new Handler().postDelayed(new Runnable() {
+                NotificationAvis notifAvis = new NotificationAvis();
+                notifAvis.sendNotification(ServicePrincipal.this);
+
+                Log.i("bye bye", "je suis dans postDelayed");
+
+                List<ArrayList> monPanier = new ArrayList<>();
+
+                sessionBeacon.beaconClear(); // vide la liste des beacons stockés dans la session beacon
+
+                new AsyncTask<Void, Void, Boolean>() {
                     @Override
-                    public void run() {
+                    protected Boolean doInBackground(Void... params) {
 
-                        Log.i("bye bye", "je suis dans postDelayed");
+                        promoBeaconDAO.deleteTablePromoBeacon();
+                        return true;
+                    }
+                }.execute();
 
-                        List<String> monPanier = new ArrayList<>();
 
-                        sessionBeacon.beaconClear(); // vide la liste des beacons stockés dans la session beacon
+                long idconso = sessionBeacon.getIdC();
 
-                        long idconso = sessionBeacon.getIdC();
+                try {
+
+                    monPanier = new AsyncTask<Void, Void, List<ArrayList>>() {
+                        @Override
+                        protected List<ArrayList> doInBackground(Void... params) {
+
+                            panierDAO.open();
+                            return panierDAO.getPromoPanierForAPI();
+                        }
+                    }.execute().get();
+
+                } catch (InterruptedException | ExecutionException e) {
+
+                    e.printStackTrace();
+                }
+
+                int monPanSize = monPanier.size();
+
+                Map<String, Object> toPost = new HashMap<String, Object>();
+
+                for(int i = 0; i < monPanSize; i++) {
+
+                    Map<String, Object> mapPanier = new HashMap<>();
+
+                    mapPanier.put("idpromo", monPanier.get(i).get(0));
+                    mapPanier.put("timepromo", monPanier.get(i).get(1));
+                    mapPanier.put("idconso", idconso);
+
+                    toPost.put("panier", mapPanier);
+                }
+
+                new DoRequest(ServicePrincipal.this, toPost, "POST", URL_PANIER) {
+
+                    JSONObject result;
+                    Boolean req;
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
 
                         try {
 
-                            monPanier = new AsyncTask<Void, Void, List<String>>() {
-                                @Override
-                                protected List<String> doInBackground(Void... params) {
+                            Log.i("url envoi panier", url);
+                            result = rest.request(url, method, data);
 
-                                    panierDAO.open();
-                                    return panierDAO.getPromoPanierForAPI();
-                                }
-                            }.execute().get();
+                            panierDAO.deleteTablePromoPanier();
 
-                        } catch (InterruptedException | ExecutionException e) {
-
-                            e.printStackTrace();
+                        } catch (RESTException e1) {
+                            e1.printStackTrace();
                         }
 
-                        Map<String, Object> toPost = new HashMap<String, Object>();
-                        toPost.put("promo", monPanier);
-                        toPost.put("idconso", idconso);
+                        try {
+                            if (result.getString("success").equals("1")) {
 
-                        new DoRequest(ServicePrincipal.this, toPost, "POST", URL_PANIER) {
-
-                            JSONObject result;
-                            Boolean req;
-
-                            @Override
-                            protected Boolean doInBackground(Void... params) {
-
-                                try {
-                                    result = rest.request(url, method, data);
-                                } catch (RESTException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                                try {
-                                    if (result.getString("success").equals("1")) {
-
-                                        req = true;
-                                    }
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                                return req;
+                                req = true;
                             }
-                        }.execute();
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
 
-                        //NotificationAvis notifAvis = new NotificationAvis();
-                        //notifAvis.sendNotif();
+                        return req;
                     }
-
-                }, 60000);
-
+                }.execute();
             }
 
             @Override
@@ -332,6 +353,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
         private String url = "";
 
         private JSONObject result;
+
+        private List<Long> listeIdPromo = new ArrayList<>();
 
         public doRequest(Context context, Map<String, Object> data, String method, String url) {
 
@@ -373,22 +396,33 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     promo.setImageart(jobj.getString("imageoff"));
                     promo.setImageoff(jobj.getString("imageart"));
                     promo.setIdBeacon(jobj.getString("idbeacon"));
-                    //promo.setIdmagasin(jobj.getString("idmag"));
+                    promo.setIdmag(jobj.getString("idmag"));
 
                     insertId = promoBeaconDAO.addPromotion(promo);
+
+                    listeIdPromo.add(insertId);
+
+                    Log.i("insertId", String.valueOf(insertId));
 
                     beaconVu.setIdPromo(insertId);
                     //beaconVu.setIdMagasin(jobj.getString("idmag"));
 
                     listBeacons.add(beaconVu);
 
-                    sessionBeacon.setBeaconSession(listBeacons);
+
+
+                    if(sessionBeacon.getIdMagasin() == null) {
+
+                        sessionBeacon.createMagSession(jobj.getString("idmag"));
+                    }
 
                     Log.i("insertId", String.valueOf(insertId));
                     Log.i("insertion", "OK");
 
                     requete = true;
                 }
+
+                sessionBeacon.setBeaconSession(listBeacons);
 
             } catch (Exception e) {
                 this.e = e;    // Store error
@@ -410,10 +444,14 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     if(data) {
 
-                        Notification notif = new Notification(insertId);
-                        notif.sendNotification(ServicePrincipal.this);
+                        for (long idPromo : listeIdPromo) {
+
+                            Notification notif = new Notification(idPromo);
+                            notif.sendNotification(ServicePrincipal.this);
+
+                        }
+                    }
                 }
             }
         }
     }
-}

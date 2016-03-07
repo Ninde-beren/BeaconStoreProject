@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -42,9 +43,7 @@
         <activity android:name=".activites.MainActivity" />
         <activity android:name=".activites.ModifierProfil" />
         <activity android:name=".activites.Avis" />
-        <activity android:name=".activites.Panier"/>
-        <activity android:name=".activites.ListPromoBanniere" />
-        <activity android:name=".activites.ListPromoBeaconActivity"/>
+
         <activity
             android:name=".activites.PromoBanniere"
             android:parentActivityName=".activites.ListPromoBanniere" >

@@ -10,11 +10,4 @@
     android:background="@color/white"
     tools:context="{relativePackage}.${activityClass}" >
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="650dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </ListView>
 </RelativeLayout>

@@ -2,10 +2,13 @@ package imie.angers.fr.beaconstoreproject.activites.Adapters;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +33,7 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
 
     private Boolean req;
 
-    public PanierSwipeAdapter(Context context, int resource, int textViewResourceId, List promoPanier) {
+    public PanierSwipeAdapter(Context context, int resource, int textViewResourceId, List<PromoBeaconMetier> promoPanier) {
         super(context, resource, textViewResourceId, promoPanier);
         this.panierDAO = new PanierDAO(context);
         this.req = false;
@@ -44,7 +47,13 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        promoPanier = (PromoBeaconMetier) getItem(position);
+        Log.i("panier6", String.valueOf(position));
+
+        final PromoBeaconMetier promoPanier = (PromoBeaconMetier) getItem(position);
+
+        Log.i("titrepromopanier", promoPanier.getTitrePromo());
+        Log.i("idpromopanier", String.valueOf(promoPanier.getId_promo()));
+
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -63,6 +72,10 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
 
         SwipeLayout swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe);
 
+        Log.i("swipeLayout", String.valueOf(swipeLayout));
+
+        final View finalConvertView = convertView;
+
         swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onClose(SwipeLayout layout) {
@@ -80,7 +93,7 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
             }
 
             @Override
-            public void onOpen(SwipeLayout layout) {
+            public void onOpen(final SwipeLayout layout) {
                 //when the BottomView totally show.
 
                 new AsyncTask<Void, Void, Boolean>() {
@@ -88,13 +101,23 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
                     protected Boolean doInBackground(Void... params) {
 
                         Log.i("delete panier1", String.valueOf((promoPanier.getId_promo())));
+                        Log.i("delete panier1", String.valueOf((promoPanier.getTitrePromo())));
                         panierDAO.open();
 
                        int reponse = panierDAO.deletePromoPanier(promoPanier.getId_promo());
 
                         Log.i("delete panier2", String.valueOf(reponse));
 
-                        req = reponse != -1;
+                        if(reponse == 1){
+
+                            req = true;
+
+                        } else {
+
+                            req = false;
+                        }
+
+                        Log.i("réponse requete delete panier", String.valueOf(req));
 
                         return req;
 
@@ -106,10 +129,17 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
 
                         if(requete){
 
-                            //cPanierSwipeAdapter.this.notifyDataSetChanged();
+
+
+                            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.animation_panier);
+                            finalConvertView.startAnimation(animation);
+
+                            PanierSwipeAdapter.this.remove(promoPanier);
+
+
+                            //PanierSwipeAdapter.this.notifyDataSetChanged();
 
                             Toast.makeText(getContext(), "Cette promotion a bien été supprimée de votre panier", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 }.execute();
@@ -123,11 +153,15 @@ public class PanierSwipeAdapter<T> extends ArraySwipeAdapter {
             @Override
             public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
                 //when user's hand released.
+
             }
         });
 
 
         return convertView;
     }
+
+
+
 
 }

@@ -316,30 +316,35 @@ public class Inscription extends AppCompatActivity {
 
     public boolean validate() {
 
+        String emailCheck = email.getText().toString();
+        String passwordCheck = mdp.getText().toString();
+        String cpCheck = cp.getText().toString();
+        String telCheck = tel.getText().toString();
+
         boolean valid = true;
 
-        if (email.toString().isEmpty()) {
+        if (emailCheck.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailCheck).matches()) {
             email.setError("Email invalide");
             valid = false;
         } else {
             email.setError(null);
         }
 
-        if (mdp.toString().isEmpty() || mdp.length() < 4 || mdp.length() > 10) {
+        if (passwordCheck.isEmpty() ||passwordCheck.length() < 4 || passwordCheck.length() > 10) {
            mdp.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             mdp.setError(null);
         }
 
-        if ( tel.length() < 0 && tel.length() < 4) {
+        if ( telCheck.length() < 0 && telCheck.length() < 10) {
             tel.setError( "Telephone doit avoir 10 chiffres");
             valid = false;
         } else {
             tel.setError(null);
         }
 
-        if ( cp.length() < 0 && cp.length() < 5 || cp.length() > 5) {
+        if ( cpCheck.length() < 0 && cpCheck.length() < 5 || cpCheck.length() > 5) {
             cp.setError("5 chiffres requis");
             valid = false;
         } else {

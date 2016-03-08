@@ -1,10 +1,7 @@
 package imie.angers.fr.beaconstoreproject.activites;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
-import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,11 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.Toast;
-
 import com.astuetz.PagerSlidingTabStrip;
-
 import java.util.concurrent.ExecutionException;
-
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.activites.Adapters.SampleFragmentPagerAdapter;
 import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
@@ -37,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
     public Context context = null;
     private final static int REQUEST_CODE_ENABLE_BLUETOOTH = 0;
     private ConsommateurDAO consommateurDAO;
-    private PromoBeaconDAO promoBeaconDAO;
-    private PromoBanniereDAO promoBanniereDAO;
-    private TabHost menuOnglet;
     private ConsommateurMetier consommateur;
     private long idConso;
     private SessionManager user;
@@ -148,9 +139,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.slide1);
 
         getSupportActionBar().setElevation(0);
-
-        promoBeaconDAO = new PromoBeaconDAO(this);
-        promoBanniereDAO = new PromoBanniereDAO(this);
 
         consommateur = new ConsommateurMetier();
 
@@ -332,29 +320,6 @@ public class MainActivity extends AppCompatActivity {
 /**************************************************************************************************
 * ON RESUME
 **************************************************************************************************/
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-
-        Intent i = getIntent();
-        int id = i.getIntExtra("id", 0);
-
-        switch(id) {
-
-            case 1 :
-                menuOnglet.setCurrentTab(5);
-                break;
-            case 2 :
-                menuOnglet.setCurrentTab(0);
-                break;
-            case 3 :
-                menuOnglet.setCurrentTab(1);
-                break;
-            default:
-                menuOnglet.setCurrentTab(0);
-        }
-    }*/
 
     @Override
     protected void onResume() {

@@ -139,7 +139,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         Log.i("listBeacon", String.valueOf(listBeacons.size()));
 
-                        listBeacons = sessionBeacon.getBeaconsMeet(); //on récupère les beacons déjà rencontré stockés dans la session beacon
+                        listBeacons = sessionBeacon.getBeaconsMeet(); //on récupère les beacons déjà rencontrés stockés dans la session beacon
 
                         Log.i("listBeacon2", String.valueOf(listBeacons.size()));
 
@@ -409,9 +409,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     listBeacons.add(beaconVu);
 
-
-
-                    if(sessionBeacon.getIdMagasin() == null) {
+                    if(null == sessionBeacon.getIdMagasin()) {
 
                         sessionBeacon.createMagSession(jobj.getString("idmag"));
                     }

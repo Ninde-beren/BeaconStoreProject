@@ -25,9 +25,7 @@ public class PromoBanniere extends AppCompatActivity {
     private TextView dateFinPromo;
     private ImageView imageBan;
     private TextView txtPromo;
-
     private PromoBanniereMetier promoBanniere;
-    private DateConvertor converted;
 
     /**************************************************************************************************
      * ON CREATE
@@ -39,8 +37,6 @@ public class PromoBanniere extends AppCompatActivity {
         setContentView(R.layout.activity_promo_banniere);
 
         getSupportActionBar().setElevation(0);
-
-        converted = new DateConvertor();
 
         // récupérer l'ID avec une intent
 
@@ -58,10 +54,12 @@ public class PromoBanniere extends AppCompatActivity {
         //extraction des données
         titre.setText(promoBanniere.getTitrePromo() + "\n");
         //lbpromo.setText(promoBanniere.getIdpromo());
-        dateDebutPromo.setText(converted.DateConvertor(promoBanniere.getDtdebval()));
-        dateFinPromo.setText(converted.DateConvertor(promoBanniere.getDtfinval()));
+        dateDebutPromo.setText(DateConvertor.dateConvertor(promoBanniere.getDtdebval()));
+        dateFinPromo.setText(DateConvertor.dateConvertor(promoBanniere.getDtfinval()));
         imageBan.setImageBitmap(BitMapUtil.getBitmapFromString(promoBanniere.getImageban()));
         txtPromo.setText(promoBanniere.getTxtBanniere());
+
+
     }
 
     /*************************************************************************************************

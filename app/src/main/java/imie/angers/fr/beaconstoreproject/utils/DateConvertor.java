@@ -12,7 +12,7 @@ public class DateConvertor {
      * CONVERTIE LE FORMAT YYYY-MM-DD EN DD/MM/YYYY
      *************************************************************************************************/
 
-    public static String DateConvertor(String date) {
+    public static String dateConvertor(String date) {
 
         SimpleDateFormat banniereFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat sqliteFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -343,44 +343,49 @@ public class ModifierProfil extends AppCompatActivity{
 
         boolean valid = true;
 
-        if (email.toString().isEmpty()) {
+        String emailCheck = email.getText().toString();
+        String passwordCheck = mdp.getText().toString();
+        String cpCheck = cp.getText().toString();
+        String telCheck = tel.getText().toString();
+
+
+        if (emailCheck.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailCheck).matches()) {
+
             email.setError("Email invalide");
             valid = false;
         } else {
             email.setError(null);
         }
 
-        if (mdp.toString().isEmpty() || mdp.length() < 4 || mdp.length() > 10) {
+        if (passwordCheck.isEmpty() || passwordCheck.length() < 4 || passwordCheck.length() > 10) {
             mdp.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             mdp.setError(null);
         }
 
-        if (tel.length() < 4) {
-            tel.setError( "Telephone doit avoir 10 chiffres");
+        if ( telCheck.length() < 0 && telCheck.length() < 10) {
+            tel.setError("Telephone doit avoir 10 chiffres");
             valid = false;
         } else {
             tel.setError(null);
         }
 
-        if (cp.length() < 5 || cp.length() > 5) {
+        if ( cpCheck.length() < 0 && cpCheck.length() < 5 || cpCheck.length() > 5) {
             cp.setError("5 chiffres requis");
             valid = false;
         } else {
             cp.setError(null);
         }
-
         return valid;
     }
-
 /*************************************************************************************************
-* ICONE RETOUR
-*************************************************************************************************/
+ * ICONE RETOUR
+ *************************************************************************************************/
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
@@ -389,34 +394,5 @@ public class ModifierProfil extends AppCompatActivity{
                 startActivity(i);
         }
         return true;
-    }
-
-/*************************************************************************************************
-* SAUVEGARDE DES INFOS SAISIES PAR L'UTILISATEUR SI CHANGEMENT DE L'ORIENTATION DE L'ECRAN
-*************************************************************************************************/
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        // TODO Auto-generated method stub
-        super.onSaveInstanceState(outState);
-        outState.putString("email", String.valueOf(email.getText()));
-        outState.putString("nom", String.valueOf(nom.getText()));
-        outState.putString("prenom", String.valueOf(nom.getText()));
-        outState.putString("tel", String.valueOf(nom.getText()));
-        outState.putString("mdp", String.valueOf(mdp.getText()));
-        outState.putString("cp", String.valueOf(cp.getText()));
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onRestoreInstanceState(savedInstanceState);
-
-        email.setText(savedInstanceState.getString("email"));
-        mdp.setText(savedInstanceState.getString("mdp"));
-        nom.setText(savedInstanceState.getString("nom"));
-        prenom.setText(savedInstanceState.getString("prenom"));
-        tel.setText(savedInstanceState.getString("tel"));
-        cp.setText(savedInstanceState.getString("cp"));
     }
 }

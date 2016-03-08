@@ -76,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        getSupportActionBar().setElevation(0);
+
 
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
@@ -245,8 +247,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
-
-
                 this.finish();
             }
         }

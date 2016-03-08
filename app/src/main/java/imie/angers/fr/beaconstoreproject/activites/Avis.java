@@ -22,8 +22,6 @@ import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 public class Avis extends AppCompatActivity {
 
     private AndrestClient rest;
-    private ConsommateurDAO consommateurDAO;
-
     private static at.markushi.ui.CircleButton btn_submit;
     private static RatingBar Avis_mag;
     private static RatingBar Avis_promo;
@@ -46,9 +44,6 @@ public class Avis extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avis);
-
-        consommateurDAO = new ConsommateurDAO(this);
-        consommateurDAO.open();
 
         Avis_mag = (RatingBar) findViewById(R.id.ratingBarMag);
         //Avis_promo = (RatingBar) findViewById(R.id.ratingBarPromo);
@@ -133,7 +128,7 @@ public class Avis extends AppCompatActivity {
 
                         if(data) {
 
-                            Toast.makeText(getBaseContext(), "Votre avis à bien été pris enregistré", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Votre avis a bien été enregistré", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }.execute();

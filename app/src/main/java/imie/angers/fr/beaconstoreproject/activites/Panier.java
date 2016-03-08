@@ -186,4 +186,11 @@ public class Panier extends ListFragment {
             }
         });
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getListView().setDivider(null);
+    }
 }

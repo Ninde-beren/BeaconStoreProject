@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@color/ColorAccent">
 
@@ -234,7 +234,7 @@
                 android:layout_height="64dip"
                 android:id="@+id/buttonValiderInscription"
                 android:layout_below="@+id/csp"
-
+                android:src="@drawable/ic_action_tick"
                 android:layout_gravity="center_horizontal"
                 app:cb_color="@color/background"
                 app:cb_pressedRingWidth="8dip"

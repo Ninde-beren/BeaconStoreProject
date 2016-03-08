@@ -130,4 +130,11 @@ public class ListPromoBanniere extends ListFragment {
             }
         }
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getListView().setDivider(null);
+    }
 }

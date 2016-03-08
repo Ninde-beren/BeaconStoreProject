@@ -36,8 +36,6 @@ public class PromoBanniere extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo_banniere);
 
-        getSupportActionBar().setElevation(0);
-
         // récupérer l'ID avec une intent
 
         Intent i = getIntent();

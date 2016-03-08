@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
+    android:paddingLeft="10dp"
     swipe:leftEdgeSwipeOffset="0dp"
     swipe:rightEdgeSwipeOffset="0dp">
 
@@ -37,13 +38,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:id="@+id/linear1"
+            android:elevation="0dp"
             android:background="@color/ColorAccent">
 
             <TextView
@@ -68,6 +71,7 @@
                 android:layout_marginTop="0dp"
                 android:padding="5dp"
                 android:layout_below="@id/linear1"
+                android:elevation="1dp"
                 android:background="@color/ColorAccent">
 
                 <ImageView

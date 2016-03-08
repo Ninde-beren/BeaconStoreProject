@@ -30,6 +30,7 @@ import imie.angers.fr.beaconstoreproject.dao.ConsommateurDAO;
 import imie.angers.fr.beaconstoreproject.exceptions.RESTException;
 import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
+import imie.angers.fr.beaconstoreproject.utils.DateConvertor;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 import imie.angers.fr.beaconstoreproject.utils.StringUtils;
 
@@ -76,8 +77,6 @@ public class Inscription extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
-
-        getSupportActionBar().setElevation(0);
 
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
@@ -148,8 +147,10 @@ public class Inscription extends AppCompatActivity {
 
     private ConsommateurMetier inscriptionSQLite() {
 
-        //dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
-        dtNaiss = String.valueOf( dateNaiss.getYear() +"-" + dateNaiss.getMonth() +"-"+ dateNaiss.getDayOfMonth());
+        String month=DateConvertor.transformeMonth(dateNaiss.getMonth());
+        String day=DateConvertor.transformeDay(dateNaiss.getDayOfMonth());
+
+        dtNaiss = String.valueOf( day +"/" + month +"/"+ dateNaiss.getYear());
 
         //récupération des données du formulaire pour la base SQLite
 
@@ -179,8 +180,10 @@ public class Inscription extends AppCompatActivity {
 
     private void inscriptionAPI() {
 
-        //dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
-        dtNaiss = String.valueOf( dateNaiss.getYear() +"-" + dateNaiss.getMonth() +"-"+ dateNaiss.getDayOfMonth());
+        String month=DateConvertor.transformeMonth(dateNaiss.getMonth());
+        String day=DateConvertor.transformeDay(dateNaiss.getDayOfMonth());
+
+        dtNaiss = String.valueOf(dateNaiss.getYear() + "-" + month+ "-" + day);
 
         emailAPI     = consommateur.getEmail();
         mdpAPI       = consommateur.getPassword();
@@ -191,7 +194,7 @@ public class Inscription extends AppCompatActivity {
         telAPI       = consommateur.getTel();
         cspAPI       = consommateur.getCatsocpf();
         cpAPI        = consommateur.getCdpostal();
-        dtnaissAPI   = consommateur.getDtnaiss();
+        dtnaissAPI   = dtNaiss;
 
         WifiManager mana = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = mana.getConnectionInfo();

@@ -76,9 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        getSupportActionBar().setElevation(0);
-
-
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
         consommateurDAO.open();

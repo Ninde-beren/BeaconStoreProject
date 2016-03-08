@@ -27,5 +27,23 @@ public class DateConvertor {
 
         return newDate;
     }
+
+    public static String transformeMonth(int month){
+
+        String newMonth;
+
+        newMonth = month < 9 ? "0"+String.valueOf(month + 1) : String.valueOf(month + 1);
+
+        return newMonth;
+    }
+
+    public static String transformeDay(int day){
+
+        String newDay;
+
+        newDay = day < 9 ? "0"+String.valueOf(day) : String.valueOf(day);
+
+        return newDay;
+    }
 }
 

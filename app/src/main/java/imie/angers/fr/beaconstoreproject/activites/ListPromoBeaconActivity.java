@@ -58,7 +58,6 @@ public class ListPromoBeaconActivity extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt(ARG_PAGE);
-
     }
 
     @Nullable
@@ -177,5 +176,12 @@ public class ListPromoBeaconActivity extends ListFragment {
 
            }
        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getListView().setDivider(null);
     }
 }

@@ -36,6 +36,7 @@ import imie.angers.fr.beaconstoreproject.metiers.ConsommateurMetier;
 import imie.angers.fr.beaconstoreproject.services.ServicePromoBanniere;
 import imie.angers.fr.beaconstoreproject.services.UpdateTimerBanniere;
 import imie.angers.fr.beaconstoreproject.utils.AndrestClient;
+import imie.angers.fr.beaconstoreproject.utils.DateConvertor;
 import imie.angers.fr.beaconstoreproject.utils.DoRequest;
 import imie.angers.fr.beaconstoreproject.utils.SessionManager;
 import imie.angers.fr.beaconstoreproject.utils.StringUtils;
@@ -86,8 +87,6 @@ public class ModifierProfil extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
-
-        getSupportActionBar().setElevation(0);
 
         //instantiation de la classe ConsommateurDAO
         consommateurDAO = new ConsommateurDAO(this);
@@ -180,7 +179,10 @@ public class ModifierProfil extends AppCompatActivity{
 
     private ConsommateurMetier inscriptionSQLite() {
 
-        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() +"/" + dateNaiss.getMonth() +"/"+ dateNaiss.getYear());
+        String month=DateConvertor.transformeMonth(dateNaiss.getMonth());
+        String day=DateConvertor.transformeDay(dateNaiss.getDayOfMonth());
+
+        dtNaiss = String.valueOf(day +"/" + month +"/"+ dateNaiss.getYear());
 
         //récupération des données du formulaire pour la base SQLite
 
@@ -210,7 +212,10 @@ public class ModifierProfil extends AppCompatActivity{
 
     private void inscriptionAPI() {
 
-        dtNaiss = String.valueOf(dateNaiss.getDayOfMonth() + "/" + dateNaiss.getMonth() + "/" + dateNaiss.getYear());
+        String month=DateConvertor.transformeMonth(dateNaiss.getMonth());
+        String day=DateConvertor.transformeDay(dateNaiss.getDayOfMonth());
+
+        dtNaiss = String.valueOf(dateNaiss.getYear() + "-" + month+ "-" + day);
 
         idConsoAPI   = consommateur.getIdConso();
         emailAPI     = consommateur.getEmail();
@@ -222,7 +227,7 @@ public class ModifierProfil extends AppCompatActivity{
         telAPI       = consommateur.getTel();
         cspAPI       = consommateur.getCatsocpf();
         cpAPI        = consommateur.getCdpostal();
-        dtnaissAPI   = consommateur.getDtnaiss();
+        dtnaissAPI   = dtNaiss;
 
         valider.setEnabled(false);
 

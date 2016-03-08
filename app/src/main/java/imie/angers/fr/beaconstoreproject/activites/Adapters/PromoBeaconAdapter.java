@@ -47,8 +47,8 @@ public class PromoBeaconAdapter extends ArrayAdapter<PromoBeaconMetier> {
         // Populate the data into the template view using the data object
         titleView.setText(promo.getTitrePromo());
         descView.setText(promo.getLbPromo());
-        //imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
 
+        //imgView.setImageBitmap(BitMapUtil.getBitmapFromString(promo.getImageoff()));
         // Return the completed view to render on screen
         return convertView;
     }

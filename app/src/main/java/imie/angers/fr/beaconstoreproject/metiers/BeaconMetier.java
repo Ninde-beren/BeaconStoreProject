@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by Anne on 20/02/2016.
  */
-public class BeaconMetier {
+public class BeaconMetier implements Cloneable {
 
     private int idBeacon;
     private String uuidBeacon;
@@ -82,5 +82,16 @@ public class BeaconMetier {
 
     public void setDateBeacon(long dateBeacon) {
         this.dateBeacon = dateBeacon;
+    }
+
+
+    public BeaconMetier clone() {
+        BeaconMetier beacon = null;
+        try {
+            beacon = (BeaconMetier) super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        return beacon;
     }
 }

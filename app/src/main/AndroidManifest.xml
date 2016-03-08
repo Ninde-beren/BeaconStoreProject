@@ -41,24 +41,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activites.MainActivity" />
-        <activity android:name=".activites.ModifierProfil" />
         <activity android:name=".activites.Avis" />
 
         <activity
-            android:name=".activites.PromoBanniere"
-            android:parentActivityName=".activites.ListPromoBanniere" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activites.ListPromoBeaconActivity"/>
-        </activity>
-
+            android:name=".activites.PromoBanniere" />
         <activity
-            android:name=".activites.PromoBeaconActivity"
-            android:parentActivityName=".activites.ListPromoBeaconActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activites.ListPromoBeaconActivity"/>
-        </activity>
+            android:name=".activites.PromoBeaconActivity" />
 
         <activity android:name=".activites.Profil"
             android:parentActivityName=".activites.MainActivity" >
@@ -79,6 +67,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activites.LoginActivity"/>
+        </activity>
+
+        <activity android:name=".activites.ModifierProfil"
+            android:parentActivityName=".activites.Profil" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activites.Profil"/>
         </activity>
 
         <receiver

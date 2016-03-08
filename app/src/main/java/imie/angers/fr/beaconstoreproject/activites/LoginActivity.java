@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                         long consoId = consommateurDAO.addConsommateur(conso);
 
                         SessionManager session = new SessionManager(LoginActivity.this);
-                        session.createConsoSession(consoId, result.getString("nom"), result.getString("prenom"));
+                        session.createConsoSession(result.getInt("idconso"), consoId, result.getString("nom"), result.getString("prenom"));
 
                     } else {
 

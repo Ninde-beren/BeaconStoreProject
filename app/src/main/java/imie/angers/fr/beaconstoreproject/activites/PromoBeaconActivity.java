@@ -39,8 +39,6 @@ public class PromoBeaconActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setElevation(0);
-
         setContentView(R.layout.activity_promo_beacon);
 
         panierDAO = new PanierDAO(this);
@@ -58,7 +56,7 @@ public class PromoBeaconActivity extends AppCompatActivity {
         promoBeacon = i.getExtras().getParcelable("promoBeacon");
 
         assert promoBeacon != null;
-        titrePromo.setText(promoBeacon.getTitrePromo());
+        titrePromo.setText(promoBeacon.getTitrePromo() + "\n");
         imageArt.setImageBitmap(BitMapUtil.getBitmapFromString(promoBeacon.getImageart()));
         txtPromo.setText(promoBeacon.getTxtPromo());
 

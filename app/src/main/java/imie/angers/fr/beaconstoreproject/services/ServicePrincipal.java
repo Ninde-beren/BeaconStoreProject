@@ -127,7 +127,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
                 BeaconMetier beaconDejaVu = new BeaconMetier();
-                //Boolean beaconNonVu = true;
                 Boolean boolBeaconsVus = true;
                 Boolean timeCheck = true;
 
@@ -146,8 +145,6 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                         if(listBeacons.size() == 0) { // Aucun beacon déjà rencontrés
 
                             boolBeaconsVus = false;
-
-                            //beaconNonVu = false;
 
                         } else { // des beacons sont stockés dans la session beacon
 
@@ -248,12 +245,16 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     protected Boolean doInBackground(Void... params) {
 
                         promoBeaconDAO.deleteTablePromoBeacon();
+
+                        panierDAO.open();
+
+                        panierDAO.deleteTablePromoPanier();
                         return true;
                     }
                 }.execute();
 
 
-                long idconso = sessionBeacon.getIdC();
+                /*long idconso = sessionBeacon.getIdC();
 
                 try {
 
@@ -299,7 +300,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                             Log.i("url envoi panier", url);
                             result = rest.request(url, method, data);
 
-                            panierDAO.deleteTablePromoPanier();
+                            Log.i("envoi panier", String.valueOf(result));
 
                         } catch (RESTException e1) {
                             e1.printStackTrace();
@@ -316,7 +317,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         return req;
                     }
-                }.execute();
+                }.execute();*/
             }
 
             @Override
@@ -402,17 +403,22 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     listeIdPromo.add(insertId);
 
+                    BeaconMetier beacon = beaconVu.clone();
+                    beacon.setIdPromo(insertId);
+
                     Log.i("insertId", String.valueOf(insertId));
 
-                    beaconVu.setIdPromo(insertId);
+                    //beaconVu.setIdPromo(insertId);
                     //beaconVu.setIdMagasin(jobj.getString("idmag"));
 
-                    listBeacons.add(beaconVu);
+                    listBeacons.add(beacon);
 
                     if(null == sessionBeacon.getIdMagasin()) {
 
                         sessionBeacon.createMagSession(jobj.getString("idmag"));
                     }
+
+                    sessionBeacon.setBeaconSession(listBeacons);
 
                     Log.i("insertId", String.valueOf(insertId));
                     Log.i("insertion", "OK");
@@ -420,7 +426,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     requete = true;
                 }
 
-                sessionBeacon.setBeaconSession(listBeacons);
+
 
             } catch (Exception e) {
                 this.e = e;    // Store error

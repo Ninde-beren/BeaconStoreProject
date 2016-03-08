@@ -55,7 +55,7 @@ public class Avis extends AppCompatActivity {
 
         magId = session.getIdMagasin();
 
-        consoId = session.getIdC();
+        consoId = session.getIdC_API();
 
         ListenerOnRatingBar();
 
@@ -132,6 +132,7 @@ public class Avis extends AppCompatActivity {
                         }
                     }
                 }.execute();
+
                 //*******************************************************************************
                 //POUR ENVOYER UNE NOTE SUR UNE PROMO, NON IMPLEMENTER
 

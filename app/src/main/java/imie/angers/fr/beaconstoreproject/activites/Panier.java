@@ -186,7 +186,4 @@ public class Panier extends ListFragment {
             }
         });
     }
-
-
-
 }

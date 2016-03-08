@@ -18,7 +18,7 @@ public abstract class DAOBase {
     protected DatabaseHelper mHelper = null;
 
     public DAOBase(Context pContext) {
-        this.mHelper = new DatabaseHelper(pContext);
+        this.mHelper = DatabaseHelper.getInstance(pContext);
     }
 
     public SQLiteDatabase open() throws SQLException {

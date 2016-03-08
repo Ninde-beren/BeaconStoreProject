@@ -285,33 +285,36 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("consoInfo", String.valueOf(consommateur.getId_c()));
 
-
-        if (consommateur.getNom() .equals("") || consommateur.getPrenom().equals("") || consommateur.getGenre().equals("") || consommateur.getTel().equals("") || consommateur.getDtnaiss().equals("") || consommateur.getCdpostal().equals("") || consommateur.getCatsocpf().equals("")) {
-
-            AlertDialog.Builder infos;
-            infos = new AlertDialog.Builder(this);
-            infos.setTitle("Information");
-            infos.setIcon(R.drawable.ic_launcher);
-            infos.setMessage("Vous n'avez pas remplis tous les champs lors de votre inscription.\n Les remplir maintenant ?");
+        if(consommateur.getId_c() != 0) {
 
 
-            infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            if (consommateur.getNom().equals("") || consommateur.getPrenom().equals("") || consommateur.getGenre().equals("") || consommateur.getTel().equals("") || consommateur.getDtnaiss().equals("") || consommateur.getCdpostal().equals("") || consommateur.getCatsocpf().equals("")) {
 
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
-                            startActivity(nextScreen);
+                AlertDialog.Builder infos;
+                infos = new AlertDialog.Builder(this);
+                infos.setTitle("Information");
+                infos.setIcon(R.drawable.ic_launcher);
+                infos.setMessage("Vous n'avez pas remplis tous les champs lors de votre inscription.\n Les remplir maintenant ?");
+
+
+                infos.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent nextScreen = new Intent(getApplicationContext(), Profil.class);
+                                startActivity(nextScreen);
+                            }
                         }
-                   }
-            );
+                );
 
-            infos.setNeutralButton("Ignorer", new DialogInterface.OnClickListener() {
+                infos.setNeutralButton("Ignorer", new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
-            infos.show();
+                infos.show();
+            }
         }
 
         return null;

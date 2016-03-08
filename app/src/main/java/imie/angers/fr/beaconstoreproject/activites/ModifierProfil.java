@@ -383,7 +383,6 @@ public class ModifierProfil extends AppCompatActivity{
  * ICONE RETOUR
  *************************************************************************************************/
 
-
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {

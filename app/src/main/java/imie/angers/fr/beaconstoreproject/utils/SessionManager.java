@@ -60,6 +60,8 @@ public class SessionManager {
     // User name (make variable public to access from outside)
     private static final String CONSO_ID = "consoId";
 
+    private static final String CONSO_ID_API = "consoId_api";
+
     // Email address (make variable public to access from outside)
     private static final String CONSO_NOM = "consoNom";
 
@@ -85,6 +87,8 @@ public class SessionManager {
      */
     public void setBeaconSession(List<BeaconMetier> beacon) {
 
+        Log.i("json session", String.valueOf(beacon));
+
         String beaconJson = gson.toJson(beacon);
         editor.putString(BEACON_SET, beaconJson);
         editor.commit();
@@ -98,7 +102,7 @@ public class SessionManager {
      * @param nom
      * @param prenom
      */
-    public void createConsoSession(long id, String nom, String prenom){
+    public void createConsoSession(long id, long id_api, String nom, String prenom){
 
         // Storing name in pref
         editor.putString(CONSO_PRENOM, nom);
@@ -107,6 +111,8 @@ public class SessionManager {
         editor.putString(CONSO_NOM, prenom);
 
         editor.putLong(CONSO_ID, id);
+
+        editor.putLong(CONSO_ID_API, id_api);
 
         // commit changes
         editor.commit();
@@ -127,27 +133,11 @@ public class SessionManager {
 
     //----------------------------------------------------------------------------//
 
-    /**
-     *
-     * Récupérer les données de session du consommateur
-     * @return
-     */
-    public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
-        // user name
-        user.put(CONSO_NOM, pref.getString(CONSO_NOM, null));
-
-        // user email id
-        user.put(CONSO_PRENOM, pref.getString(CONSO_PRENOM, null));
-        user.put(CONSO_ID, String.valueOf(pref.getLong(CONSO_ID, 0)));
-
-        // return user
-        return user;
-    }
+    public long getIdC(){return pref.getLong(CONSO_ID, -1);}
 
     //----------------------------------------------------------------------------//
 
-    public long getIdC(){return pref.getLong(CONSO_ID, -1);}
+    public long getIdC_API(){return pref.getLong(CONSO_ID_API, -2);}
 
     //----------------------------------------------------------------------------//
 
@@ -156,7 +146,6 @@ public class SessionManager {
     //----------------------------------------------------------------------------//
 
     public String getPrenomC(){return pref.getString(CONSO_PRENOM, null);}
-
 
     //----------------------------------------------------------------------------//
 

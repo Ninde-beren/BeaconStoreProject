@@ -3,6 +3,7 @@ package imie.angers.fr.beaconstoreproject.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class PromoBeaconDAO extends DAOBase {
 
     public long addPromotion(PromoBeaconMetier promotion) {
 
+        long insertId;
+
         ContentValues values = new ContentValues();
 
         values.put(DatabaseHelper.COLUMN_IDPROMO,  promotion.getIdpromo());
@@ -42,8 +45,15 @@ public class PromoBeaconDAO extends DAOBase {
 
         values.put(DatabaseHelper.COLUMN_DATEP, "");
 
-        //insertion en base + recuperation du dernier id inséré
-        long insertId = mDb.insert(DatabaseHelper.TABLE_PROMOBEACON, null, values);
+        try {
+
+            //insertion en base + recuperation du dernier id inséré
+            insertId = mDb.insertOrThrow (DatabaseHelper.TABLE_PROMOBEACON, null, values);
+
+        } catch (SQLiteConstraintException e) {
+
+            insertId = -2;
+        }
 
         Log.i("daoBeacon", "insertion en bdd:" + insertId);
 

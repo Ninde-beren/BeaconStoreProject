@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -127,6 +128,7 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
                 BeaconMetier beaconDejaVu = new BeaconMetier();
+                //Boolean beaconNonVu = true;
                 Boolean boolBeaconsVus = true;
                 Boolean timeCheck = true;
 
@@ -138,13 +140,15 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         Log.i("listBeacon", String.valueOf(listBeacons.size()));
 
-                        listBeacons = sessionBeacon.getBeaconsMeet(); //on récupère les beacons déjà rencontrés stockés dans la session beacon
+                        listBeacons = sessionBeacon.getBeaconsMeet(); //on récupère les beacons déjà rencontré stockés dans la session beacon
 
                         Log.i("listBeacon2", String.valueOf(listBeacons.size()));
 
                         if(listBeacons.size() == 0) { // Aucun beacon déjà rencontrés
 
                             boolBeaconsVus = false;
+
+                            //beaconNonVu = false;
 
                         } else { // des beacons sont stockés dans la session beacon
 
@@ -175,6 +179,8 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                                     boolBeaconsVus = true;
                                     timeCheck = false;
 
+                                    break;
+
                                 } else {
 
                                     boolBeaconsVus = false;
@@ -203,8 +209,14 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                         } else if(timeCheck) {
 
-                            Notification notif = new Notification(beaconDejaVu.getIdPromo());
-                            notif.sendNotification(ServicePrincipal.this);
+                            for(BeaconMetier list : listBeacons) {
+
+                                if(list.getIdsBeacon().equals(beacon.getIdentifiers().toString())) {
+
+                                    Notification notif = new Notification(list.getIdPromo());
+                                    notif.sendNotification(ServicePrincipal.this);
+                                }
+                            }
                         }
                         else {
 
@@ -401,7 +413,9 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
 
                     insertId = promoBeaconDAO.addPromotion(promo);
 
-                    listeIdPromo.add(insertId);
+                    if(insertId != -2) {
+
+                        listeIdPromo.add(insertId);
 
                     BeaconMetier beacon = beaconVu.clone();
                     beacon.setIdPromo(insertId);
@@ -424,6 +438,11 @@ public class ServicePrincipal extends Service implements BeaconConsumer {
                     Log.i("insertion", "OK");
 
                     requete = true;
+
+                    } else {
+
+                        requete = false;
+                    }
                 }
 
 

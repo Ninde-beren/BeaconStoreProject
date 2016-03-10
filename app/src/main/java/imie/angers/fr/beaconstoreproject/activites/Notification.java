@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 import imie.angers.fr.beaconstoreproject.R;
 import imie.angers.fr.beaconstoreproject.dao.PromoBeaconDAO;
+import imie.angers.fr.beaconstoreproject.metiers.BeaconMetier;
 import imie.angers.fr.beaconstoreproject.metiers.PromoBeaconMetier;
 
 /**
@@ -24,7 +25,6 @@ public class Notification {
 
     public static long notification_id;
     private PromoBeaconDAO promoBeaconDAO;
-    private PromoBeaconMetier promoMetier;
     private long lastIdInsert;
 
 
@@ -45,33 +45,41 @@ public class Notification {
      * Send a sample notification using the NotificationCompat API.
      */
 
-    public void sendNotification(Context context) { //revoir la méthode sendNotification -> ajouter en paramètre l'activité à déclancher + les params
+    public void sendNotification(Context context) {
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link android.app.PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
 
+        PromoBeaconMetier promoMetier;
+        promoMetier = new PromoBeaconMetier();
+
         promoBeaconDAO = new PromoBeaconDAO(context);
         promoBeaconDAO.open();
 
         try {
 
-            promoMetier = new getPromoForNotif().execute().get(); //retourne une instance de l'objet PromotionMetier
+            promoMetier = new AsyncTask<Void, Void, PromoBeaconMetier>() {
+                @Override
+                protected PromoBeaconMetier doInBackground(Void... params) {
+                    return promoBeaconDAO.getLastPromotionInserted(lastIdInsert);
+                }
+            }.execute().get();
 
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
 
             e.printStackTrace();
 
-        } catch (ExecutionException e) {
-
-            e.printStackTrace();
         }
+
+
+        int requestID = (int) System.currentTimeMillis(); //permet d'avoir un PendingIntent unique
 
         Intent intent = new Intent(context, PromoBeaconActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("promoBeacon", promoMetier);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestID, intent, 0);
 
         /**
          * Use NotificationCompat.Builder to set up our notification.
@@ -117,8 +125,8 @@ public class Notification {
          *    anything vital!
          */
 
-        builder.setContentTitle(this.promoMetier.getTitrePromo());
-        builder.setContentText(this.promoMetier.getLbPromo());
+        builder.setContentTitle(promoMetier.getTitrePromo());
+        builder.setContentText(promoMetier.getLbPromo());
         builder.setSubText("En savoir plus...");
 
         /**
@@ -133,25 +141,5 @@ public class Notification {
          */
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify((int) notification_id, builder.build());
-    }
-
-    private class getPromoForNotif extends AsyncTask<Void, Void, PromoBeaconMetier>{
-
-        private PromoBeaconMetier promoB;
-
-        @Override
-        protected PromoBeaconMetier doInBackground(Void... params) {
-
-            promoB =  promoBeaconDAO.getLastPromotionInserted(lastIdInsert);
-
-            Log.i("listBeacon2", promoB.getTitrePromo());
-
-            return promoB;
-        }
-
-        @Override
-        protected void onPostExecute(PromoBeaconMetier promoBeaconMetier) {
-            super.onPostExecute(promoBeaconMetier);
-        }
     }
 }

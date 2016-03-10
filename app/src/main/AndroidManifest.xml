@@ -43,10 +43,19 @@
         <activity android:name=".activites.MainActivity" />
         <activity android:name=".activites.Avis" />
 
-        <activity
-            android:name=".activites.PromoBanniere" />
-        <activity
-            android:name=".activites.PromoBeaconActivity" />
+        <activity android:name=".activites.PromoBeaconActivity"
+            android:parentActivityName=".activites.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activites.MainActivity"/>
+        </activity>
+
+        <activity android:name=".activites.PromoBanniere"
+            android:parentActivityName=".activites.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activites.MainActivity"/>
+        </activity>
 
         <activity android:name=".activites.Profil"
             android:parentActivityName=".activites.MainActivity" >
